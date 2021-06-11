@@ -5,6 +5,10 @@ import Marker from "./Marker";
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class Map extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
     getMapOptions = (maps) => {
         return {
             disableDefaultUI: true,
@@ -18,7 +22,7 @@ class Map extends Component {
             // Important! Always set the container height explicitly
             <div className="mx-auto" style={{ height: '50vh', width: '70%' }}>
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyA25umcMcwofwQS24kyeqOJUBjf8fYXQZQ" }}
+                    bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_KEY }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                     // options={this.getMapOptions}

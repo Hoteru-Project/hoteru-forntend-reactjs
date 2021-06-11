@@ -3,6 +3,8 @@ import './App.css';
 import {Component} from "react";
 import Map from "./Components/Map/Map";
 
+require('dotenv').config()
+
 class App extends Component {
     constructor(props) {
         super(props);
