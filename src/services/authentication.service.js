@@ -5,39 +5,36 @@ import instance from "../axios-backend";
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 const me = () => {
-    console.log("heresdasdasd")
     instance.get("/auth/me", {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
         .then(response => {
             const userData = handleUserAuthResponse(response);
             setUserData(userData);
         })
-        .catch(err => err.response?.status===401?logout(): null);
+        .catch(err => err.response?.status === 401 ? logout() : null);
 
 }
 
-const login = async (email, password) => {
-    const resp = await instance.post("/auth/login", {
-        email: email,
-        password: password
-    })
+const login = async (data) => {
+    return await instance.post("/auth/login", data)
         .then(response => {
             const userData = handleUserAuthResponse(response)
             setUserData(userData)
+            return response
         })
-        .catch(errors => errors)
-
-    return resp;
+        .catch(errors => errors);
 
 }
 
 const logout = () => {
     instance.post("/auth/logout", {}, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
         .then(response => setUserData({}))
-        .catch(err => err.response?.status===401?setUserData({}): null);
+        .catch(err => err.response?.status === 401 ? setUserData({}) : null);
 }
 
-const register = (token) => {
-
+const register = async (data) => {
+    return await instance.post("/auth/register", data)
+        .then(response => response)
+        .catch(errors => errors);
 }
 
 const refresh = () => {
@@ -47,7 +44,7 @@ const refresh = () => {
             userData.token = response.data.access_token;
             setUserData(userData)
         })
-        .catch(err => err.response?.status===401?logout(): null);
+        .catch(err => err.response?.status === 401 ? logout() : null);
 }
 
 const setUserData = (userData) => {

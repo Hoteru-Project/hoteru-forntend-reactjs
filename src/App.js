@@ -32,7 +32,6 @@ class App extends Component {
     isAuthenticated = user => new Date(user?.expireDate).getTime() > new Date().getTime();
 
     componentDidMount() {
-        console.log("gere")
         authenticationService.currentUser.subscribe(user => {
             const isAuthenticated = this.isAuthenticated(user);
 
@@ -61,9 +60,8 @@ class App extends Component {
             <div>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                     <Switch>
-                        <GuestRoute authenticated={this.state.authenticated} path="/login" exact
-                                    component={Authentication}/>
-
+                        <GuestRoute authenticated={this.state.authenticated} path="/login" exact component={Authentication}/>
+                        <GuestRoute authenticated={this.state.authenticated} path="/register" exact component={Authentication}/>
                     </Switch>
                 </Layout>
             </div>

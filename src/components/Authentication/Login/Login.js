@@ -1,15 +1,6 @@
 import React from "react";
 import classes from "./Login.css";
-import {
-    Button,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    Input,
-    InputAdornment,
-    InputLabel,
-    TextField
-} from "@material-ui/core";
+import {Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, TextField} from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {authenticationService} from "../../../services/authentication.service";
@@ -35,7 +26,7 @@ const Login = (props) => {
     };
 
     const handleSubmission = async (data) => {
-        const resp = await authenticationService.login(data.email, data.password);
+        const resp = await authenticationService.login(data);
         if (resp) {
             setError(resp.response?.data?.error);
         }
