@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import classes from "./Layout.css";
+import {Link} from "react-router-dom";
+
 
 class Layout extends Component {
-    state = {}
 
     render() {
         return (
             <>
+            <div>Welcome {this.props.currentUser.name}</div>
                 {/*Toolbar*/}
                 {/*Side Drawer*/}
-                <main className={classes.Test}>
+                <Link to="/login">Login</Link>
+                <Link to="/">Home</Link>
+                <main>
+                    <button onClick={this.props.logout}>Logout</button>
                     {this.props.children}
                 </main>
             </>
