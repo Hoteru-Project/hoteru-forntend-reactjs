@@ -3,7 +3,6 @@ import Layout from "./hocs/Layout/Layout";
 import {Route, Switch} from 'react-router-dom';
 import Authentication from "./components/Authentication/Authentication";
 import {authenticationService} from "./services/authentication.service";
-import GuestRoute from "./containers/Routes/GuestRoute/GuestRoute";
 
 class App extends Component {
     state = {
@@ -60,8 +59,7 @@ class App extends Component {
             <div>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                     <Switch>
-                        <GuestRoute authenticated={this.state.authenticated} path="/login" exact component={Authentication}/>
-                        <GuestRoute authenticated={this.state.authenticated} path="/register" exact component={Authentication}/>
+                        <Route path="/auth" component={() => <Authentication authenticated={this.state.authenticated} />}/>
                     </Switch>
                 </Layout>
             </div>

@@ -1,32 +1,21 @@
 import React from "react";
-import classes from "./Register.css"
-import {
-    Button,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    Input,
-    InputAdornment,
-    InputLabel,
-    TextField
-} from "@material-ui/core";
+import classes from "./ResetPassword.css"
+import {Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel,} from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {authenticationService} from "../../../services/authentication.service";
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {AlertTitle} from "@material-ui/lab";
 import {Redirect} from "react-router-dom";
+import instance from "../../../axios-backend";
 
 const schema = yup.object().shape({
-    name: yup.string().required().min(3),
-    email: yup.string().required().email(),
     password: yup.string().required().min(8),
     passwordConfirmation: yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const Register = (props) => {
+const ResetPassword = (props) => {
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
     const [values, setValues] = React.useState({showPassword: false});
@@ -38,15 +27,10 @@ const Register = (props) => {
     };
 
     const handleSubmission = async (data) => {
-        const resp = await authenticationService.register(data);
-        if (!resp.response?.status === 201) {
-            setResponseErrors(Object.values(resp.response?.data?.errors));
-        } else {
-            setValidRegistration(true);
-        }
+        instance()
     };
 
-    document.title = `${process.env.REACT_APP_NAME} | Register `
+    document.title = `${process.env.REACT_APP_NAME} | Reset Password `
 
     const endAdornment = (
         <InputAdornment position="end">
@@ -63,7 +47,7 @@ const Register = (props) => {
         <>
             {validRegistration && <Redirect to="/login" />}
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
-                <h1>{process.env.REACT_APP_NAME} Register</h1>
+                <h1>{process.env.REACT_APP_NAME} Reset Password</h1>
                 {!!responseErrors.length &&
                 <Alert severity="error">
                     <AlertTitle>Errors</AlertTitle>
@@ -73,23 +57,6 @@ const Register = (props) => {
                 </Alert>
                 }
 
-                <FormControl className={classes.FormControl}>
-                    <TextField
-                        label="Name"
-                        {...register("name")}
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                    />
-                </FormControl>
-
-                <FormControl className={classes.FormControl}>
-                    <TextField
-                        label="Email"
-                        {...register("email")}
-                        error={!!errors.email}
-                        helperText={errors.email?.message}
-                    />
-                </FormControl>
                 <FormControl className={classes.FormControl} error={!!errors.password}>
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                     <Input
@@ -117,4 +84,4 @@ const Register = (props) => {
     );
 }
 
-export default Register;
+export default ResetPassword;

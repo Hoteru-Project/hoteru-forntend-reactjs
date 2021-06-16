@@ -10,8 +10,8 @@ class Layout extends Component {
             <div>Welcome {this.props.currentUser.name}</div>
                 {/*Toolbar*/}
                 {/*Side Drawer*/}
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+                <Link to="/auth/login">Login</Link>
+                <Link to="/auth/register">Register</Link>
                 <Link to="/">Home</Link>
                 <main>
                     <button onClick={this.props.logout}>Logout</button>
