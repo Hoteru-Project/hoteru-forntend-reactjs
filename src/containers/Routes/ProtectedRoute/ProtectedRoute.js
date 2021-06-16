@@ -11,7 +11,7 @@ class ProtectedRoute extends Component {
             <Route {...props} render={props => (
                 authenticationService.isAuthenticated() ?
                     <Component {...props} /> :
-                    <Redirect to="/login"/>
+                    <Redirect to="/auth/login"/>
             )}
             />
         );
