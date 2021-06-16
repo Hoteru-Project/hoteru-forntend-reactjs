@@ -1,36 +1,62 @@
-import React from "react";
+import React, {useState} from "react";
 import classes from "./ResetPassword.css"
-import {Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel,} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    IconButton,
+    Input,
+    InputAdornment,
+    InputLabel,
+    TextField,
+} from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {AlertTitle} from "@material-ui/lab";
-import {Redirect} from "react-router-dom";
-import instance from "../../../axios-backend";
+import {Link, Redirect} from "react-router-dom";
+import {authenticationService} from "../../../services/authentication.service";
 
 const schema = yup.object().shape({
+    email: yup.string().required().email(),
     password: yup.string().required().min(8),
-    passwordConfirmation: yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match')
+    password_confirmation: yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
 const ResetPassword = (props) => {
+    document.title = `${process.env.REACT_APP_NAME} | Reset Password`
+
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
-    const [values, setValues] = React.useState({showPassword: false});
-    const [responseErrors, setResponseErrors] = React.useState([]);
-    const [validRegistration, setValidRegistration] = React.useState(false);
+    const [values, setValues] = useState({
+        loading: false,
+        send: false,
+        successful: false,
+        showPassword: false
+    });
+
+    const [responseErrors, setResponseErrors] = useState([]);
+
+    const token = new URLSearchParams(props.location.search).get("token");
+
 
     const handleClickShowPassword = () => {
         setValues({...values, showPassword: !values.showPassword});
     };
 
     const handleSubmission = async (data) => {
-        instance()
+        setValues({...values, loading: true})
+        const response = await authenticationService.resetPassword(data, token);
+        if (response.status === 200) {
+            setValues({...values, send: true, successful: true})
+        } else {
+            setValues({...values, send: true, successful: false});
+            setResponseErrors(Object.values(response.data?.errors));
+        }
+        setValues({...values, loading: false});
     };
-
-    document.title = `${process.env.REACT_APP_NAME} | Reset Password `
 
     const endAdornment = (
         <InputAdornment position="end">
@@ -45,40 +71,61 @@ const ResetPassword = (props) => {
 
     return (
         <>
-            {validRegistration && <Redirect to="/login" />}
+            {!token && <Redirect to="/"/>}
+            {values.send && values.successful &&
+            <>
+                <div className={classes.Container}>
+                    <h1>Password successfully updated</h1>
+                    <Button variant="contained" color="primary" component={Link} to="/auth/login">Login</Button>
+                </div>
+            </>
+            }
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
-                <h1>{process.env.REACT_APP_NAME} Reset Password</h1>
-                {!!responseErrors.length &&
-                <Alert severity="error">
-                    <AlertTitle>Errors</AlertTitle>
-                    <ul>
-                        {responseErrors.map((item, key) => <li key={key}>{item}</li>)}
-                    </ul>
-                </Alert>
-                }
+                {values.loading ? <div>Loading...</div> : <>
 
-                <FormControl className={classes.FormControl} error={!!errors.password}>
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                    <Input
-                        id="standard-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        {...register("password")}
-                        endAdornment={endAdornment}
-                    />
-                    {errors?.password && <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
-                </FormControl>
-                <FormControl className={classes.FormControl} error={!!errors.passwordConfirmation}>
-                    <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
-                    <Input
-                        id="standard-adornment-password-confirmation"
-                        type={values.showPassword ? 'text' : 'password'}
-                        {...register("passwordConfirmation")}
-                        endAdornment={endAdornment}
-                    />
-                    {errors?.passwordConfirmation &&
-                    <FormHelperText variant="standard">{errors.passwordConfirmation?.message}</FormHelperText>}
-                </FormControl>
-                <Button variant="contained" color="primary" type="submit">Login</Button>
+                    <h1>{process.env.REACT_APP_NAME} Reset Password</h1>
+                    {!!responseErrors.length &&
+                    <Alert severity="error">
+                        <AlertTitle>Errors</AlertTitle>
+                        <ul>
+                            {responseErrors.map((item, key) => <li key={key}>{item}</li>)}
+                        </ul>
+                    </Alert>
+                    }
+
+                    <FormControl className={classes.FormControl}>
+                        <TextField
+                            label="Email"
+                            {...register("email")}
+                            error={!!errors.email}
+                            helperText={errors.email?.message}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.FormControl} error={!!errors.password}>
+                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                        <Input
+                            id="standard-adornment-password"
+                            type={values.showPassword ? 'text' : 'password'}
+                            {...register("password")}
+                            endAdornment={endAdornment}
+                        />
+                        {errors?.password &&
+                        <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl className={classes.FormControl} error={!!errors.password_confirmation}>
+                        <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
+                        <Input
+                            id="standard-adornment-password-confirmation"
+                            type={values.showPassword ? 'text' : 'password'}
+                            {...register("password_confirmation")}
+                            endAdornment={endAdornment}
+                        />
+                        {errors?.password_confirmation &&
+                        <FormHelperText variant="standard">{errors.password_confirmation?.message}</FormHelperText>}
+                    </FormControl>
+                    <Button variant="contained" color="primary" type="submit">Reset</Button>
+                </>}
+
             </form>
         </>
     );

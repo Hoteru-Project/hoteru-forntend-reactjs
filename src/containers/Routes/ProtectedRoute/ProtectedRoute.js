@@ -1,5 +1,6 @@
 import {Component} from "react";
 import {Route, Redirect} from "react-router-dom";
+import {authenticationService} from "../../../services/authentication.service";
 
 class ProtectedRoute extends Component {
 
@@ -8,7 +9,7 @@ class ProtectedRoute extends Component {
 
         return (
             <Route {...props} render={props => (
-                this.props.authenticated ?
+                authenticationService.isAuthenticated() ?
                     <Component {...props} /> :
                     <Redirect to="/login"/>
             )}

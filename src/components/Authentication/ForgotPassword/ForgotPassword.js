@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import classes from "./ForgetPassword.css";
+import classes from "./ForgotPassword.css";
 import {Alert} from "@material-ui/lab";
 import {Button, TextField} from "@material-ui/core";
 import {Link} from "react-router-dom";
@@ -10,8 +10,10 @@ import instance from "../../../axios-backend";
 
 const schema = yup.object().shape({email: yup.string().required().email()});
 
-const ForgetPassword = (props) => {
-    const {register, getValues, setValue, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
+const ForgotPassword = () => {
+    document.title = `${process.env.REACT_APP_NAME} | Forgot Password`
+
+    const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
     const [values, setValues] = useState({
         loading: false,
         sent: false,
@@ -21,8 +23,8 @@ const ForgetPassword = (props) => {
     const handleSubmitForgetPassword = (data) => {
         setValues({...values, loading: true});
         instance.post("auth/forgot-password", data)
-            .then(response => setValues({...values, loading: false, sent: true}))
-            .catch(errors => setValues({...values, error: "Email not found."}))
+            .then(() => setValues({...values, loading: false, sent: true}))
+            .catch(() => setValues({...values, error: "Email not found."}))
     }
 
     return (
@@ -53,4 +55,4 @@ const ForgetPassword = (props) => {
         </>
     )
 }
-export default ForgetPassword;
+export default ForgotPassword;

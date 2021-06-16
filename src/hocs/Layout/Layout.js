@@ -12,6 +12,10 @@ class Layout extends Component {
                 {/*Side Drawer*/}
                 <Link to="/auth/login">Login</Link>
                 <Link to="/auth/register">Register</Link>
+                <Link to="/auth/verify">Verify Account</Link>
+                <Link to="/auth/forget-password">Forgot Password</Link>
+                <Link to="/auth/resend-verification-email">Resent Verification</Link>
+                <Link to="/auth/reset-password">Reset Password</Link>
                 <Link to="/">Home</Link>
                 <main>
                     <button onClick={this.props.logout}>Logout</button>

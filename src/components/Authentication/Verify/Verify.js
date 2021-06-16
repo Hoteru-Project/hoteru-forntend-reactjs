@@ -1,19 +1,25 @@
 import classes from "./Verify.css";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {Alert} from "@material-ui/lab";
 import {Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
+import {authenticationService} from "../../../services/authentication.service";
 
 const Verify = (props) => {
     const [verified, setVerified] = useState(null);
 
     useEffect(() => {
-        const url = new URLSearchParams(props.location.search).get("url");
-        axios.get(url)
-            .then(response => setVerified(true))
-            .catch(response => setVerified(false))
-    });
+        (async () => {
+            const url = new URLSearchParams(props.location.search).get("url");
+            if(url) {
+                const response = await authenticationService.verify(url);
+                setVerified(response.status === 200)
+            } else {
+                setVerified(false);
+            }
+        })();
+
+    }, [props.location.search]);
 
     return (
         <div className={classes.Container}>
@@ -24,7 +30,10 @@ const Verify = (props) => {
             {verified &&
             <>
                 <Alert severity="success">Verified Successfully, Please login to your account.</Alert>
-                <Button variant="contained" color="primary" component={Link} to="/auth/login">Login</Button>
+                {!!authenticationService.isAuthenticated() ?
+                    <Button variant="contained" color="primary" component={Link} to="/">Homepage</Button> :
+                    <Button variant="contained" color="primary" component={Link} to="/auth/login">Login</Button>
+                }
             </>
             }
         </div>

@@ -1,46 +1,37 @@
 import React, {useState} from "react";
 import classes from "./ResendVerification.css";
 import {Alert} from "@material-ui/lab";
-import {Button, TextField} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import instance from "../../../axios-backend";
+import {authenticationService} from "../../../services/authentication.service";
 
-const schema = yup.object().shape({email: yup.string().required().email()});
 
-const ResendVerification = (props) => {
-    const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
+const ResendVerification = () => {
     const [values, setValues] = useState({
         loading: false,
         sent: false,
         error: ""
     });
 
-    const handleSubmitVerification = (data) => {
+    const handleSubmitVerification = async () => {
         setValues({...values, loading: true});
-        instance.post("auth/email/verification-notification", data)
-            .then(response => setValues({...values, loading: false, sent: true}))
-            .catch(errors => setValues({...values, error: "Email not found."}))
+        const response = await authenticationService.resendVerification();
+        if (response.status === 200) {
+            setValues({...values, loading: false, sent: true});
+        } else {
+            setValues({...values, error: "Something Went wrong please try again later."});
+        }
     }
 
     return (
         <>
             {values.loading && "Sending..."}
             {!values.loading && !values.sent &&
-            <form className={classes.Container} autoComplete="off" onSubmit={handleSubmit(handleSubmitVerification)}>
+            <div className={classes.Container}>
                 <h1>Resend Email Verification</h1>
                 {!!values.error && <Alert severity="error">{values.error}</Alert>}
-                <TextField
-                    className={classes.FormControl}
-                    id="email" label="Email"
-                    {...register("email")}
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
-                />
-                <Button variant="contained" color="primary" type="submit">Resend</Button>
-            </form>
+                <Button variant="contained" color="primary" onClick={handleSubmitVerification}>Resend</Button>
+            </div>
             }
             {values.sent &&
             <>

@@ -28,15 +28,10 @@ class App extends Component {
         refresh();
     }
 
-    isAuthenticated = user => new Date(user?.expireDate).getTime() > new Date().getTime();
-
     componentDidMount() {
         authenticationService.currentUser.subscribe(user => {
-            const isAuthenticated = this.isAuthenticated(user);
-
-            const expireDate = isAuthenticated && user ? new Date(user?.expireDate) : null;
-
-            this.setState({currentUser: {...user, expireDate: expireDate}, authenticated: isAuthenticated})
+            const expireDate = authenticationService.isAuthenticated() && user ? new Date(user?.expireDate) : null;
+            this.setState({currentUser: {...user, expireDate: expireDate}, authenticated: authenticationService.isAuthenticated()})
         })
     }
 
@@ -53,13 +48,11 @@ class App extends Component {
     }
 
     render() {
-
-
         return (
             <div>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                     <Switch>
-                        <Route path="/auth" component={() => <Authentication authenticated={this.state.authenticated} />}/>
+                        <Route path="/auth" component={Authentication}/>
                     </Switch>
                 </Layout>
             </div>

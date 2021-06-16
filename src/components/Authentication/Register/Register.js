@@ -17,7 +17,7 @@ import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {AlertTitle} from "@material-ui/lab";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 const schema = yup.object().shape({
     name: yup.string().required().min(3),
@@ -26,7 +26,9 @@ const schema = yup.object().shape({
     passwordConfirmation: yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const Register = (props) => {
+const Register = () => {
+    document.title = `${process.env.REACT_APP_NAME} | Register `
+
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
     const [values, setValues] = React.useState({showPassword: false});
@@ -46,7 +48,6 @@ const Register = (props) => {
         }
     };
 
-    document.title = `${process.env.REACT_APP_NAME} | Register `
 
     const endAdornment = (
         <InputAdornment position="end">
@@ -111,7 +112,12 @@ const Register = (props) => {
                     {errors?.passwordConfirmation &&
                     <FormHelperText variant="standard">{errors.passwordConfirmation?.message}</FormHelperText>}
                 </FormControl>
-                <Button variant="contained" color="primary" type="submit">Login</Button>
+                <Button variant="contained" color="primary" type="submit">Register</Button>
+
+                <div className={classes.ExtraFields}>
+                    <p>Already a member?</p>
+                    <Button variant="contained" color="secondary" component={Link} to={"/auth/login"}>Login</Button>
+                </div>
             </form>
         </>
     );

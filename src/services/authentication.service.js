@@ -1,11 +1,16 @@
 import {BehaviorSubject} from 'rxjs';
 import instance from "../axios-backend";
+import axios from "axios";
 
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
+const isAuthenticated = () => {
+    return currentUserSubject.value?.token && currentUserSubject.value?.expireDate ? new Date(currentUserSubject.value?.expireDate).getTime() > new Date().getTime() : false;
+}
+
 const me = () => {
-    instance.get("/auth/me", {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
+    instance.get("/auth/me", {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
         .then(response => {
             const userData = handleUserAuthResponse(response);
             setUserData(userData);
@@ -26,8 +31,8 @@ const login = async (data) => {
 }
 
 const logout = () => {
-    instance.post("/auth/logout", {}, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
-        .then(response => setUserData({}))
+    instance.post("/auth/logout", {}, {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
+        .then(() => setUserData({}))
         .catch(err => err.response?.status === 401 ? setUserData({}) : null);
 }
 
@@ -70,6 +75,25 @@ const handleUserAuthResponse = response => {
     }
 }
 
+const resendVerification = async () => {
+    return await instance.post("auth/email/verification-notification",
+        {email: currentUserSubject.value?.email},
+        {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
+
+}
+
+const verify = async (url) => {
+    return await axios.get(url);
+}
+
+const forgotPassword = async () => {
+
+}
+
+const resetPassword = async (data, token) => {
+    return await instance.post("/auth/reset-password", {...data, token: token})
+}
+
 
 export const authenticationService = {
     login,
@@ -77,6 +101,11 @@ export const authenticationService = {
     logout,
     register,
     refresh,
+    verify,
+    resendVerification,
+    isAuthenticated,
+    forgotPassword,
+    resetPassword,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() {
         return currentUserSubject.value

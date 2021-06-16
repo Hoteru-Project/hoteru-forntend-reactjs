@@ -21,3 +21,10 @@
 .FormControl{
     margin-top: 10px;
 }
+
+.ExtraFields{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
