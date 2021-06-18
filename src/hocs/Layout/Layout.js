@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import Nav from '../../components/UI/NavbarDrawer/NavbarDrawer';
+import Navbar from '../../components/navbar/navbar';
 
 
 class Layout extends Component {
@@ -7,8 +9,11 @@ class Layout extends Component {
     render() {
         return (
             <>
-            <div>Welcome {this.props.currentUser.name}</div>
+            {/* <div>{this.props.currentUser.name}</div> */}
                 {/*Toolbar*/}
+                <Navbar />
+
+                {/* <Nav /> */}
                 {/*Side Drawer*/}
                 <Link to="/auth/login">Login</Link>
                 <Link to="/auth/register">Register</Link>
