@@ -38,10 +38,12 @@ i18n
 // }
 
 
+import Navbar  from './components/navbar/navbar';
+import Nav  from './components/UI/NavbarDrawer/NavbarDrawer';
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App/>
+            <App />
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
