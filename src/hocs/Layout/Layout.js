@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import classes from "./Layout.css";
+// import 'bootstrap/dist/js/bootstrap.min.js';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";
 import Nav from '../../components/UI/NavbarDrawer/NavbarDrawer';
 import Navbar from '../../components/navbar/navbar';
