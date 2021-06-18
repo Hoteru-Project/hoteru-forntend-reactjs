@@ -21,6 +21,11 @@ import { Link } from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+
+
+import { withTranslation } from 'react-i18next';
+import i18n from "i18next";
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -101,15 +106,23 @@ export default function PrimarySearchAppBar() {
 
   const menus = [
     {
-        name:'EN' ,  
+        name:i18n.language?.toUpperCase() ,  
         icon:<PublicTwoToneIcon />,
         items: [
             {
                 name: "Arabic",
                 onClick: ()=>{
-                    console.log('hello');
-                } 
-            }
+                    i18n.changeLanguage('ar')
+                } ,
+                country_code:"EG"
+            },
+            {
+              name: "English",
+              onClick: ()=>{
+                i18n.changeLanguage('en')
+            } ,
+              country_code:"US"
+          }
         ]
     },
     {

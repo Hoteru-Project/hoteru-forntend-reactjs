@@ -8,6 +8,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
 import { withTranslation } from 'react-i18next';
 
+// import Navbar  from './components/navbar/navbar';
+// import Nav  from './components/UI/NavbarDrawer/NavbarDrawer';
+
 
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -37,9 +40,6 @@ i18n
 //   return <h2>{t('Welcome to React')}</h2>;
 // }
 
-
-import Navbar  from './components/navbar/navbar';
-import Nav  from './components/UI/NavbarDrawer/NavbarDrawer';
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
