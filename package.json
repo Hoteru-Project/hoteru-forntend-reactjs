@@ -165,6 +165,7 @@
   },
   "devDependencies": {
     "axios": "^0.21.1",
-    "google-map-react": "^2.1.9"
+    "google-map-react": "^2.1.9",
+    "react-google-autocomplete": "^2.4.0"
   }
 }
