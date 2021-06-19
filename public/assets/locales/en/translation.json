@@ -1,4 +1,9 @@
 {
     "Welcome to React": "Welcome to React",
-    "log_in": "Login"
+    "log_in": "Login",
+    "search":"Search...",
+    "Profile":"Profile",
+    "Login":"Login",
+    "Logout":"Logout",
+    "register":"Register"
 }

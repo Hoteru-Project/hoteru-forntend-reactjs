@@ -12,6 +12,9 @@ import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 import {Link} from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import { useTranslation, initReactI18next } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 import i18n from "i18next";
 import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
@@ -111,6 +114,7 @@ export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
+    const { t } = useTranslation();
     const getReducedName = () => {
         return authenticationService.currentUserValue?.name?.trim()?.split(" ")?.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase());
     }
@@ -152,11 +156,11 @@ export default function PrimarySearchAppBar() {
             items: [
                 ...(authenticationService.isAuthenticated() ?
                         [
-                            {name: "Profile", link: "/user"},
-                            {name: "Logout", onClick: () => authenticationService.logout()}
+                            {name: `${t('Profile')}`, link: "/user"},
+                            {name: `${t('Logout')}`, onClick: () => authenticationService.logout()}
                         ] : [
-                            {name: "Login", link: "/auth/login"},
-                            {name: "Register", link: "/auth/register"}
+                            {name: `${t('Login')}`, link: "/auth/login"},
+                            {name: `${t('register')}`, link: "/auth/register"}
                         ]
                 )
             ]
@@ -195,7 +199,7 @@ export default function PrimarySearchAppBar() {
                             <SearchIcon/>
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder={t('search')}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput
