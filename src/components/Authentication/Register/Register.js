@@ -18,6 +18,8 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {AlertTitle} from "@material-ui/lab";
 import {Link, Redirect} from "react-router-dom";
+import authenticationClasses from "../Authentication.css";
+import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 
 const schema = yup.object().shape({
     name: yup.string().required().min(3),
@@ -61,7 +63,7 @@ const Register = () => {
     )
 
     return (
-        <>
+        <MotionDiv className={authenticationClasses.Container}>
             {validRegistration && <Redirect to="/login" />}
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
                 <h1>{process.env.REACT_APP_NAME} Register</h1>
@@ -119,7 +121,7 @@ const Register = () => {
                     <Button variant="contained" color="secondary" component={Link} to={"/auth/login"}>Login</Button>
                 </div>
             </form>
-        </>
+        </MotionDiv>
     );
 }
 

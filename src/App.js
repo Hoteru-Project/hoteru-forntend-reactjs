@@ -8,6 +8,9 @@ import Test2 from "./components/test2";
 
 import Authentication from "./components/Authentication/Authentication";
 import {authenticationService} from "./services/authentication.service";
+import User from "./components/User/User";
+import ProtectedRoute from "./containers/Routes/ProtectedRoute/ProtectedRoute";
+import {AnimatePresence} from "framer-motion";
 
 class App extends Component {
     state = {
@@ -60,11 +63,14 @@ class App extends Component {
         return (
             <div>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
+                    <AnimatePresence>
                         <Switch>
                             <Route path="/auth" component={Authentication}/>
+                            <ProtectedRoute path="/user" exact component={User}/>
                             <Route path="/" exact component={Test}/>
                             <Route path="/t" exact component={Test2}/>
                         </Switch>
+                    </AnimatePresence>
                 </Layout>
             </div>
         );

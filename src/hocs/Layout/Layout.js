@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from '../../components/navbar/navbar';
+import classes from "./Layout.css";
 
 
 class Layout extends Component {
@@ -11,7 +12,7 @@ class Layout extends Component {
                 <Navbar/>
                 {/* <Nav /> */}
                 {/*Side Drawer*/}
-                    <main>
+                    <main className={classes.Container}>
                         {this.props.children}
                     </main>
             </>
