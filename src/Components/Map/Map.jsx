@@ -10,7 +10,6 @@ class Map extends Component {
         this.state = {
             key: process.env.REACT_APP_MAP_KEY
         }
-
     }
 
     static defaultProps = {
@@ -26,7 +25,7 @@ class Map extends Component {
         };
     };
     render() {
-        console.log(this.props.center)
+        console.log("prooooops"+this.props.center.lat)
         return (
             // Important! Always set the container height explicitly
             <div className="mx-auto" style={{ height: '50vh' }}>
@@ -34,6 +33,7 @@ class Map extends Component {
                     bootstrapURLKeys={{key: this.state.key}}
                     center={this.props.center}
                     zoom={this.props.zoom}
+                    height='300px'
                     // options={this.getMapOptions}
                 >
                     <Marker

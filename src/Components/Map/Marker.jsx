@@ -2,6 +2,7 @@ import React from 'react';
 import './Marker.css';
 
 const Marker = (props) => {
+    console.log(props.lat)
     const { color, name, id } = props;
     return (
         <div>
