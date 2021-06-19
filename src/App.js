@@ -13,6 +13,7 @@ import {authenticationService} from "./services/authentication.service";
 import User from "./components/User/User";
 import ProtectedRoute from "./containers/Routes/ProtectedRoute/ProtectedRoute";
 import {AnimatePresence} from "framer-motion";
+import MainSec from "./components/mainsec/main";
 
 class App extends Component {
     state = {
@@ -65,8 +66,7 @@ class App extends Component {
                             <Route path="/auth" component={Authentication}/>
                             <ProtectedRoute path="/user" exact component={User}/>
                             <Route path="/map" exact component={GoogleMap}/>
-                            <Route path="/" exact component={Test}/>
-                            <Route path="/t" exact component={Test2}/>
+                            <Route path="/" exact component={MainSec}/>
                             <Route path="/hotels" exact component={ListHotels}/>
 
                         </Switch>

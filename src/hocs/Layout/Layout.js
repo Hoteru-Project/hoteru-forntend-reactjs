@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Navbar from '../../components/navbar/navbar';
 import classes from "./Layout.css";
 import Footer from '../../components/footer/footer';
-import MainSec from '../../components/mainsec/main';
 
 class Layout extends Component {
 
@@ -16,7 +15,6 @@ class Layout extends Component {
                     <main className={classes.Container}>
                         {this.props.children}
                     </main>
-                <MainSec />
                 <Footer />
             </>
         );

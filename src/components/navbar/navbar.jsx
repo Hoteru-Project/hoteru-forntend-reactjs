@@ -12,14 +12,11 @@ import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 import {Link} from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import { useTranslation, initReactI18next } from "react-i18next";
-import { withTranslation } from 'react-i18next';
 import i18n from "i18next";
 import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
-import {AccountCircle} from "@material-ui/icons";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -116,7 +113,8 @@ export default function PrimarySearchAppBar() {
 
     const { t } = useTranslation();
     const getReducedName = () => {
-        return authenticationService.currentUserValue?.name?.trim()?.split(" ")?.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase());
+        const nameArray = authenticationService.currentUserValue?.name?.trim()?.split(" ");
+        return nameArray && (nameArray.length<=1?nameArray[0][0]:nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
     }
 
     const menus = [
@@ -193,7 +191,7 @@ export default function PrimarySearchAppBar() {
         <div className={classes.grow}>
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap component={Link}>Hoteru</Typography>
+                    <Typography className={classes.title} variant="h6" noWrap component={Link} to="/">Hoteru</Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>

@@ -1,4 +1,4 @@
-import Map from "../../Map/Map";
+import Map from "../../GoogleMap/Map";
 
 const MoreInfo = (props) => {
     const center = {
