@@ -4,6 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 import {withTranslation} from 'react-i18next';
 import Test from "./components/test";
 import Test2 from "./components/test2";
+import Map from "./components/Map/Map";
 
 
 import Authentication from "./components/Authentication/Authentication";
@@ -62,6 +63,7 @@ class App extends Component {
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                         <Switch>
                             <Route path="/auth" component={Authentication}/>
+                            <Route path="/map" exact component={Map}/>
                             <Route path="/" exact component={Test}/>
                             <Route path="/t" exact component={Test2}/>
                         </Switch>
