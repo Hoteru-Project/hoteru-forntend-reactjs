@@ -21,10 +21,11 @@ class App extends Component {
 
     startScheduledRepeatedTasks = () => {
         const me = () => {
-            if (this.state.authenticated) {
+            if (authenticationService.isAuthenticated()) {
                 authenticationService.me();
                 setTimeout(me, 1000 * 60 * 1.5);
             }
+
         };
         me();
     }
@@ -37,6 +38,9 @@ class App extends Component {
                 this.setState({firstTimeAuthentication: false})
                 this.startScheduledRepeatedTasks();
             }
+           else {
+               this.setState({authenticated: false, firstTimeAuthentication: true})
+           }
             this.setState({
                 currentUser: {...user, expireDate: expireDate},
                 authenticated: authenticationService.isAuthenticated()
