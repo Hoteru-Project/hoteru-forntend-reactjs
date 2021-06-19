@@ -129,7 +129,7 @@ export default function PrimarySearchAppBar() {
             items: [
                 ...(authenticationService.isAuthenticated() ?
                         [
-                            {name: "Profile"},
+                            {name: "Profile", link: "/user"},
                             {name: "Logout", onClick: () => authenticationService.logout()}
                         ] : [
                             {name: "Login", link: "/auth/login"},

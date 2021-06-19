@@ -4,7 +4,8 @@ import {Alert} from "@material-ui/lab";
 import {Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
-
+import authenticationClasses from "../Authentication.css";
+import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 
 const ResendVerification = () => {
     document.title = `${process.env.REACT_APP_NAME} | Resend Verification Request `;
@@ -27,7 +28,7 @@ const ResendVerification = () => {
     }
 
     return (
-        <>
+        <MotionDiv className={authenticationClasses.Container}>
             {values.loading && "Sending..."}
             {!values.loading && !values.sent &&
             <div className={classes.Container}>
@@ -44,7 +45,7 @@ const ResendVerification = () => {
                 </div>
             </>
             }
-        </>
+        </MotionDiv>
     )
 }
 export default ResendVerification;

@@ -18,6 +18,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {AlertTitle} from "@material-ui/lab";
 import {Link, Redirect} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
+import authenticationClasses from "../Authentication.css";
+import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 
 const schema = yup.object().shape({
     email: yup.string().required().email(),
@@ -70,7 +72,7 @@ const ResetPassword = (props) => {
     )
 
     return (
-        <>
+        <MotionDiv className={authenticationClasses.Container}>
             {!token && <Redirect to="/"/>}
             {values.send && values.successful &&
             <>
@@ -127,7 +129,7 @@ const ResetPassword = (props) => {
                 </>}
 
             </form>
-        </>
+        </MotionDiv>
     );
 }
 
