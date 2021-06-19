@@ -7,6 +7,9 @@ import {authenticationService} from "../../../services/authentication.service";
 
 
 const ResendVerification = () => {
+    document.title = `${process.env.REACT_APP_NAME} | Resend Verification Request `;
+
+
     const [values, setValues] = useState({
         loading: false,
         sent: false,

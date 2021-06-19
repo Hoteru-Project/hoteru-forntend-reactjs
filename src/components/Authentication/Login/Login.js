@@ -82,8 +82,12 @@ const Login = () => {
                 </FormControl>
                 <Button variant="contained" color="primary" type="submit">Login</Button>
 
+                <div>
+                    <Link to="/auth/forgot-password">Forgot Password?</Link>
+                </div>
+
                 <div className={classes.ExtraFields}>
-                    <p>Don't have account?</p>
+                    <span>Don't have account?</span>
                     <Button variant="contained" color="secondary" component={Link} to={"/auth/register"}>Register</Button>
                 </div>
             </form>

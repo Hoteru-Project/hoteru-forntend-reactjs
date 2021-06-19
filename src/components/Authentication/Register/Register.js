@@ -115,7 +115,7 @@ const Register = () => {
                 <Button variant="contained" color="primary" type="submit">Register</Button>
 
                 <div className={classes.ExtraFields}>
-                    <p>Already a member?</p>
+                    <span>Already a member?</span>
                     <Button variant="contained" color="secondary" component={Link} to={"/auth/login"}>Login</Button>
                 </div>
             </form>

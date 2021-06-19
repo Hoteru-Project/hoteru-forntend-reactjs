@@ -32,7 +32,7 @@ const ForgotPassword = () => {
             {values.loading && "Sending..."}
             {!values.loading && !values.sent &&
             <form className={classes.Container} autoComplete="off" onSubmit={handleSubmit(handleSubmitForgetPassword)}>
-                <h1>Forget Password</h1>
+                <h1>Forgot Password</h1>
                 {!!values.error && <Alert severity="error">{values.error}</Alert>}
                 <TextField
                     className={classes.FormControl}

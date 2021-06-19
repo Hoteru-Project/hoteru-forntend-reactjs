@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Layout from "./hocs/Layout/Layout";
 import {Route, Switch} from 'react-router-dom';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import Test from "./components/test";
 import Test2 from "./components/test2";
 
@@ -20,7 +20,7 @@ class App extends Component {
         const me = () => {
             if (this.state.authenticated) {
                 authenticationService.me();
-                setTimeout(me, 1000*60*10);
+                setTimeout(me, 1000 * 60 * 10);
             }
         };
         const refresh = () => {
@@ -36,7 +36,10 @@ class App extends Component {
     componentDidMount() {
         authenticationService.currentUser.subscribe(user => {
             const expireDate = authenticationService.isAuthenticated() && user ? new Date(user?.expireDate) : null;
-            this.setState({currentUser: {...user, expireDate: expireDate}, authenticated: authenticationService.isAuthenticated()})
+            this.setState({
+                currentUser: {...user, expireDate: expireDate},
+                authenticated: authenticationService.isAuthenticated()
+            })
         })
     }
 
@@ -55,13 +58,13 @@ class App extends Component {
     render() {
         // const {t} = this.props;
         return (
-            <div>  
+            <div>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
-                    <Switch>
-                        <Route path="/auth" component={Authentication}/>
-                         <Route path="/" exact component={Test}/>
-                        <Route path="/t" exact component={Test2}/>
-                    </Switch>
+                        <Switch>
+                            <Route path="/auth" component={Authentication}/>
+                            <Route path="/" exact component={Test}/>
+                            <Route path="/t" exact component={Test2}/>
+                        </Switch>
                 </Layout>
             </div>
         );
