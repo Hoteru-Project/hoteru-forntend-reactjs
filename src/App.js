@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 import {withTranslation} from 'react-i18next';
 import Test from "./components/test";
 import Test2 from "./components/test2";
-import Map from "./components/Map/Map";
+import GoogleMap from "./components/GoogleMap/Map";
 import ListHotels from "./components/Hotels/ListHotels/ListHotels"
 
 
@@ -64,7 +64,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/auth" component={Authentication}/>
                             <ProtectedRoute path="/user" exact component={User}/>
-                            <Route path="/map" exact component={Map}/>
+                            <Route path="/map" exact component={GoogleMap}/>
                             <Route path="/" exact component={Test}/>
                             <Route path="/t" exact component={Test2}/>
                             <Route path="/hotels" exact component={ListHotels}/>
