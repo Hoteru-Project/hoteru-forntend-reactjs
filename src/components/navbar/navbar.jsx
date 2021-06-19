@@ -7,7 +7,6 @@ import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import Nav from "../UI/NavbarDrawer/NavbarDrawer";
 import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 import {Link} from "react-router-dom";
@@ -18,6 +17,10 @@ import { useTranslation, initReactI18next } from "react-i18next";
 import { withTranslation } from 'react-i18next';
 import i18n from "i18next";
 import {authenticationService} from "../../services/authentication.service";
+import {Avatar} from "@material-ui/core";
+import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import {AccountCircle} from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -28,7 +31,13 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2)
     },
     title: {
-        display: "block"
+        display: "block",
+        textDecoration: "none",
+        color: '#0058CA',
+        "&:hover": {
+            textDecoration: "none",
+            color: '#0058CA'
+        }
     },
     search: {
         position: "relative",
@@ -85,6 +94,18 @@ const useStyles = makeStyles((theme) => ({
     bgg: {
         backgroundColor: 'white',
         color: '#0058CA'
+    },
+    orange: {
+        color: theme.palette.getContrastText(deepOrange[500]),
+        backgroundColor: deepOrange[500],
+    },
+    purple: {
+        color: theme.palette.getContrastText(deepPurple[500]),
+        backgroundColor: deepPurple[500],
+    },
+    blue: {
+        backgroundColor: "#0058CA",
+
     }
 }));
 
@@ -94,6 +115,10 @@ export default function PrimarySearchAppBar() {
     const isMenuOpen = Boolean(anchorEl);
 
     const { t } = useTranslation();
+    const getReducedName = () => {
+        return authenticationService.currentUserValue?.name?.trim()?.split(" ")?.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase());
+    }
+
     const menus = [
         {
             name: i18n.language?.toUpperCase(),
@@ -127,8 +152,7 @@ export default function PrimarySearchAppBar() {
             ]
         },
         {
-            name: authenticationService.currentUserValue?.name?.trim()?.split(" ")[0],
-            icon: <AccountCircle/>,
+            icon: <Avatar className={classes.blue}>{getReducedName()}</Avatar>,
             items: [
                 ...(authenticationService.isAuthenticated() ?
                         [
@@ -146,6 +170,7 @@ export default function PrimarySearchAppBar() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
 
 
     const menuId = "primary-search-account-menu";
@@ -168,7 +193,7 @@ export default function PrimarySearchAppBar() {
         <div className={classes.grow}>
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>Hoteru</Typography>
+                    <Typography className={classes.title} variant="h6" noWrap component={Link}>Hoteru</Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>

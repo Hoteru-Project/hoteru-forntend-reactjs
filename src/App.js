@@ -23,34 +23,25 @@ class App extends Component {
         const me = () => {
             if (this.state.authenticated) {
                 authenticationService.me();
-                setTimeout(me, 1000 * 60 * 10);
+                setTimeout(me, 1000 * 60 * 1.5);
             }
         };
-        const refresh = () => {
-            if (this.state.authenticated) {
-                authenticationService.refresh();
-                setTimeout(refresh, (this.state.currentUser.expireDate - new Date()) - (1000 * 60 * 15))
-            }
-        }
         me();
-        refresh();
     }
 
     componentDidMount() {
-        authenticationService.currentUser.subscribe(user => {
+        authenticationService.currentUser.subscribe(async user => {
             const expireDate = authenticationService.isAuthenticated() && user ? new Date(user?.expireDate) : null;
+           if (authenticationService.isAuthenticated() && this.state.firstTimeAuthentication) {
+                JSON.parse(localStorage.getItem("rememberMe")) && await authenticationService.refresh();
+                this.setState({firstTimeAuthentication: false})
+                this.startScheduledRepeatedTasks();
+            }
             this.setState({
                 currentUser: {...user, expireDate: expireDate},
                 authenticated: authenticationService.isAuthenticated()
             })
         })
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.authenticated && this.state.firstTimeAuthentication) {
-            this.startScheduledRepeatedTasks();
-            this.setState({firstTimeAuthentication: false})
-        }
     }
 
     logout = () => {

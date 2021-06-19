@@ -22,22 +22,24 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: "flex",
-        height: "100%",
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
         }
     },
     tabs: {
+        flex: 1,
         borderRight: `1px solid ${theme.palette.divider}`,
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             borderBottom: `1px solid ${theme.palette.divider}`,
             borderRight: 0,
         }
+    },
+    bodyContainer: {
+        flex: 4
     }
 }));
 
@@ -54,22 +56,24 @@ const User = () => {
     return (
         <div className={classes.root}>
             <Tabs
-                orientation={matches?"horizontal":"vertical"}
+                orientation={matches ? "horizontal" : "vertical"}
                 variant="scrollable"
                 value={value}
                 onChange={handleChange}
                 className={classes.tabs}
                 indicatorColor="primary"
             >
-                <Tab label="Profile" icon={<AssignmentIndIcon />} {...a11yProps(0)} />
-                <Tab label="Verify Account" icon={<VerifiedUserIcon />} {...a11yProps(1)} />
-                <Tab label="Search History" icon={<HistoryIcon />} {...a11yProps(2)} />
-                <Tab label="Email Subscription" icon={<SubscriptionsIcon />} {...a11yProps(3)} />
+                <Tab label="Profile" icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
+                <Tab label="Verify Account" icon={<VerifiedUserIcon/>} {...a11yProps(1)} />
+                <Tab label="Search History" icon={<HistoryIcon/>} {...a11yProps(2)} />
+                <Tab label="Email Subscription" icon={<SubscriptionsIcon/>} {...a11yProps(3)} />
             </Tabs>
-            <TabPanel value={value} index={0}><Profile /></TabPanel>
-            <TabPanel value={value} index={1}><ResendVerification/></TabPanel>
-            <TabPanel value={value} index={2}>Item Three</TabPanel>
-            <TabPanel value={value} index={3}>Item Four</TabPanel>
+            <div className={classes.bodyContainer}>
+                <TabPanel value={value} index={0}><Profile/></TabPanel>
+                <TabPanel value={value} index={1}><ResendVerification/></TabPanel>
+                <TabPanel value={value} index={2}>Item Three</TabPanel>
+                <TabPanel value={value} index={3}>Item Four</TabPanel>
+            </div>
         </div>
     );
 }
