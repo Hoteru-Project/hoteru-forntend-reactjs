@@ -5,6 +5,7 @@ import {withTranslation} from 'react-i18next';
 import Test from "./components/test";
 import Test2 from "./components/test2";
 import Map from "./components/Map/Map";
+import ListHotels from "./components/Hotels/ListHotels/ListHotels"
 
 
 import Authentication from "./components/Authentication/Authentication";
@@ -66,6 +67,7 @@ class App extends Component {
                             <Route path="/map" exact component={Map}/>
                             <Route path="/" exact component={Test}/>
                             <Route path="/t" exact component={Test2}/>
+                            <Route path="/hotels" exact component={ListHotels}/>
 
                         </Switch>
                     </AnimatePresence>
