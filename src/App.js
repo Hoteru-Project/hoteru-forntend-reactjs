@@ -23,17 +23,10 @@ class App extends Component {
         const me = () => {
             if (this.state.authenticated) {
                 authenticationService.me();
-                setTimeout(me, 1000 * 60 * 10);
+                setTimeout(me, 1000 * 60 * 1.5);
             }
         };
-        const refresh = () => {
-            if (this.state.authenticated) {
-                authenticationService.refresh();
-                setTimeout(refresh, (this.state.currentUser.expireDate - new Date()) - (1000 * 60 * 15))
-            }
-        }
         me();
-        refresh();
     }
 
     componentDidMount() {
@@ -46,10 +39,11 @@ class App extends Component {
         })
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.authenticated && this.state.firstTimeAuthentication) {
-            this.startScheduledRepeatedTasks();
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (authenticationService.isAuthenticated() && this.state.firstTimeAuthentication) {
             this.setState({firstTimeAuthentication: false})
+            await authenticationService.refresh();
+            this.startScheduledRepeatedTasks();
         }
     }
 

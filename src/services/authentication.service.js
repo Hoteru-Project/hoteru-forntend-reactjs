@@ -42,8 +42,8 @@ const register = async (data) => {
         .catch(errors => errors);
 }
 
-const refresh = () => {
-    instance.post("/auth/refresh", {}, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
+const refresh = async () => {
+    await instance.post("/auth/refresh", {}, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
         .then(response => {
             const userData = {...currentUserSubject.value}
             userData.token = response.data.access_token;
