@@ -31,7 +31,7 @@ const login = async (data) => {
 }
 
 const logout = () => {
-    instance.post("/auth/logout", {}, {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
+    instance.post("/auth/logout", null, {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
         .then(() => setUserData({}))
         .catch(err => err.response?.status === 401 ? setUserData({}) : null);
 }
@@ -42,8 +42,8 @@ const register = async (data) => {
         .catch(errors => errors);
 }
 
-const refresh = () => {
-    instance.post("/auth/refresh", {}, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
+const refresh = async () => {
+    await instance.post("/auth/refresh", null, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
         .then(response => {
             const userData = {...currentUserSubject.value}
             userData.token = response.data.access_token;
