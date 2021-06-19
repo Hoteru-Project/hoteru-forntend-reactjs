@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Login.css";
+import authenticationClasses from "../Authentication.css";
 import {
     Button,
     FormControl,
@@ -17,6 +18,8 @@ import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Link} from "react-router-dom";
+import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+
 
 const schema = yup.object().shape({
     email: yup.string().required().email(),
@@ -55,7 +58,7 @@ const Login = () => {
         </InputAdornment>
     )
     return (
-        <>
+        <MotionDiv className={authenticationClasses.Container}>
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
                 <h1>{process.env.REACT_APP_NAME} Login</h1>
                 {error &&
@@ -82,12 +85,17 @@ const Login = () => {
                 </FormControl>
                 <Button variant="contained" color="primary" type="submit">Login</Button>
 
+                <div>
+                    <Link to="/auth/forgot-password">Forgot Password?</Link>
+                </div>
+
                 <div className={classes.ExtraFields}>
-                    <p>Don't have account?</p>
-                    <Button variant="contained" color="secondary" component={Link} to={"/auth/register"}>Register</Button>
+                    <span>Don't have account?</span>
+                    <Button variant="contained" color="secondary" component={Link}
+                            to={"/auth/register"}>Register</Button>
                 </div>
             </form>
-        </>
+        </MotionDiv>
     );
 }
 
