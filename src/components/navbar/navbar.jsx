@@ -93,7 +93,7 @@ export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-
+    const { t } = useTranslation();
     const menus = [
         {
             name: i18n.language?.toUpperCase(),
@@ -132,11 +132,11 @@ export default function PrimarySearchAppBar() {
             items: [
                 ...(authenticationService.isAuthenticated() ?
                         [
-                            {name: "Profile", link: "/user"},
-                            {name: "Logout", onClick: () => authenticationService.logout()}
+                            {name: `${t('Profile')}`, link: "/user"},
+                            {name: `${t('Logout')}`, onClick: () => authenticationService.logout()}
                         ] : [
-                            {name: "Login", link: "/auth/login"},
-                            {name: "Register", link: "/auth/register"}
+                            {name: `${t('Login')}`, link: "/auth/login"},
+                            {name: `${t('register')}`, link: "/auth/register"}
                         ]
                 )
             ]
@@ -174,7 +174,7 @@ export default function PrimarySearchAppBar() {
                             <SearchIcon/>
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder={t('search')}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput

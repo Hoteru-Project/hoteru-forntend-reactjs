@@ -67,8 +67,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/auth" component={Authentication}/>
                             <ProtectedRoute path="/user" exact component={User}/>
-                            <Route path="/" exact component={Test}/>
-                            <Route path="/t" exact component={Test2}/>
+                           
                         </Switch>
                     </AnimatePresence>
                 </Layout>
