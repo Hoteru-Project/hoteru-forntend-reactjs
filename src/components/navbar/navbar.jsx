@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import { useTranslation, initReactI18next } from "react-i18next";
 
 
 import { withTranslation } from 'react-i18next';
@@ -102,7 +103,7 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const { t } = useTranslation();
 
   const menus = [
     {
@@ -187,7 +188,7 @@ export default function PrimarySearchAppBar() {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder={t('search')}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
