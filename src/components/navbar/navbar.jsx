@@ -114,7 +114,7 @@ export default function PrimarySearchAppBar() {
     const { t } = useTranslation();
     const getReducedName = () => {
         const nameArray = authenticationService.currentUserValue?.name?.trim()?.split(" ");
-        return nameArray && (nameArray.length<=1?nameArray[0][0]:nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
+        return nameArray && (nameArray.length<=1?nameArray[0][0].toUpperCase():nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
     }
 
     const menus = [
