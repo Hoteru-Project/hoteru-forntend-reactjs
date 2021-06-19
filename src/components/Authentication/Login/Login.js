@@ -2,8 +2,8 @@ import React from "react";
 import classes from "./Login.css";
 import authenticationClasses from "../Authentication.css";
 import {
-    Button,
-    FormControl,
+    Button, Checkbox,
+    FormControl, FormControlLabel,
     FormHelperText,
     IconButton,
     Input,
@@ -30,9 +30,7 @@ const Login = () => {
     document.title = `${process.env.REACT_APP_NAME} | Login `
 
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
-    const [values, setValues] = React.useState({
-        showPassword: false,
-    });
+    const [values, setValues] = React.useState({showPassword: false, rememberMe: false});
 
     const [error, setError] = React.useState(false);
 
@@ -40,7 +38,12 @@ const Login = () => {
         setValues({...values, showPassword: !values.showPassword});
     };
 
+    const handleRememberMe= () => {
+        setValues({...values, rememberMe: !values.rememberMe});
+    };
+
     const handleSubmission = async (data) => {
+        localStorage.setItem("rememberMe", values.rememberMe);
         const resp = await authenticationService.login(data);
         if (resp) {
             setError(resp.response?.data?.error);
@@ -83,6 +86,13 @@ const Login = () => {
                     />
                     {errors?.password && <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
                 </FormControl>
+
+                <FormControlLabel
+                    control={
+                        <Checkbox color="primary" onChange={handleRememberMe} checked={values.rememberMe}/>
+                    }
+                    label="Remember Me"
+                />
                 <Button variant="contained" color="primary" type="submit">Login</Button>
 
                 <div>
