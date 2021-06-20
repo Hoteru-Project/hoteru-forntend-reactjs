@@ -1,73 +1,54 @@
 import React, {Component} from 'react'
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { makeStyles } from '@material-ui/core/styles';
-import CheckboxList from './HotelsFeaturesComponent';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
-// export default function BasicButtonGroup() {
-//   const classes = useStyles();
-
-//   return (
-    
-//     <div className={classes.root}>
-//       <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-//       <Button
-//         aria-controls="customized-menu"
-//         aria-haspopup="true"
-//         variant="contained"
-//         color="primary"
-//       >
-//         Open Menu
-//       </Button>
-//         <Button>Guest Rating</Button>
-//         <Button>Location</Button>
-//         <Button>More Filters</Button>
-//       </ButtonGroup>
-//     </div>
-//   );
-// }
-
+import HotelsFeatures from './HotelsFeaturesComponent';
+import {withRouter} from "react-router-dom"
 
 class NavbarComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: null,
+      url:'http://127.0.0.1:8001/api/v1/hotels/test?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1',
       isLoaded: false,
-      items: []
+      items: [],
+      filters:[]
     };
   }
+  //?filter=this.state.filter.join("-")
+  setCheckedFilters= (filters) => {
+    console.log(filters);
+    const hasFilters = !!filters.length
+    const filterQuery = `${(hasFilters?"filter=":"")}${filters.join('-')}`;
+    const url = `${this.state.url}${hasFilters?"&":""}${filterQuery}`;
+    console.log(url);
+    this.setState({filters: filters});
+    this.props.history.push(`/search?${filterQuery}`)
+    this.fetchHotels(url)
+  } 
 
+
+  fetchHotels=(url)=>{
+
+    fetch(url??this.state.url)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          items: result
+        });
+      },
+
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }
+  
   componentDidMount() {
-
-    fetch('http://127.0.0.1:8001/api/v1/hotels/test?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1&')
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result
-          });
-        },
-
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+    this.fetchHotels();
   }
 
   render() {
@@ -79,7 +60,7 @@ class NavbarComponent extends Component {
     } else {
       return (
         <ul>
-          <CheckboxList/>
+          <HotelsFeatures checkedFilters={this.state.filters} setCheckedFilters={this.setCheckedFilters}/>
           {items.map(item => (
             <li key={item.id}>
               {item.name} {item.price}
@@ -91,4 +72,4 @@ class NavbarComponent extends Component {
   }
 }
 
-export default NavbarComponent;
+export default withRouter(NavbarComponent);
