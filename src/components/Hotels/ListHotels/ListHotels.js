@@ -7,6 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import AlarmIcon from '@material-ui/icons/Alarm';
 import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
 import MoreInfo from "../MoreInfo/MoreInfo";
+import HoverRating from "../HotelRating/HotelRating";
+import HotelRating from "../HotelRating/HotelRating";
 
 class ListComponent extends Component {
     constructor(props) {
@@ -23,7 +25,7 @@ class ListComponent extends Component {
         fetch(url)
             .then(res => res.json())
             .then(hotels => this.setState(
-                {hotels: hotels.map(hotel => {hotel.isActiveState= false;hotel.moreInfo=false; return hotel})})
+                {hotels: hotels.map((hotel, index) => {hotel.isActiveState= false;hotel.moreInfo=false;hotel.id = index; return hotel})})
             );
 
     }
@@ -63,14 +65,14 @@ class ListComponent extends Component {
     }
 
     getHotelStars = (rating) => {
-        // console.log(rating)
+        console.log(rating)
         // let stars = []
         // for (let i = 0; i < rating; i++) {
-        //     stars.push(<i className="fas fa-star"/>)
+        //     stars.push(<StarRoundedIcon className="text-warning"/>)
         // }
-        // console.log(stars)
         // return stars
-        return new Array(rating).fill(<StarRoundedIcon className="text-warning"/>)
+
+        // return new Array(rating).fill(<StarRoundedIcon className="text-warning"/>)
     }
 
     render() {
@@ -90,19 +92,17 @@ class ListComponent extends Component {
                                         <div className="m-4">
                                             <img src={hotel.photos} className="rounded-3" width="250px" alt="hotel img"/>
                                         </div>
-                                        <div className="m-4 ">
+                                        <div className="m-4">
+                                            <div className="mb-2 bg-white rounded-3 p-3">
                                             <h4>{hotel.name}</h4>
-                                            <p>{this.getHotelStars(hotel.classRating)}</p>
-                                            <p><RoomIcon className="text-primary" /> {hotel.address.addressLine1}</p>
+                                            <HotelRating stars={hotel.classRating} />
+                                            </div>
+                                            <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon className="text-primary" /> {hotel.address.addressLine1}</p>
                                         </div>
                                         <div className="m-4">
-                                            <span>{hotel.hotelPricing.startingAt.plain}</span>
-                                            {/*<button onClick={() => this.getHotels(hotel.name, index)}*/}
-                                            {/*        className="btn btn-primary m-4"*/}
-                                            {/*        type="button">Button*/}
-                                            {/*</button>*/}
+                                            <span className="bg-white rounded-3 p-3">${hotel.hotelPricing.startingAt.plain} / per night</span>
                                             <div className="d-flex flex-row">
-                                                <p>More Deals</p>
+                                                <p>More Info</p>
                                                 <IconButton aria-label="delete" color="primary" onClick={() => this.getHotels(hotel.name, index)}>
                                                     <MoreArrow fontSize="large" />
                                                 </IconButton>
