@@ -1,0 +1,4 @@
+.hotelHeight{
+    height: auto;
+    transition: height 2s ease-in-out;
+}
