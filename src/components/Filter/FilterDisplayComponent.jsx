@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import HotelsFeatures from './HotelsFeaturesComponent';
 import {withRouter} from "react-router-dom"
+import MainMenuComponent from './MainMenuComponent';
 
-class NavbarComponent extends Component {
+class FilterDisplayComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +24,7 @@ class NavbarComponent extends Component {
     this.setState({filters: filters});
     this.props.history.push(`/search?${filterQuery}`)
     this.fetchHotels(url)
-  } 
-
+  }
 
   fetchHotels=(url)=>{
 
@@ -59,17 +59,19 @@ class NavbarComponent extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <ul>
-          <HotelsFeatures checkedFilters={this.state.filters} setCheckedFilters={this.setCheckedFilters}/>
-          {items.map(item => (
-            <li key={item.id}>
-              {item.name} {item.price}
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            <MainMenuComponent checkedFilters={this.state.filters} setCheckedFilters={this.setCheckedFilters}/>
+            {items.map(item => (
+              <li key={item.id}>
+                {item.name} {item.price}
+              </li>
+            ))}
+          </ul>
+        </div>
       );
     }
   }
 }
 
-export default withRouter(NavbarComponent);
+export default withRouter(FilterDisplayComponent);
