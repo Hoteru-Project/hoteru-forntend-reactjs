@@ -14,6 +14,8 @@ import User from "./components/User/User";
 import ProtectedRoute from "./containers/Routes/ProtectedRoute/ProtectedRoute";
 import {AnimatePresence} from "framer-motion";
 import MainSec from "./components/mainsec/main";
+import Router from "./Router";
+import instance from "./axios-backend";
 
 class App extends Component {
     state = {
@@ -22,7 +24,9 @@ class App extends Component {
         firstTimeAuthentication: true
     }
 
-    startScheduledRepeatedTasks = () => {
+    delay = ms => new Promise(res => setTimeout(res, ms));
+
+    startScheduledRepeatedTasks = async () => {
         const me = () => {
             if (authenticationService.isAuthenticated()) {
                 authenticationService.me();
@@ -30,20 +34,21 @@ class App extends Component {
             }
 
         };
+        await this.delay(200);
         me();
     }
 
     componentDidMount() {
         authenticationService.currentUser.subscribe(async user => {
             const expireDate = authenticationService.isAuthenticated() && user ? new Date(user?.expireDate) : null;
-           if (authenticationService.isAuthenticated() && this.state.firstTimeAuthentication) {
+            instance.defaults.headers.common["Authorization"] = authenticationService.isAuthenticated() ? `Bearer ${user?.token}` : null;
+            if (authenticationService.isAuthenticated() && this.state.firstTimeAuthentication) {
+                await this.setState({firstTimeAuthentication: false})
                 JSON.parse(localStorage.getItem("rememberMe")) && await authenticationService.refresh();
-                this.setState({firstTimeAuthentication: false})
-                this.startScheduledRepeatedTasks();
+                await this.startScheduledRepeatedTasks();
+            } else if (!authenticationService.isAuthenticated()) {
+                this.setState({authenticated: false, firstTimeAuthentication: true})
             }
-           else {
-               this.setState({authenticated: false, firstTimeAuthentication: true})
-           }
             this.setState({
                 currentUser: {...user, expireDate: expireDate},
                 authenticated: authenticationService.isAuthenticated()
@@ -63,10 +68,10 @@ class App extends Component {
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                     <AnimatePresence>
                         <Switch>
-                            <Route path="/auth" component={Authentication}/>
-                            <ProtectedRoute path="/user" exact component={User}/>
+                            <Route path={Router("authentication")} component={Authentication}/>
+                            <ProtectedRoute path={Router("user")} exact component={User}/>
                             <Route path="/map" exact component={GoogleMap}/>
-                            <Route path="/" exact component={MainSec}/>
+                            <Route path={Router("homepage")} exact component={MainSec}/>
                             <Route path="/hotels" exact component={ListHotels}/>
 
                         </Switch>

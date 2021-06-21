@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import Router from "../../../Router";
 
 const Verify = (props) => {
     const [verified, setVerified] = useState(null);
@@ -34,8 +35,8 @@ const Verify = (props) => {
                 <>
                     <Alert severity="success">Verified Successfully, Please login to your account.</Alert>
                     {!!authenticationService.isAuthenticated() ?
-                        <Button variant="contained" color="primary" component={Link} to="/">Homepage</Button> :
-                        <Button variant="contained" color="primary" component={Link} to="/auth/login">Login</Button>
+                        <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>Homepage</Button> :
+                        <Button variant="contained" color="primary" component={Link} to={Router("authentication.login")}>Login</Button>
                     }
                 </>
                 }

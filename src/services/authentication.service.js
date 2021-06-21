@@ -9,8 +9,12 @@ const isAuthenticated = () => {
     return currentUserSubject.value?.token && currentUserSubject.value?.expireDate ? new Date(currentUserSubject.value?.expireDate).getTime() > new Date().getTime() : false;
 }
 
+const isEmailVerified = () => {
+    return !!currentUserSubject.value?.email_verified_at
+}
+
 const me = () => {
-    instance.get("/auth/me", {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
+    instance.get("/auth/me")
         .then(response => {
             const userData = handleUserAuthResponse(response);
             setUserData(userData);
@@ -31,19 +35,18 @@ const login = async (data) => {
 }
 
 const logout = () => {
-    instance.post("/auth/logout", null, {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
+    instance.post("/auth/logout")
         .then(() => setUserData({}))
         .catch(err => err.response?.status === 401 ? setUserData({}) : null);
 }
 
 const register = async (data) => {
     return await instance.post("/auth/register", data)
-        .then(response => response)
-        .catch(errors => errors);
+        .catch(err => err.response)
 }
 
 const refresh = async () => {
-    await instance.post("/auth/refresh", null, {headers: {authorization: `Bearer ${currentUserSubject.value.token}`}})
+    await instance.post("/auth/refresh")
         .then(response => {
             const userData = {...currentUserSubject.value}
             userData.token = response.data.access_token;
@@ -54,7 +57,7 @@ const refresh = async () => {
 
 const setUserData = (userData) => {
     localStorage.setItem("currentUser", JSON.stringify(userData));
-    currentUserSubject.next(userData)
+    currentUserSubject.next(userData);
 }
 
 const handleUserAuthResponse = response => {
@@ -76,10 +79,7 @@ const handleUserAuthResponse = response => {
 }
 
 const resendVerification = async () => {
-    return await instance.post("auth/email/verification-notification",
-        {email: currentUserSubject.value?.email},
-        {headers: {authorization: `Bearer ${currentUserSubject.value?.token}`}})
-
+    return await instance.post("auth/email/verification-notification", {email: currentUserSubject.value?.email})
 }
 
 const verify = async (url) => {
@@ -103,6 +103,7 @@ export const authenticationService = {
     refresh,
     verify,
     resendVerification,
+    isEmailVerified,
     isAuthenticated,
     forgotPassword,
     resetPassword,
