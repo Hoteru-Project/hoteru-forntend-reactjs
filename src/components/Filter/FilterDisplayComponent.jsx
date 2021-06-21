@@ -11,7 +11,8 @@ class FilterDisplayComponent extends Component {
       url:'http://127.0.0.1:8001/api/v1/hotels/test?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1',
       isLoaded: false,
       items: [],
-      filters:[]
+      filters:[],
+      sortID: null
     };
   }
   //?filter=this.state.filter.join("-")
@@ -24,6 +25,10 @@ class FilterDisplayComponent extends Component {
     this.setState({filters: filters});
     this.props.history.push(`/search?${filterQuery}`)
     this.fetchHotels(url)
+  }
+
+  setRequestedSort = () => {
+    const requestedSort = this.state.url.includes('sorting=');
   }
 
   fetchHotels=(url)=>{
@@ -61,12 +66,18 @@ class FilterDisplayComponent extends Component {
       return (
         <div>
           <ul>
-            <MainMenuComponent checkedFilters={this.state.filters} setCheckedFilters={this.setCheckedFilters}/>
+            <MainMenuComponent
+            checkedFilters={this.state.filters}
+            setCheckedFilters={this.setCheckedFilters}
+            setRequestedSort={this.setRequestedSort}
+            />
+
             {items.map(item => (
               <li key={item.id}>
                 {item.name} {item.price}
               </li>
             ))}
+
           </ul>
         </div>
       );

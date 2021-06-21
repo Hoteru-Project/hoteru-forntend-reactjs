@@ -71,7 +71,7 @@ export default function HotelsFeatures(props) {
     });
 
     props.setCheckedFilters([]);
-    setFilterParams(newFilterParams);
+    setFilterParams(newFilterParams );
   }
 
   const secondColumnStart = Math.floor(filterParams.length / 2);
