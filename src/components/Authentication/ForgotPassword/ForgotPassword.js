@@ -7,6 +7,8 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import instance from "../../../axios-backend";
+import authenticationClasses from "../Authentication.css";
+import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 
 const schema = yup.object().shape({email: yup.string().required().email()});
 
@@ -28,7 +30,7 @@ const ForgotPassword = () => {
     }
 
     return (
-        <>
+        <MotionDiv className={authenticationClasses.Container}>
             {values.loading && "Sending..."}
             {!values.loading && !values.sent &&
             <form className={classes.Container} autoComplete="off" onSubmit={handleSubmit(handleSubmitForgetPassword)}>
@@ -52,7 +54,7 @@ const ForgotPassword = () => {
                 </div>
             </>
             }
-        </>
+        </MotionDiv>
     )
 }
 export default ForgotPassword;

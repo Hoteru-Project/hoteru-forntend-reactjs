@@ -20,6 +20,8 @@ import {AlertTitle} from "@material-ui/lab";
 import {Link, Redirect} from "react-router-dom";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import Router from "../../../Router";
+import Backdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 const schema = yup.object().shape({
     name: yup.string().required().min(3),
@@ -34,6 +36,7 @@ const Register = () => {
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
     const [values, setValues] = React.useState({showPassword: false});
+    const [isLoading, setIsLoading] = React.useState(false);
     const [responseErrors, setResponseErrors] = React.useState([]);
     const [validRegistration, setValidRegistration] = React.useState(false);
 
@@ -42,12 +45,14 @@ const Register = () => {
     };
 
     const handleSubmission = async (data) => {
-        const resp = await authenticationService.register(data);
-        if (!resp.response?.status === 201) {
-            setResponseErrors(Object.values(resp.response?.data?.errors));
+        setIsLoading(true);
+        const response = await authenticationService.register(data);
+        if (response?.status !== 201) {
+            setResponseErrors(Object.values(response?.data?.errors??{}));
         } else {
             setValidRegistration(true);
         }
+        setIsLoading(false);
     };
 
 
@@ -64,7 +69,8 @@ const Register = () => {
 
     return (
         <MotionDiv className={authenticationClasses.Container}>
-            {validRegistration && <Redirect to="/login" />}
+            <Backdrop open={isLoading}/>
+            {validRegistration && <Redirect to={Router("authentication.login")}/>}
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
                 <h1>{process.env.REACT_APP_NAME} Register</h1>
                 {!!responseErrors.length &&
@@ -118,7 +124,8 @@ const Register = () => {
 
                 <div className={classes.ExtraFields}>
                     <span>Already a member?</span>
-                    <Button variant="contained" color="secondary" component={Link} to={"/auth/login"}>Login</Button>
+                    <Button variant="contained" color="secondary" component={Link}
+                            to={Router("authentication.login")}>Login</Button>
                 </div>
             </form>
         </MotionDiv>

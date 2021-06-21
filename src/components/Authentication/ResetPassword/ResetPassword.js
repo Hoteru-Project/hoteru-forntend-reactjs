@@ -20,6 +20,7 @@ import {Link, Redirect} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import Router from "../../../Router";
 
 const schema = yup.object().shape({
     email: yup.string().required().email(),
@@ -73,12 +74,12 @@ const ResetPassword = (props) => {
 
     return (
         <MotionDiv className={authenticationClasses.Container}>
-            {!token && <Redirect to="/"/>}
+            {!token && <Redirect to={Router("homepage")}/>}
             {values.send && values.successful &&
             <>
                 <div className={classes.Container}>
                     <h1>Password successfully updated</h1>
-                    <Button variant="contained" color="primary" component={Link} to="/auth/login">Login</Button>
+                    <Button variant="contained" color="primary" component={Link} to={Router("authentication.login")}>Login</Button>
                 </div>
             </>
             }

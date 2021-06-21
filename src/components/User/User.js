@@ -10,6 +10,7 @@ import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import TabPanel from "../UI/TabPanel/TabPanel";
 import {useMediaQuery} from "@material-ui/core";
 import ResendVerification from "../Authentication/ResendVerification/ResendVerification";
+import {authenticationService} from "../../services/authentication.service";
 
 
 function a11yProps(index) {
@@ -64,13 +65,13 @@ const User = () => {
                 indicatorColor="primary"
             >
                 <Tab label="Profile" icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
-                <Tab label="Verify Account" icon={<VerifiedUserIcon/>} {...a11yProps(1)} />
+                {!authenticationService.isEmailVerified() && <Tab label="Verify Account" icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
                 <Tab label="Search History" icon={<HistoryIcon/>} {...a11yProps(2)} />
                 <Tab label="Email Subscription" icon={<SubscriptionsIcon/>} {...a11yProps(3)} />
             </Tabs>
             <div className={classes.bodyContainer}>
                 <TabPanel value={value} index={0}><Profile/></TabPanel>
-                <TabPanel value={value} index={1}><ResendVerification/></TabPanel>
+                {!authenticationService.isEmailVerified() && <TabPanel value={value} index={1}><ResendVerification/></TabPanel>}
                 <TabPanel value={value} index={2}>Item Three</TabPanel>
                 <TabPanel value={value} index={3}>Item Four</TabPanel>
             </div>

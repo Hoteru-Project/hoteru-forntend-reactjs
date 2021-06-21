@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import Router from "../../../Router";
 
 const ResendVerification = () => {
     document.title = `${process.env.REACT_APP_NAME} | Resend Verification Request `;
@@ -41,7 +42,7 @@ const ResendVerification = () => {
             <>
                 <div className={classes.Container}>
                     <h1>Email successfully sent</h1>
-                    <Button variant="contained" color="primary" component={Link} to="/">Homepage</Button>
+                    <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>Homepage</Button>
                 </div>
             </>
             }
