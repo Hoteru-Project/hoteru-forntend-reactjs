@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
+import Navbar from '../../components/navbar/navbar';
 import classes from "./Layout.css";
+import Footer from '../../components/footer/footer';
 
 class Layout extends Component {
-    state = {}
 
     render() {
         return (
             <>
-                {/*Toolbar*/}
+                {/* <div>{this.props.currentUser.name}</div> */}
+                <Navbar/>
+                {/* <Nav /> */}
                 {/*Side Drawer*/}
-                <main className={classes.Test}>
-                    {this.props.children}
-                </main>
+                    <main className={classes.Container}>
+                        {this.props.children}
+                    </main>
+                <Footer />
             </>
         );
     }

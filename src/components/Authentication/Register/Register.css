@@ -1,0 +1,31 @@
+.Container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+    background-color: lightgray;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: darkgray 2px 2px 4px;
+}
+
+.Container button{
+    margin-top: 10px;
+}
+
+.Container h1{
+    text-align: center;
+}
+
+.FormControl{
+    margin-top: 10px;
+}
+
+.ExtraFields{
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
