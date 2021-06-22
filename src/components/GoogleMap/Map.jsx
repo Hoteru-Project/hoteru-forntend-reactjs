@@ -25,7 +25,6 @@ class Map extends Component {
         };
     };
     render() {
-        console.log("prooooops"+this.props.center.lat)
         return (
             // Important! Always set the container height explicitly
             <div className="mx-auto" style={{ height: '50vh' }}>

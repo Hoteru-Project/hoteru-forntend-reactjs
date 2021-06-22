@@ -4,8 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+
 import SearchIcon from "@material-ui/icons/Search";
 import Nav from "../UI/NavbarDrawer/NavbarDrawer";
 import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
@@ -17,6 +16,7 @@ import i18n from "i18next";
 import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import Router from "../../Router";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -119,6 +119,21 @@ export default function PrimarySearchAppBar() {
 
     const menus = [
         {
+            name: authenticationService.currentUserValue?.name,
+            icon: <Avatar className={classes.blue}>{getReducedName()}</Avatar>,
+            items: [
+                ...(authenticationService.isAuthenticated() ?
+                        [
+                            {name: `${t('Profile')}`, link: Router("user")},
+                            {name: `${t('Logout')}`, onClick: () => authenticationService.logout()}
+                        ] : [
+                            {name: `${t('Login')}`, link: Router("authentication.login")},
+                            {name: `${t('register')}`, link: Router("authentication.register")}
+                        ]
+                )
+            ]
+        },
+        {
             name: i18n.language?.toUpperCase(),
             icon: <PublicTwoToneIcon/>,
             items: [
@@ -148,50 +163,16 @@ export default function PrimarySearchAppBar() {
                     }
                 }
             ]
-        },
-        {
-            icon: <Avatar className={classes.blue}>{getReducedName()}</Avatar>,
-            items: [
-                ...(authenticationService.isAuthenticated() ?
-                        [
-                            {name: `${t('Profile')}`, link: "/user"},
-                            {name: `${t('Logout')}`, onClick: () => authenticationService.logout()}
-                        ] : [
-                            {name: `${t('Login')}`, link: "/auth/login"},
-                            {name: `${t('register')}`, link: "/auth/register"}
-                        ]
-                )
-            ]
         }
+
     ];
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-
-
-    const menuId = "primary-search-account-menu";
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: "top", horizontal: "right"}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: "top", horizontal: "right"}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose} component={Link} to="/auth/register">Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
 
     return (
         <div className={classes.grow}>
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap component={Link} to="/">Hoteru</Typography>
+                    <Typography className={classes.title} variant="h6" noWrap component={Link} to={Router("homepage")}>Hoteru</Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
@@ -216,8 +197,6 @@ export default function PrimarySearchAppBar() {
                 </Toolbar>
 
             </AppBar>
-            {renderMenu}
-
         </div>
     );
 }

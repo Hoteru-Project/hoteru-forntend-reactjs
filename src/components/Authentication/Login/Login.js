@@ -19,6 +19,8 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Link} from "react-router-dom";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import Router from "../../../Router";
+import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 
 const schema = yup.object().shape({
@@ -29,6 +31,7 @@ const schema = yup.object().shape({
 const Login = () => {
     document.title = `${process.env.REACT_APP_NAME} | Login `
 
+    const [isLoading, setIsLoading] = React.useState(false);
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
     const [values, setValues] = React.useState({showPassword: false, rememberMe: false});
 
@@ -43,11 +46,13 @@ const Login = () => {
     };
 
     const handleSubmission = async (data) => {
+        setIsLoading(true);
         localStorage.setItem("rememberMe", values.rememberMe);
         const resp = await authenticationService.login(data);
         if (resp) {
             setError(resp.response?.data?.error);
         }
+        setIsLoading(false);
     };
 
     const endAdornment = (
@@ -62,6 +67,7 @@ const Login = () => {
     )
     return (
         <MotionDiv className={authenticationClasses.Container}>
+            <LoadingBackdrop open={isLoading}/>
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
                 <h1>{process.env.REACT_APP_NAME} Login</h1>
                 {error &&
@@ -96,13 +102,13 @@ const Login = () => {
                 <Button variant="contained" color="primary" type="submit">Login</Button>
 
                 <div>
-                    <Link to="/auth/forgot-password">Forgot Password?</Link>
+                    <Link to={Router("authentication.forgotPassword")}>Forgot Password?</Link>
                 </div>
 
                 <div className={classes.ExtraFields}>
                     <span>Don't have account?</span>
                     <Button variant="contained" color="secondary" component={Link}
-                            to={"/auth/register"}>Register</Button>
+                            to={Router("authentication.register")}>Register</Button>
                 </div>
             </form>
         </MotionDiv>

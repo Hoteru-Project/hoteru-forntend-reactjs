@@ -7,17 +7,18 @@ import Verify from "./Verify/Verify";
 import ResendVerification from "./ResendVerification/ResendVerification";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import ResetPassword from "./ResetPassword/ResetPassword";
+import Router from "../../Router";
 
 const authentication = () => {
     return (
         <Switch>
-            <GuestRoute path="/auth/login" exact component={Login}/>
-            <GuestRoute path="/auth/register" exact component={Register}/>
-            <GuestRoute path="/auth/forgot-password" exact component={ForgotPassword}/>
-            <GuestRoute path="/auth/reset-password" exact component={ResetPassword}/>
-            <ProtectedRoute path="/auth/resend-verification-email" exact component={ResendVerification}/>
-            <Route path="/auth/verify" excat component={Verify}/>
-            <Redirect to="/"/>
+            <GuestRoute path={Router("authentication.login")} exact component={Login}/>
+            <GuestRoute path={Router("authentication.register")} exact component={Register}/>
+            <GuestRoute path={Router("authentication.forgotPassword")} exact component={ForgotPassword}/>
+            <GuestRoute path={Router("authentication.resetPassword")} exact component={ResetPassword}/>
+            <ProtectedRoute path={Router("authentication.resendEmailVerification")} exact component={ResendVerification}/>
+            <Route path={Router("authentication.verifyEmail")} excat component={Verify}/>
+            <Redirect to={Router("homepage")}/>
         </Switch>
     )
 }
