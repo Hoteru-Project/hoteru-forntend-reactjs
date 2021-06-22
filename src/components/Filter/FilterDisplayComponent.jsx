@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import HotelsFeatures from './HotelsFeaturesComponent';
 import {withRouter} from "react-router-dom"
+import axios from axios;
 import MainMenuComponent from './MainMenuComponent';
 
 class FilterDisplayComponent extends Component {
@@ -28,6 +29,12 @@ class FilterDisplayComponent extends Component {
   }
 
   setRequestedSort = () => {
+    axios.post(`/mails/users/sendVerificationMail`, null, { params: {
+      mail,
+      firstname
+    }})
+    .then(response => response.status)
+    .catch(err => console.warn(err));
     const requestedSort = this.state.url.includes('sorting=');
   }
 

@@ -55,10 +55,10 @@ export default function HotelsFeatures(props) {
     let newFilterParams ;
     if (currentIndex === -1) {
       newChecked.push(value);
-      newFilterParams = filterParams.map(item=>{if(item.name == value){item.checked=true} return item;})
+      newFilterParams = filterParams.map(item=>{if(item.name === value){item.checked=true} return item;})
     } else {
       newChecked.splice(currentIndex, 1);
-      newFilterParams = filterParams.map(item=>{if(item.name == value){item.checked=false} return item;})
+      newFilterParams = filterParams.map(item=>{if(item.name === value){item.checked=false} return item;})
     }
     props.setCheckedFilters(newChecked);
     setFilterParams(newFilterParams);
