@@ -25,6 +25,7 @@ class Search extends Component {
                                   (place) => {
                                       // this.changePlace(place.geometry.location.lat(), place.geometry.location.lng())
                                       this.checkPlaceObject(place)
+                                      this.props.fetchHotels()
                                   }
                               }
                 />

@@ -19,7 +19,7 @@ class MainSec extends Component {
         const checkMaxDate = new Date(today.getFullYear(), today.getMonth() + 4, 0)
         return (
             <>
-                <SearchFilter/>
+                <SearchFilter />
                 <div className="p-2">
                     <CheckDate dateSetter={this.setCheckDate("checkIn")} minDate={today} maxDate={checkMaxDate}/>
                     <CheckDate dateSetter={this.setCheckDate("checkOut")} minDate={checkOutMinDate}

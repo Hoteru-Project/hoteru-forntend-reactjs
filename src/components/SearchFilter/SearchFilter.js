@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import Search from "../Search/Search";
+import SearchBox from "../SearchBox/SearchBox";
+import {withRouter} from "react-router-dom";
 
 
 class SearchFilter extends Component{
@@ -7,7 +8,9 @@ class SearchFilter extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            baseUrl: "http://127.0.0.1:8000/api/v1/hotels/test?",
+            fullUlr: "",
+            urlQuery: "",
+            apiUrl: "http://127.0.0.1:8000/api/v1/hotels/search?",
             fullUrl: "",
             urlParams: "",
             checkIn: "checkIn=2021-06-07",
@@ -18,26 +21,31 @@ class SearchFilter extends Component{
     }
 
     updateSearchQuery = async (searchQuery) => {
-        // console.log("UPDATE SEARCH QUERY"+searchQuery)
         await this.setState({location: searchQuery});
         let urlParams = [this.state.checkIn,  this.state.checkOut,
-            "location="+encodeURIComponent(this.state.location), this.state.rooms
+            "location=" + encodeURIComponent(this.state.location), this.state.rooms
         ].join("&")
         this.setState(({urlParams}))
-        let fullUrl = [this.state.baseUrl, urlParams].join("")
+        let fullUrl = [this.state.apiUrl, urlParams].join("")
         await this.setState({fullUrl})
+        this.checkSearchUpdated()
+        await this.props.fetchHotels()
         console.log(fullUrl)
+    }
+
+    checkSearchUpdated=()=>{
+        this.props.history.push('/hotels?location='+this.state.location)
     }
 
     render() {
         return (
             <div className="container">
-                <div className="w-25 mx-auto">
-                    <Search updateSearch={this.updateSearchQuery} />
+                <div className="mx-auto">
+                    <SearchBox updateUrl={this.updateSearchQuery}  />
                 </div>
             </div>
         )
     }
 }
 
-export default SearchFilter;
+export default withRouter(SearchFilter);

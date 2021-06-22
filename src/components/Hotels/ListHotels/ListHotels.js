@@ -6,6 +6,10 @@ import MoreArrow from "./MoreArrow";
 import IconButton from "@material-ui/core/IconButton";
 import MoreInfo from "../MoreInfo/MoreInfo";
 import HotelRating from "../HotelRating/HotelRating";
+import SearchBox from "../../SearchBox/SearchBox";
+import SearchFilter from "../../SearchFilter/SearchFilter";
+import Progress from "../../SearchBox/Progress";
+import {timeout} from "rxjs/operators";
 
 class ListComponent extends Component {
     constructor(props) {
@@ -15,30 +19,48 @@ class ListComponent extends Component {
             groupHotels: [],
             id: 1,
             fullUlr: "",
-            baseUrl: "http://127.0.0.1:8000/api/v1/hotels/search?",
+            apiUrl: "http://127.0.0.1:8000/api/v1/hotels/search?",
             urlQuery: "",
             checkIn: "checkIn=2021-06-07",
             checkOut: "checkOut=2021-06-08",
             location: "",
             rooms: "rooms=1",
+            timeOut: false,
         }
-
-        // const params = Object.fromEntries(urlSearchParams.entries());
     }
 
-    async componentDidMount() {
+    setHotels = (hotels) => {
+        this.setState({hotels: hotels})
+    }
 
+    delay = ms => new Promise(res => setTimeout(res, ms));
+
+    setTimeOut = async () => {
+        await this.delay(600)
+        this.setState({timeOut: true})
+    }
+
+
+    async componentDidMount() {
+        await this.setApiUrl();
+        await this.fetchHotels()
+        await this.setTimeOut()
+    }
+
+    setApiUrl = async () => {
         const params = new URLSearchParams(decodeURI(window.location.search))
         for (const [key, val] of params) {
             if (key === "location") await this.setState({location: val})
         }
-        let urlQuery = [this.state.checkIn, this.state.checkOut, "location="+this.state.location, this.state.rooms].join("&")
-        let fullUrl = [this.state.baseUrl, urlQuery].join("")
-        this.setState({urlQuery, fullUrl})
-        // const queryString = window.location.search;
-        // console.log(decodeURI(queryString));
-        let url = 'http://127.0.0.1:8000/api/v1/hotels/search?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1'
-        fetch(fullUrl)
+        let urlQuery = [this.state.checkIn, this.state.checkOut, "location=" + this.state.location, this.state.rooms].join("&")
+        let fullUrl = [this.state.apiUrl, urlQuery].join("")
+        await this.setState({urlQuery, fullUrl})
+    }
+
+    fetchHotels = async () => {
+        await this.setApiUrl();
+        console.log(this.state.fullUrl)
+        fetch(this.state.fullUrl)
             .then(res => res.json())
             .then(hotels => this.setState({
                     hotels: hotels.map((hotel, index) => {
@@ -64,7 +86,7 @@ class ListComponent extends Component {
         this.setState({hotels})
         if ((this.state.hotels[index].isActiveState = !this.state.hotels[index].isActiveState)) {
             this.state[hotelName] = []
-            let url = "http://127.0.0.1:8000/api/v1/hotel?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1" + "&name=" + hotelName;
+            let url = "http://127.0.0.1:8000/api/v1/hotel?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1&name=" + hotelName;
 
             const providers = await fetch(url)
                 .then(res => res.json())
@@ -80,35 +102,17 @@ class ListComponent extends Component {
 
     }
 
-    updateSearchQuery = async (searchQuery) => {
-        await this.setState({location: searchQuery});
-        let urlParams = [
-            this.state.checkIn, this.state.checkOut,
-            "location="+encodeURIComponent(this.state.location), this.state.rooms
-        ].join("&")
-        this.setState(({urlParams}))
-        let fullUrl = [this.state.baseUrl, urlParams].join("")
-        await this.setState({fullUrl})
-        console.log(fullUrl)
-    }
-    getHotelStars = (rating) => {
-        // let stars = []
-        // for (let i = 0; i < rating; i++) {
-        //     stars.push(<StarRoundedIcon className="text-warning"/>)
-        // }
-        // return stars
-
-        // return new Array(rating).fill(<StarRoundedIcon className="text-warning"/>)
-    }
 
     render() {
         if (this.state.hotels[0]) {
-            console.log(this.state.hotels[0])
+            console.log("I AM HOTELS", this.state.hotels[0])
         }
         return (
             <div className="container rounded-3">
                 <h3>Hotels List:</h3>
-                <Search updateSearch={this.updateSearchQuery} />
+                {/*<Search updateSearch={this.updateSearchQuery} fetchHotels={this.fetchHotels} />*/}
+                {/*<SearchBox updateUrl={this.updateSearchQuery} />*/}
+                <SearchFilter fetchHotels={this.fetchHotels}/>
                 {
                     this.state.hotels.length ?
                         this.state.hotels.map(
@@ -163,7 +167,20 @@ class ListComponent extends Component {
                                     }
                                 </div>
                         )
-                        : <div>loading...</div>
+                        : null
+                }
+                {
+                    this.state.timeOut === false ?
+                        <div className="w-50 mx-auto">
+                            <Progress/>
+                        </div>
+                        :
+                        <div className="alert alert-warning w-50 mt-4 p-2 mx-auto text-center" role="alert">
+                            <span className="text-body m-0">
+                                Sorry, no hotels found
+                            <i className="fas fa-sad-tear ml-2"/>
+                            </span>
+                        </div>
                 }
             </div>
         );
