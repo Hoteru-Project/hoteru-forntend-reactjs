@@ -21,6 +21,7 @@ import {Link} from "react-router-dom";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 import Router from "../../../Router";
 import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
+import {useTranslation} from "react-i18next";
 
 
 const schema = yup.object().shape({
@@ -29,7 +30,9 @@ const schema = yup.object().shape({
 })
 
 const Login = () => {
-    document.title = `${process.env.REACT_APP_NAME} | Login `
+    const {t} = useTranslation();
+
+    document.title = `${process.env.REACT_APP_NAME} | ${t("login")} `
 
     const [isLoading, setIsLoading] = React.useState(false);
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
@@ -41,7 +44,7 @@ const Login = () => {
         setValues({...values, showPassword: !values.showPassword});
     };
 
-    const handleRememberMe= () => {
+    const handleRememberMe = () => {
         setValues({...values, rememberMe: !values.rememberMe});
     };
 
@@ -69,20 +72,22 @@ const Login = () => {
         <MotionDiv className={authenticationClasses.Container}>
             <LoadingBackdrop open={isLoading}/>
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
-                <h1>{process.env.REACT_APP_NAME} Login</h1>
+                <h1>{process.env.REACT_APP_NAME} {t("login")}</h1>
                 {error &&
-                <Alert severity="error">Invalid Email or Password</Alert>
+                <Alert severity="error">{t("invalid_email_or_password")}</Alert>
                 }
                 <FormControl className={classes.FormControl}>
+
                     <TextField
-                        label="Email"
+                        label={t("email")}
                         {...register("email")}
                         error={!!errors.email}
                         helperText={errors.email?.message}
                     />
                 </FormControl>
+
                 <FormControl className={classes.FormControl} error={!!errors.password}>
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-password">{t("password")}</InputLabel>
                     <Input
                         id="standard-adornment-password"
                         type={values.showPassword ? 'text' : 'password'}
@@ -90,25 +95,26 @@ const Login = () => {
                         value={values.password}
                         endAdornment={endAdornment}
                     />
-                    {errors?.password && <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
+                    {errors?.password &&
+                    <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
                 </FormControl>
 
                 <FormControlLabel
                     control={
                         <Checkbox color="primary" onChange={handleRememberMe} checked={values.rememberMe}/>
                     }
-                    label="Remember Me"
+                    label={t("remember_me")}
                 />
-                <Button variant="contained" color="primary" type="submit">Login</Button>
+                <Button variant="contained" color="primary" type="submit">{t("login")}</Button>
 
                 <div>
-                    <Link to={Router("authentication.forgotPassword")}>Forgot Password?</Link>
+                    <Link to={Router("authentication.forgotPassword")}>{t("forgot_password")}</Link>
                 </div>
 
                 <div className={classes.ExtraFields}>
-                    <span>Don't have account?</span>
+                    <span>{t("dont_have_account")}</span>
                     <Button variant="contained" color="secondary" component={Link}
-                            to={Router("authentication.register")}>Register</Button>
+                            to={Router("authentication.register")}>{t("register")}</Button>
                 </div>
             </form>
         </MotionDiv>

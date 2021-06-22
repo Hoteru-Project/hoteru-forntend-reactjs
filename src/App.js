@@ -6,8 +6,7 @@ import Test from "./components/test";
 import Test2 from "./components/test2";
 import GoogleMap from "./components/GoogleMap/Map";
 import ListHotels from "./components/Hotels/ListHotels/ListHotels"
-
-
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import Authentication from "./components/Authentication/Authentication";
 import {authenticationService} from "./services/authentication.service";
 import User from "./components/User/User";
@@ -16,6 +15,9 @@ import {AnimatePresence} from "framer-motion";
 import MainSec from "./components/mainsec/main";
 import Router from "./Router";
 import instance from "./axios-backend";
+import i18n from "i18next";
+import RTL from "./hocs/RTL/RTL";
+
 
 class App extends Component {
     state = {
@@ -40,19 +42,32 @@ class App extends Component {
 
     componentDidMount() {
         authenticationService.currentUser.subscribe(async user => {
-            const expireDate = authenticationService.isAuthenticated() && user ? new Date(user?.expireDate) : null;
+
+            // Sending authorization header with all requests if found
             instance.defaults.headers.common["Authorization"] = authenticationService.isAuthenticated() ? `Bearer ${user?.token}` : null;
+
             if (authenticationService.isAuthenticated() && this.state.firstTimeAuthentication) {
+
+                // Invalidate current condition to make sure executed only once
                 await this.setState({firstTimeAuthentication: false})
+
+                // In Case remember me requesting refresh token
                 JSON.parse(localStorage.getItem("rememberMe")) && await authenticationService.refresh();
+
+                // Start Scheduled Tasks
                 await this.startScheduledRepeatedTasks();
+
+
             } else if (!authenticationService.isAuthenticated()) {
                 this.setState({authenticated: false, firstTimeAuthentication: true})
             }
+
+            // Setting User and authorization state
             this.setState({
-                currentUser: {...user, expireDate: expireDate},
+                currentUser: {...user, expireDate: new Date(user?.expireDate)},
                 authenticated: authenticationService.isAuthenticated()
             })
+
         })
     }
 
@@ -62,22 +77,29 @@ class App extends Component {
     }
 
     render() {
-        // const {t} = this.props;
+        document.body.dir = i18n.dir();
+        document.documentElement.lang =i18n.language;
+        const theme = createMuiTheme({direction: i18n.dir()});
         return (
-            <div>
-                <Layout logout={this.logout} currentUser={this.state.currentUser}>
-                    <AnimatePresence>
-                        <Switch>
-                            <Route path={Router("authentication")} component={Authentication}/>
-                            <ProtectedRoute path={Router("user")} exact component={User}/>
-                            <Route path="/map" exact component={GoogleMap}/>
-                            <Route path={Router("homepage")} exact component={MainSec}/>
-                            <Route path="/hotels" exact component={ListHotels}/>
+            <RTL>
+                <ThemeProvider theme={theme}>
+                    <div dir={i18n.dir()}>
+                        <Layout logout={this.logout} currentUser={this.state.currentUser}>
+                            <AnimatePresence>
+                                <Switch>
+                                    <Route path={Router("authentication")} component={Authentication}/>
+                                    <ProtectedRoute path={Router("user")} exact component={User}/>
+                                    <Route path="/map" exact component={GoogleMap}/>
+                                    <Route path={Router("homepage")} exact component={MainSec}/>
+                                    <Route path="/hotels" exact component={ListHotels}/>
 
-                        </Switch>
-                    </AnimatePresence>
-                </Layout>
-            </div>
+                                </Switch>
+                            </AnimatePresence>
+                        </Layout>
+                    </div>
+                </ThemeProvider>
+            </RTL>
+
         );
     }
 }

@@ -22,6 +22,7 @@ import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 import Router from "../../../Router";
 import Backdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
+import {useTranslation} from "react-i18next";
 
 const schema = yup.object().shape({
     name: yup.string().required().min(3),
@@ -30,8 +31,10 @@ const schema = yup.object().shape({
     passwordConfirmation: yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
+
 const Register = () => {
-    document.title = `${process.env.REACT_APP_NAME} | Register `
+    const {t} = useTranslation();
+    document.title = `${process.env.REACT_APP_NAME} | ${t("register")} `
 
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
@@ -72,10 +75,10 @@ const Register = () => {
             <Backdrop open={isLoading}/>
             {validRegistration && <Redirect to={Router("authentication.login")}/>}
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
-                <h1>{process.env.REACT_APP_NAME} Register</h1>
+                <h1>{process.env.REACT_APP_NAME} {t("register")}</h1>
                 {!!responseErrors.length &&
                 <Alert severity="error">
-                    <AlertTitle>Errors</AlertTitle>
+                    <AlertTitle>{t("errors")}</AlertTitle>
                     <ul>
                         {responseErrors.map((item, key) => <li key={key}>{item}</li>)}
                     </ul>
@@ -84,7 +87,7 @@ const Register = () => {
 
                 <FormControl className={classes.FormControl}>
                     <TextField
-                        label="Name"
+                        label={t("name")}
                         {...register("name")}
                         error={!!errors.name}
                         helperText={errors.name?.message}
@@ -93,14 +96,14 @@ const Register = () => {
 
                 <FormControl className={classes.FormControl}>
                     <TextField
-                        label="Email"
+                        label={t("email")}
                         {...register("email")}
                         error={!!errors.email}
                         helperText={errors.email?.message}
                     />
                 </FormControl>
                 <FormControl className={classes.FormControl} error={!!errors.password}>
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-password">{t("password")}</InputLabel>
                     <Input
                         id="standard-adornment-password"
                         type={values.showPassword ? 'text' : 'password'}
@@ -110,7 +113,7 @@ const Register = () => {
                     {errors?.password && <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
                 </FormControl>
                 <FormControl className={classes.FormControl} error={!!errors.passwordConfirmation}>
-                    <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-password">{t("confirm_password")}</InputLabel>
                     <Input
                         id="standard-adornment-password-confirmation"
                         type={values.showPassword ? 'text' : 'password'}
@@ -120,12 +123,12 @@ const Register = () => {
                     {errors?.passwordConfirmation &&
                     <FormHelperText variant="standard">{errors.passwordConfirmation?.message}</FormHelperText>}
                 </FormControl>
-                <Button variant="contained" color="primary" type="submit">Register</Button>
+                <Button variant="contained" color="primary" type="submit">{t("register")}</Button>
 
                 <div className={classes.ExtraFields}>
-                    <span>Already a member?</span>
+                    <span>{t("already_a_member")}</span>
                     <Button variant="contained" color="secondary" component={Link}
-                            to={Router("authentication.login")}>Login</Button>
+                            to={Router("authentication.login")}>{t("login")}</Button>
                 </div>
             </form>
         </MotionDiv>

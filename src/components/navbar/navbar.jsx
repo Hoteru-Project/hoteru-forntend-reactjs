@@ -124,10 +124,10 @@ export default function PrimarySearchAppBar() {
             items: [
                 ...(authenticationService.isAuthenticated() ?
                         [
-                            {name: `${t('Profile')}`, link: Router("user")},
-                            {name: `${t('Logout')}`, onClick: () => authenticationService.logout()}
+                            {name: `${t('profile')}`, link: Router("user")},
+                            {name: `${t('logout')}`, onClick: () => authenticationService.logout()}
                         ] : [
-                            {name: `${t('Login')}`, link: Router("authentication.login")},
+                            {name: `${t('login')}`, link: Router("authentication.login")},
                             {name: `${t('register')}`, link: Router("authentication.register")}
                         ]
                 )
@@ -138,18 +138,14 @@ export default function PrimarySearchAppBar() {
             icon: <PublicTwoToneIcon/>,
             items: [
                 {
-                    name: "Arabic",
-                    onClick: () => {
-                        i18n.changeLanguage('ar')
-                    },
-                    country_code: "EG"
+                    name: "English",
+                    onClick: () => i18n.changeLanguage('en'),
+                    country_code: "US"
                 },
                 {
-                    name: "English",
-                    onClick: () => {
-                        i18n.changeLanguage('en')
-                    },
-                    country_code: "US"
+                    name: "Arabic",
+                    onClick: () => i18n.changeLanguage('ar').then(() => window.location.reload()),
+                    country_code: "EG"
                 }
             ]
         },

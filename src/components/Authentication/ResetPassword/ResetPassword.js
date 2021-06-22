@@ -21,6 +21,8 @@ import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 import Router from "../../../Router";
+import {useTranslation} from "react-i18next";
+import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 const schema = yup.object().shape({
     email: yup.string().required().email(),
@@ -29,7 +31,10 @@ const schema = yup.object().shape({
 });
 
 const ResetPassword = (props) => {
-    document.title = `${process.env.REACT_APP_NAME} | Reset Password`
+
+    const {t} = useTranslation();
+
+    document.title = `${process.env.REACT_APP_NAME} | ${t("reset_password")}`
 
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
 
@@ -75,61 +80,61 @@ const ResetPassword = (props) => {
     return (
         <MotionDiv className={authenticationClasses.Container}>
             {!token && <Redirect to={Router("homepage")}/>}
+            <LoadingBackdrop open={values.loading}/>
             {values.send && values.successful &&
             <>
                 <div className={classes.Container}>
-                    <h1>Password successfully updated</h1>
-                    <Button variant="contained" color="primary" component={Link} to={Router("authentication.login")}>Login</Button>
+                    <h1>{t("password_successfully_updated")}</h1>
+                    <Button variant="contained" color="primary" component={Link}
+                            to={Router("authentication.login")}>{t("login")}</Button>
                 </div>
             </>
             }
+            {!(values.send && values.successful) &&
             <form className={classes.Container} onSubmit={handleSubmit(handleSubmission)}>
-                {values.loading ? <div>Loading...</div> : <>
+                <h1>{process.env.REACT_APP_NAME} {t("reset_password")}</h1>
+                {!!responseErrors.length &&
+                <Alert severity="error">
+                    <AlertTitle>{t("errors")}</AlertTitle>
+                    <ul>
+                        {responseErrors.map((item, key) => <li key={key}>{item}</li>)}
+                    </ul>
+                </Alert>
+                }
 
-                    <h1>{process.env.REACT_APP_NAME} Reset Password</h1>
-                    {!!responseErrors.length &&
-                    <Alert severity="error">
-                        <AlertTitle>Errors</AlertTitle>
-                        <ul>
-                            {responseErrors.map((item, key) => <li key={key}>{item}</li>)}
-                        </ul>
-                    </Alert>
-                    }
-
-                    <FormControl className={classes.FormControl}>
-                        <TextField
-                            label="Email"
-                            {...register("email")}
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.FormControl} error={!!errors.password}>
-                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                        <Input
-                            id="standard-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            {...register("password")}
-                            endAdornment={endAdornment}
-                        />
-                        {errors?.password &&
-                        <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
-                    </FormControl>
-                    <FormControl className={classes.FormControl} error={!!errors.password_confirmation}>
-                        <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
-                        <Input
-                            id="standard-adornment-password-confirmation"
-                            type={values.showPassword ? 'text' : 'password'}
-                            {...register("password_confirmation")}
-                            endAdornment={endAdornment}
-                        />
-                        {errors?.password_confirmation &&
-                        <FormHelperText variant="standard">{errors.password_confirmation?.message}</FormHelperText>}
-                    </FormControl>
-                    <Button variant="contained" color="primary" type="submit">Reset</Button>
-                </>}
-
+                <FormControl className={classes.FormControl}>
+                    <TextField
+                        label={t("email")}
+                        {...register("email")}
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
+                    />
+                </FormControl>
+                <FormControl className={classes.FormControl} error={!!errors.password}>
+                    <InputLabel htmlFor="standard-adornment-password">{t("password")}</InputLabel>
+                    <Input
+                        id="standard-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        {...register("password")}
+                        endAdornment={endAdornment}
+                    />
+                    {errors?.password &&
+                    <FormHelperText variant="standard">{errors.password?.message}</FormHelperText>}
+                </FormControl>
+                <FormControl className={classes.FormControl} error={!!errors.password_confirmation}>
+                    <InputLabel htmlFor="standard-adornment-password">{t("confirm_password")}</InputLabel>
+                    <Input
+                        id="standard-adornment-password-confirmation"
+                        type={values.showPassword ? 'text' : 'password'}
+                        {...register("password_confirmation")}
+                        endAdornment={endAdornment}
+                    />
+                    {errors?.password_confirmation &&
+                    <FormHelperText variant="standard">{errors.password_confirmation?.message}</FormHelperText>}
+                </FormControl>
+                <Button variant="contained" color="primary" type="submit">{t("submit")}</Button>
             </form>
+            }
         </MotionDiv>
     );
 }
