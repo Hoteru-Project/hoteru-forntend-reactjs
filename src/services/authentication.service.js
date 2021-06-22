@@ -2,8 +2,12 @@ import {BehaviorSubject} from 'rxjs';
 import instance from "../axios-backend";
 import axios from "axios";
 
+const getCurrentUser = () => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser?.token && currentUser?.expireDate && new Date(currentUser?.expireDate).getTime() > new Date().getTime() ? currentUser : {};
+}
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+const currentUserSubject = new BehaviorSubject(getCurrentUser());
 
 const isAuthenticated = () => {
     return currentUserSubject.value?.token && currentUserSubject.value?.expireDate ? new Date(currentUserSubject.value?.expireDate).getTime() > new Date().getTime() : false;
@@ -48,8 +52,7 @@ const register = async (data) => {
 const refresh = async () => {
     await instance.post("/auth/refresh")
         .then(response => {
-            const userData = {...currentUserSubject.value}
-            userData.token = response.data.access_token;
+            const userData = handleUserAuthResponse(response)
             setUserData(userData)
         })
         .catch(err => err.response?.status === 401 ? logout() : null);

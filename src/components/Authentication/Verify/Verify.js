@@ -7,8 +7,14 @@ import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 import Router from "../../../Router";
+import {useTranslation} from "react-i18next";
+import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 const Verify = (props) => {
+    const {t} = useTranslation();
+
+    document.title = `${process.env.REACT_APP_NAME} | ${t("verify")}`
+
     const [verified, setVerified] = useState(null);
 
     useEffect(() => {
@@ -27,16 +33,15 @@ const Verify = (props) => {
     return (
         <MotionDiv className={authenticationClasses.Container}>
             <div className={classes.Container}>
-                {verified === null && "Verifying..."}
+                <LoadingBackdrop open={verified=== null} />
                 {verified === false &&
-                <Alert severity="error">We Couldn't verify your account please try again or resend another verification
-                    request.</Alert>}
+                <Alert severity="error">{t("we_could_not_verify_email")}</Alert>}
                 {verified &&
                 <>
-                    <Alert severity="success">Verified Successfully, Please login to your account.</Alert>
+                    <Alert severity="success">{t("email_verified_successfully")}</Alert>
                     {!!authenticationService.isAuthenticated() ?
-                        <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>Homepage</Button> :
-                        <Button variant="contained" color="primary" component={Link} to={Router("authentication.login")}>Login</Button>
+                        <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>{t("homepage")}</Button> :
+                        <Button variant="contained" color="primary" component={Link} to={Router("authentication.login")}>{t("login")}</Button>
                     }
                 </>
                 }
