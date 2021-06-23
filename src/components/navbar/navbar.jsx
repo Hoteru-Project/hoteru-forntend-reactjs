@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {fade, makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,6 +17,7 @@ import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Router from "../../Router";
+import CurrencyRow from "./CurrencyRow"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -106,7 +107,39 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const BASE_URL = 'http://127.0.0.1:8000/api/v1/currencies'
+
 export default function PrimarySearchAppBar() {
+
+    const [currencyOptions, setCurrencyOptions] = useState([])
+    const [fromCurrency, setFromCurrency] = useState()
+    const [toCurrency, setToCurrency] = useState()
+
+
+    useEffect(() => {
+        fetch(BASE_URL)
+            .then(res => res.json())
+            .then(data => {
+                const firstCurrency = data[96].code
+                const obj = Object.fromEntries(data.map(item => [item.id,item.code]));
+
+                setCurrencyOptions([...Object.values(obj)])
+                setFromCurrency(data.code)
+                setToCurrency(firstCurrency)
+
+
+            })
+    }, [])
+
+    useEffect(() => {
+        if (fromCurrency != null && toCurrency != null) {
+            fetch(`${BASE_URL}?base=${fromCurrency}&symbols=${toCurrency}`)
+                .then(res => res.json())
+
+        }
+    }, [fromCurrency, toCurrency])
+
+
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -182,7 +215,12 @@ export default function PrimarySearchAppBar() {
                             inputProps={{"aria-label": "search"}}
                         />
                     </div>
-
+                    <div> <CurrencyRow
+                        currencyOptions={currencyOptions}
+                        selectedCurrency={fromCurrency}
+                        onChangeCurrency={e => setFromCurrency(e.target.value)}
+                    />
+                    </div>
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         {menus.map(menu => <NavbarMenu menu={menu}/>)}
