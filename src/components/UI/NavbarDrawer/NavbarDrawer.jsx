@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -11,89 +11,93 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Navbar from '../../navbar/navbar';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
-  },
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
 });
 
-const Nav=()=> {
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    right: false,
-  });
+const Nav = (props) => {
+    const classes = useStyles();
+    const [state, setState] = React.useState({
+        right: false,
+    });
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
 
-    setState({ ...state, [anchor]: open });
-  };
+        setState({...state, [anchor]: open});
+    };
 
-  const navItems = [
-    {
-      displayName: "Register",
-      to: "/auth/register",
-      icon: <MailIcon />
-    },
-    {
-      displayName: "Login",
-      to: "/auth/login",
-      icon: <MailIcon />
-    }
-  ]
+    const navItems = [
+        {
+            displayName: "Register",
+            to: "/auth/register",
+            icon: <MailIcon/>
+        },
+        {
+            displayName: "Login",
+            to: "/auth/login",
+            icon: <MailIcon/>
+        }
+    ]
 
-  const list = (anchor) => (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {navItems.map((item, index) => (
-          <ListItem component={Link} to = {item.to} button key={index}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.displayName} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
+    const list = (anchor) => (
+        <div
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem button key={text}>
+                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                        <ListItemText primary={text}/>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider/>
+            <List>
+                {props.menus.map((items, itemsIndex) => (
+                 <>
 
-  return (
-    <div>
-      <React.Fragment>
-      <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            {/* <Nav /> */}
-          <MenuIcon onClick={toggleDrawer('right', true)}></MenuIcon>
-          </IconButton>
-          <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
-            {list('right')}
-          </Drawer>
-        </React.Fragment>
-    </div>
-  );
+                     {items.items.map((item, itemsIndex) => (
+                         <ListItem component={Link} to={item.link} button key={itemsIndex}>
+                             <ListItemText primary={item.name}/>
+                         </ListItem>
+                     ))}
+                    <Divider/>
+                 </>
+                ))}
+            </List>
+        </div>
+    );
+
+    return (
+        <div>
+            <React.Fragment>
+                <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="open drawer"
+                >
+                    <MenuIcon onClick={toggleDrawer('right', true)}/>
+                </IconButton>
+                <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
+                    {list('right')}
+                </Drawer>
+            </React.Fragment>
+        </div>
+    );
 }
 export default Nav

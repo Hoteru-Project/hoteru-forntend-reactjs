@@ -4,10 +4,8 @@
     flex-direction: column;
     justify-content: center;
     padding: 15px;
-    background-color: lightgray;
     border-radius: 10px;
     margin-top: 20px;
-    box-shadow: darkgray 2px 2px 4px;
 }
 .Container h1{
     text-align: center;

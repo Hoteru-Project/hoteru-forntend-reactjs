@@ -11,6 +11,7 @@ import TabPanel from "../UI/TabPanel/TabPanel";
 import {useMediaQuery} from "@material-ui/core";
 import ResendVerification from "../Authentication/ResendVerification/ResendVerification";
 import {authenticationService} from "../../services/authentication.service";
+import {useTranslation} from "react-i18next";
 
 
 function a11yProps(index) {
@@ -40,11 +41,16 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     bodyContainer: {
-        flex: 4
+        flex: 4,
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            display: "block"
+        }
     }
 }));
 
 const User = () => {
+    const {t} = useTranslation();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -64,16 +70,14 @@ const User = () => {
                 className={classes.tabs}
                 indicatorColor="primary"
             >
-                <Tab label="Profile" icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
-                {!authenticationService.isEmailVerified() && <Tab label="Verify Account" icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
-                <Tab label="Search History" icon={<HistoryIcon/>} {...a11yProps(2)} />
-                <Tab label="Email Subscription" icon={<SubscriptionsIcon/>} {...a11yProps(3)} />
+                <Tab label={t("profile")} icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
+                {!authenticationService.isEmailVerified() && <Tab label={t("verify_account")} icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
+                <Tab label={t("search_history")} icon={<HistoryIcon/>} {...a11yProps(2)} />
             </Tabs>
             <div className={classes.bodyContainer}>
                 <TabPanel value={value} index={0}><Profile/></TabPanel>
                 {!authenticationService.isEmailVerified() && <TabPanel value={value} index={1}><ResendVerification/></TabPanel>}
                 <TabPanel value={value} index={2}>Item Three</TabPanel>
-                <TabPanel value={value} index={3}>Item Four</TabPanel>
             </div>
         </div>
     );

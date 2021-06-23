@@ -1,16 +1,19 @@
 import React, {useState} from "react";
 import classes from "./ResendVerification.css";
 import {Alert} from "@material-ui/lab";
-import {Button} from "@material-ui/core";
+import {Button, Paper} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import {authenticationService} from "../../../services/authentication.service";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
 import Router from "../../../Router";
+import {useTranslation} from "react-i18next";
+import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 const ResendVerification = () => {
-    document.title = `${process.env.REACT_APP_NAME} | Resend Verification Request `;
+    const {t} = useTranslation();
 
+    document.title = `${process.env.REACT_APP_NAME} | ${t("resend_email_verification")}`;
 
     const [values, setValues] = useState({
         loading: false,
@@ -24,25 +27,25 @@ const ResendVerification = () => {
         if (response.status === 200) {
             setValues({...values, loading: false, sent: true});
         } else {
-            setValues({...values, error: "Something Went wrong please try again later."});
+            setValues({...values, error: t("something_went_wrong_please_try_again_later")+"."});
         }
     }
 
     return (
         <MotionDiv className={authenticationClasses.Container}>
-            {values.loading && "Sending..."}
+            <LoadingBackdrop open={values.loading}/>
             {!values.loading && !values.sent &&
-            <div className={classes.Container}>
-                <h1>Resend Email Verification</h1>
+            <Paper elevation={3} className={classes.Container}>
+                <h1>{t("resend_email_verification")}</h1>
                 {!!values.error && <Alert severity="error">{values.error}</Alert>}
-                <Button variant="contained" color="primary" onClick={handleSubmitVerification}>Resend</Button>
-            </div>
+                <Button variant="contained" color="primary" onClick={handleSubmitVerification}>{t("resend")}</Button>
+            </Paper>
             }
             {values.sent &&
             <>
                 <div className={classes.Container}>
-                    <h1>Email successfully sent</h1>
-                    <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>Homepage</Button>
+                    <h1>{t("email_successfully_sent")}</h1>
+                    <Button variant="contained" color="primary" component={Link} to={Router("homepage")}>{t("homepage")}</Button>
                 </div>
             </>
             }

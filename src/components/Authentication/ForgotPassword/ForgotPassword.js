@@ -9,11 +9,15 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import instance from "../../../axios-backend";
 import authenticationClasses from "../Authentication.css";
 import MotionDiv from "../../../hocs/MotionDiv/MotionDiv";
+import {useTranslation} from "react-i18next";
+import LoadingBackdrop from "../../UI/LoadingBackdrop/LoadingBackdrop";
 
 const schema = yup.object().shape({email: yup.string().required().email()});
 
 const ForgotPassword = () => {
-    document.title = `${process.env.REACT_APP_NAME} | Forgot Password`
+    const {t} = useTranslation();
+
+    document.title = `${process.env.REACT_APP_NAME} | ${t("forgot_password")}`
 
     const {register, formState: {errors}, handleSubmit} = useForm({resolver: yupResolver(schema)});
     const [values, setValues] = useState({
@@ -31,10 +35,10 @@ const ForgotPassword = () => {
 
     return (
         <MotionDiv className={authenticationClasses.Container}>
-            {values.loading && "Sending..."}
+            <LoadingBackdrop open={values.loading}/>
             {!values.loading && !values.sent &&
             <form className={classes.Container} autoComplete="off" onSubmit={handleSubmit(handleSubmitForgetPassword)}>
-                <h1>Forgot Password</h1>
+                <h1>{t("forgot_password")}</h1>
                 {!!values.error && <Alert severity="error">{values.error}</Alert>}
                 <TextField
                     className={classes.FormControl}
@@ -43,14 +47,14 @@ const ForgotPassword = () => {
                     error={!!errors.email}
                     helperText={errors.email?.message}
                 />
-                <Button variant="contained" color="primary" type="submit">Forget Password</Button>
+                <Button variant="contained" color="primary" type="submit">{t("request_reset_password")}</Button>
             </form>
             }
             {values.sent &&
             <>
                 <div className={classes.Container}>
-                    <h1>Email successfully sent</h1>
-                    <Button variant="contained" color="primary" component={Link} to="/">Homepage</Button>
+                    <h1>{t("email_successfully_sent")}</h1>
+                    <Button variant="contained" color="primary" component={Link} to="/">{t("homepage")}</Button>
                 </div>
             </>
             }
