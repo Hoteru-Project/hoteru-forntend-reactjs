@@ -51,89 +51,41 @@ function RatingRangeList() {
         <List component="nav" aria-label="main mailbox folders">
         <h6><strong>Hotels Ratings</strong></h6>
         <ListItem button>
-            <Chip
-            avatar={
-                <Badge
-                overlap="circle" badgeContent="8.5"
-                classes={{ badge: classes.customBadge }}
-                className={classes.margin}
-                anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        >
-                </Badge>}
-            label="Excellent"
-            variant="outlined"
-            onClick={handleClick}
-            />
+        <div style={{justifyContent:"space-between"}}>
+          <span class="badge badge-pill badge-success">8.5 </span>
+          <span> Excellent</span>
+        </div>  
         </ListItem>
 
+        <ListItem button>
+          <div style={{justifyContent:"space-between"}}>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#59ad30" }}>8.0 </span>
+          <span> Very Good</span>  
+          </div>
+        </ListItem>
         
         <ListItem button>
-            <Chip
-            avatar={
-                <Badge color="primary" overlap="circle" badgeContent="8.0"
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        >
-                </Badge>}
-            label="Very good"
-            variant="outlined"
-            onClick={handleClick}
-            />
+          <div style={{justifyContent:"space-between"}}>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#93c91f" }}>7.5 </span>
+          <span> Good</span>  
+          </div>
+        </ListItem>
+
+        <ListItem button>
+          <div style={{justifyContent:"space-between"}}>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#e84f00" }}>7.0 </span>
+          <span> Fair</span>  
+          </div>
+        </ListItem>
+
+        <ListItem button>
+          <div style={{justifyContent:"space-between"}}>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#d3620a" }}>6.5 </span>
+          <span> Okay</span>  
+          </div>
         </ListItem>
      
-        <ListItem button>
-            <Chip
-            avatar={
-                <Badge color="primary" overlap="circle" badgeContent="7.5"
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        >
-                </Badge>}
-            label="Good"
-            variant="outlined"
-            onClick={handleClick}
-            />
-        </ListItem>
 
-        <ListItem button>
-            <Chip
-            avatar={
-                <Badge color="primary" overlap="circle" badgeContent="7.0"
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        >
-                </Badge>}
-            label="Fair"
-            variant="outlined"
-            onClick={handleClick}
-            />
-        </ListItem>
-
-        <ListItem button>
-            <Chip
-            avatar={
-                <Badge color="primary" overlap="circle" badgeContent="6.5"
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        >
-                </Badge>}
-            label="Okay"
-            variant="outlined"
-            color="success"
-            onClick={handleClick}
-            />
-        </ListItem>
 
         </List>
     </div>
