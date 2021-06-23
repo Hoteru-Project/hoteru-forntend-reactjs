@@ -29,7 +29,7 @@ const composeFn = compose(
                     console.log("I AM PLACES ",places)
                     if (places[0]) {
                         await this.setState({places, error: false, searchQuery: places[0].formatted_address});
-                        let updateUrl = decodeURI(places[0].formatted_address) + "tete"
+                        let updateUrl = decodeURI(places[0].formatted_address)
                         props.updateUrl(updateUrl)
                     } else {
                         props.updateUrl("asdgfasdfasdgfasdgf")
