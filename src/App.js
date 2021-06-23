@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import Layout from "./hocs/Layout/Layout";
 import {Route, Switch} from 'react-router-dom';
+import FilterDisplayComponent from "./components/Filter/FilterDisplayComponent";
 import {withTranslation} from 'react-i18next';
-import Test from "./components/test";
-import Test2 from "./components/test2";
+
 import GoogleMap from "./components/GoogleMap/Map";
 import ListHotels from "./components/Hotels/ListHotels/ListHotels"
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
@@ -92,6 +92,7 @@ class App extends Component {
                                     <Route path="/map" exact component={GoogleMap}/>
                                     <Route path={Router("homepage")} exact component={MainSec}/>
                                     <Route path="/hotels" exact component={ListHotels}/>
+                                    <Route path='/filters' exact component={FilterDisplayComponent}/>
 
                                 </Switch>
                             </AnimatePresence>
