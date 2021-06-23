@@ -14,10 +14,8 @@ const sortingIDs = [
   {
     value: '2',
     label: 'Rating',
-  }
+  },
 ];
-
-search=? .... sorting=1
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,30 +28,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SortDropDown(props) {
   const classes = useStyles();
-  const [sortID, setSortID] = React.useState();
-
-  const handleChange = (event) => {
-    setSortID(event.target.value);
-    console.log(event.target.value);
-    console.log(props.setRequestedSort);
+  
+  const handleChange = (requestedSort) => {
+    props.mainMenuGetSortId(requestedSort.target.value);
   };
-
+  
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form className={classes.root} noValidate autoComplete="off" onSubmit="{onTrigger}">
       <div>
         <TextField
-          id="standard-select-sortID-native"
+          id={sortingIDs.value}
           helperText="Get more insights by sorting our hotels"
           select
           label="Sort Hotels By"
-          value={sortID}
+          value={sortingIDs.value}
           onChange={handleChange}
           SelectProps={{
             native: true,
           }}
           >
           {sortingIDs.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option
+              key={option.value}
+              value={option.value}>
               {option.label}
             </option>
           ))}

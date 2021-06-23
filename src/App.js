@@ -65,7 +65,6 @@ class App extends Component {
         // const {t} = this.props;
         return (
             <div>
-                <FilterDisplayComponent/>
                 <Layout logout={this.logout} currentUser={this.state.currentUser}>
                     <AnimatePresence>
                         <Switch>
@@ -74,7 +73,7 @@ class App extends Component {
                             <Route path="/map" exact component={GoogleMap}/>
                             <Route path={Router("homepage")} exact component={MainSec}/>
                             <Route path="/hotels" exact component={ListHotels}/>
-
+                            <Route path='/filters' exact component={FilterDisplayComponent}/>
                         </Switch>
                     </AnimatePresence>
                 </Layout>
