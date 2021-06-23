@@ -17,13 +17,17 @@ import {Grid} from "@material-ui/core";
 export default function CheckDate(props) {
     const [selectedDate, setSelectedDate] = useState(props.minDate);
     const handleDateChange = (date) => {
+        let formattedDate = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
+        console.log("I AM DATE ",formattedDate)
         props.dateSetter(date)
         setSelectedDate(date);
+        props.setcheckDate(formattedDate, props.type)
     };
 
     useEffect(() => {
-        if (props.minDate > selectedDate)
+        if (props.minDate > selectedDate) {
             handleDateChange(props.minDate)
+        }
     });
 
     return (
@@ -35,7 +39,7 @@ export default function CheckDate(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Check in:"
+                        label={props.type==="checkIn"?"check-In":"check-Out"}
                         minDate={props.minDate}
                         maxDate={props.maxDate}
                         value={selectedDate}
