@@ -188,7 +188,7 @@ export default function PrimarySearchAppBar() {
                         {menus.map(menu => <NavbarMenu menu={menu}/>)}
                     </div>
                     <div className={classes.sectionMobile}>
-                        <Nav/>
+                        <Nav menus={menus}/>
                     </div>
                 </Toolbar>
 
