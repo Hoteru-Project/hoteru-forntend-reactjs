@@ -3,9 +3,9 @@ import Map from "../../GoogleMap/Map";
 const MoreInfo = (props) => {
     const center = {
         lat: props.hotel.hotelLocation.coordinates.latitude,
-        lng: props.hotel.hotelLocation.coordinates.longitude
+        lng: props.hotel.hotelLocation.coordinates.longitude,
+        zoom: 14
     }
-    // const date = moment(now).format('YYYY-MM-DD HH:MM:SS');
     return (
         <div className="container p-4">
             <ul className="nav nav-tabs" id={"hotel" + props.hotel.id} role="tablist">
@@ -70,6 +70,14 @@ const MoreInfo = (props) => {
                 </div>
                 <div className="tab-pane fade p-4" id={"deals"+props.hotel.id} role="tabpanel">
                     <h4>Deals: </h4>
+                    {
+                        props.hotel.providers?.map((provider) =>
+                            <div>
+                                <span>{provider.name}</span>
+                                <span>{provider.hotelPricing.startingAt.plain}</span>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

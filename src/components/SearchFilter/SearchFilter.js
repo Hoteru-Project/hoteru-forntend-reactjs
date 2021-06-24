@@ -14,7 +14,7 @@ class SearchFilter extends Component {
         this.state = {
             fullUlr: "",
             urlQuery: "",
-            apiUrl: "http://127.0.0.1:8000/api/v1/hotels/search?",
+            apiUrl: "hotels/search?",
             fullUrl: "",
             urlParams: "",
             checkIn: "checkIn="+ today.toISOString().split("T")[0],
@@ -23,6 +23,7 @@ class SearchFilter extends Component {
             rooms: "rooms=1",
             checkInDate: new Date(),
             checkOutDate: null,
+            locationType: ""
         }
     }
 
@@ -43,33 +44,27 @@ class SearchFilter extends Component {
         }
     }
 
-    updateSearchQuery = async (searchQuery, types) => {
-        console.log("<<<<<TYPES ", types)
+
+    updateSearchQuery = async (searchQuery, locationType) => {
+        console.log("<<<<<TYPES ",locationType)
         await this.setState({location: searchQuery});
         let urlParams = [this.state.checkIn, this.state.checkOut,
-            "location=" + encodeURIComponent(this.state.location), this.state.rooms
+            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType="+locationType
         ].join("&")
         this.setState(({urlParams}))
         let fullUrl = [this.state.apiUrl, urlParams].join("")
-        await this.setState({fullUrl})
+        await this.setState({fullUrl, locationType})
         this.checkSearchUpdated()
-        await this.props.fetchHotels()
-        this.updateLocationType(types)
+        console.log("fullurl", fullUrl)
+        await this.props.fetchHotels(fullUrl);
+        // this.props.setTest(fullUrl)
         console.log(fullUrl)
     }
 
-    updateLocationType = (types) => {
-        if (types.includes("lodging")){
-            console.log("====IT'S A HOTEL====")
-            this.props.updateLocationType("hotel")
-        } else {
-            console.log("====NOT A HOTEL====")
-            this.props.updateLocationType("location")
-        }
-    }
-
     checkSearchUpdated = () => {
-        this.props.history.push('/hotels?location=' + this.state.location)
+        this.props.history.push('/hotels?location=' +this.state.location+ "&"+this.state.checkIn
+            +"&" + this.state.checkOut +"&"+ this.state.rooms+ "&locationType="+this.state.locationType
+        )
     }
 
     setCheckDate = (checkInOut) => (checkDate) => {
