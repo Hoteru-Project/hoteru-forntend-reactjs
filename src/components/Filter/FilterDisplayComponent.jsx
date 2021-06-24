@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import HotelsFeatures from './HotelsFeaturesComponent';
 import {withRouter} from "react-router-dom"
 import MainMenuComponent from './MainMenuComponent';
 import instance from "../../axios-backend";
@@ -13,10 +12,12 @@ class FilterDisplayComponent extends Component {
       isLoaded: false,
       items: [],
       filters:[],
-      sortID: null
+      sortID: null,
+      classRating: null,
+      starRating:null
     };
   }
-  //?filter=this.state.filter.join("-")
+
   setCheckedFilters= (filters) => {
 
     const hasFilters = !!filters.length
@@ -27,22 +28,6 @@ class FilterDisplayComponent extends Component {
     this.props.history.push(`/search?${filterQuery}`)
     this.fetchHotels(url)
   }
-
-  // displaySortedHotels = (sortindID) => {
-  //   const search = this.props.location.search;
-  //   const params = new URLSearchParams(search);
-  //   const paramObj = {}
-  //   for(let param of params.keys()) paramObj[param] = params.get(param)
-  //   paramObj["sort"] = "alpha"
-  //   console.log(paramObj);
-  //   const paramObj2 = {...paramObj, sort: "beta"};
-  //   console.log(paramObj2);
-    
-  //   // .then(response => response.status)
-  //   // .catch(err => console.warn(err));
-  //   const requestedSort = this.state.url.includes('sorting=');
-  // }
-
 
   fetchHotels=(url)=>{
 
@@ -73,6 +58,18 @@ class FilterDisplayComponent extends Component {
     this.fetchHotels(url);
   }
 
+  getClassRatingToDisplay = (classRating) => {
+    let url = this.state.url + `&class=${classRating}`;
+    this.setState({classRating : classRating});
+    this.fetchHotels(url);
+  }
+
+  getStarsRatingToDisplay = (starsNumber) => {
+    let url = this.state.url + `&stars=${starsNumber}`;
+    this.setState({starsNumber : starsNumber});
+    this.fetchHotels(url);
+  }
+
   render() {
     const { error, isLoaded, items } = this.state;
     this.state.items.forEach(item => console.log([item.name, item.hotelPricing.startingAt.plain]))
@@ -89,6 +86,8 @@ class FilterDisplayComponent extends Component {
             setCheckedFilters={this.setCheckedFilters}
             setRequestedSort={this.setRequestedSort}
             handleSortCallBack={this.handleSortCallBack}
+            getClassRatingToDisplay={this.getClassRatingToDisplay}
+            getStarsRatingToDisplay={this.getStarsRatingToDisplay}
             />
             <h3>Testing The requested sortID in the grandparent: {this.state.sortID}</h3>
 
@@ -99,6 +98,9 @@ class FilterDisplayComponent extends Component {
                   Rating: {item.guestReviews.overallRating} 
                   <br />
                   Pricing: ${item.hotelPricing.startingAt.plain}
+                  <br />
+                  {item.classRating} star hotel
+                  <br />
               </li>
             ))}
           </ul>

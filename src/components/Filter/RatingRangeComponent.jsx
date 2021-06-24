@@ -11,9 +11,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RatingRange() {
+export default function RatingRange(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,7 +47,7 @@ export default function RatingRange() {
         }}
       >
         <Typography className={classes.typography}>
-            <RatingRangeList/>
+            <RatingRangeList handleRatingListClicked={props.getClassRatingToMenu}/>
         </Typography>
       </Popover>
     </div>

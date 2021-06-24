@@ -75,34 +75,73 @@ export default function HotelsFeatures(props) {
   }
 
   const secondColumnStart = Math.floor(filterParams.length / 2);
+
+
   return (
     <div className="container">
       <h6 className="m-1"> <strong>Hotel Class</strong> </h6>
       <div>
-        <Button component="fieldset" variant="outlined" size="small" className="m-1">
+        <Button
+        component="fieldset"
+        variant="outlined"
+        size="small"
+        className="m-1"
+        onClick={ () => {props.getStarsRatingToDisplay("one")} }
+        >
           <Rating name="read-only" value={1} max={1} readOnly size="small" />
         </Button>
 
-        <Button component="fieldset" variant="outlined" size="small" className="m-1">
+        <Button
+        component="fieldset"
+        variant="outlined"
+        size="small"
+        className="m-1"
+        onClick={ () => {props.getStarsRatingToDisplay("two")}}
+        >
           <Rating name="read-only" value={2} max={2} readOnly size="small"/>
         </Button>
 
         
-        <Button component="fieldset" variant="outlined" size="small" className="m-1">
+        <Button
+        component="fieldset"
+        variant="outlined"
+        size="small"
+        className="m-1"
+        onClick={ () => {props.getStarsRatingToDisplay("three")}}
+        >
           <span>
-            <Rating name="read-only" value={1} max={1} readOnly size="small" className="d-flex justify-content-center"/>
-            <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex justify-content-around" />
+            <Rating 
+            name="read-only" value={1} max={1} readOnly
+            size="small"
+            className="d-flex justify-content-center"/>
+            <Rating 
+            name="read-only" 
+            value={2} max={2} 
+            readOnly size="small" 
+            className="d-flex justify-content-around" />
           </span>
         </Button>
 
-        <Button component="fieldset" variant="outlined" size="small" className="m-1">
+        <Button
+        component="fieldset"
+        variant="outlined"
+        size="small"
+        className="m-1"
+        onClick={ () => {props.getStarsRatingToDisplay("four")}}
+        >
             <span>
               <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex justify-content-around" />
               <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex justify-content-around"/>
             </span>
         </Button>
 
-        <Button component="fieldset" variant="outlined" size="small" className="m-1">
+        <Button
+        component="fieldset"
+        variant="outlined"
+        size="small"
+        className="m-1"
+        onClick={ () => {props.getStarsRatingToDisplay("five")}}
+        >
             <span>
               <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex" />
               <Rating name="read-only" value={2} max={1} readOnly size="small" className="d-flex justify-content-around" />

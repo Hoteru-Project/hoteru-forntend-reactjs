@@ -3,9 +3,6 @@ import {fade, makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-
-import SearchIcon from "@material-ui/icons/Search";
 import Nav from "../UI/NavbarDrawer/NavbarDrawer";
 import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 import {Link} from "react-router-dom";
@@ -108,8 +105,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar() {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const isMenuOpen = Boolean(anchorEl);
 
     const { t } = useTranslation();
     const getReducedName = () => {
@@ -169,20 +164,6 @@ export default function PrimarySearchAppBar() {
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap component={Link} to={Router("homepage")}>Hoteru</Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder={t('search')}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput
-                            }}
-                            inputProps={{"aria-label": "search"}}
-                        />
-                    </div>
-
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         {menus.map(menu => <NavbarMenu menu={menu}/>)}
