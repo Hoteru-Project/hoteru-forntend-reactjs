@@ -1,11 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
-import {
-    DatePicker,
-    TimePicker,
-    DateTimePicker,
-    MuiPickersUtilsProvider, KeyboardDatePicker,
-} from '@material-ui/pickers';
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
 import {Grid} from "@material-ui/core";
 
 // const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -17,8 +12,9 @@ import {Grid} from "@material-ui/core";
 export default function CheckDate(props) {
     const [selectedDate, setSelectedDate] = useState(props.minDate);
     const handleDateChange = (date) => {
-        let formattedDate = date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
-        console.log("I AM DATE ",formattedDate)
+        date.setUTCHours(1, 0, 0, 0);
+        let formattedDate = date.toISOString().split("T")[0]
+        console.log("I AM DATE ",date.toISOString().split("T")[0])
         props.dateSetter(date)
         setSelectedDate(date);
         props.setcheckDate(formattedDate, props.type)

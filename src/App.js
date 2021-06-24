@@ -93,7 +93,6 @@ class App extends Component {
                                     <Route path={Router("homepage")} exact component={MainSec}/>
                                     <Route path="/hotels" exact component={ListHotels}/>
                                     <Route path='/filters' exact component={FilterDisplayComponent}/>
-
                                 </Switch>
                             </AnimatePresence>
                         </Layout>
