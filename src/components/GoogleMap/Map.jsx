@@ -13,7 +13,7 @@ class Map extends Component {
     }
 
     static defaultProps = {
-        center: {lat: 40.73, lng: -73.93},
+        center: {lat: 31.2000924, lng: 29.9187387},
         zoom: 12
     }
     getMapOptions = (maps) => {
@@ -25,21 +25,24 @@ class Map extends Component {
         };
     };
     render() {
+        console.log(this.props.center.lat)
+        console.log(this.props.center.lng)
         return (
             // Important! Always set the container height explicitly
             <div className="mx-auto" style={{ height: '50vh' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{key: this.state.key}}
-                    center={this.props.center}
-                    zoom={this.props.zoom}
+                    defaultCenter={this.props.center}
+                    defaultZoom={this.props.zoom}
                     height='300px'
                     // options={this.getMapOptions}
                 >
+                    {/*<AnyReactComponent text="MY MARKER" />*/}
                     <Marker
+                        name="Marker"
+                        color="#EA4335"
                         lat={this.props.center.lat}
                         lng={this.props.center.lng}
-                        name="My Marker"
-                        color="#EA4335"
                     />
                 </GoogleMapReact>
 
