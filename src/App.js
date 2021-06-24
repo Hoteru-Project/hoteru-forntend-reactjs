@@ -17,8 +17,6 @@ import Router from "./Router";
 import instance from "./axios-backend";
 import i18n from "i18next";
 import RTL from "./hocs/RTL/RTL";
-
-
 class App extends Component {
     state = {
         currentUser: {name: null, email: null, token: null, email_verified_at: null, expireDate: null},
@@ -93,6 +91,8 @@ class App extends Component {
                                     <Route path={Router("homepage")} exact component={MainSec}/>
                                     <Route path="/hotels" exact component={ListHotels}/>
                                     <Route path='/filters' exact component={FilterDisplayComponent}/>
+                                   
+
                                 </Switch>
                             </AnimatePresence>
                         </Layout>

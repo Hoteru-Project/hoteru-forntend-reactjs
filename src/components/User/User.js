@@ -12,7 +12,7 @@ import {useMediaQuery} from "@material-ui/core";
 import ResendVerification from "../Authentication/ResendVerification/ResendVerification";
 import {authenticationService} from "../../services/authentication.service";
 import {useTranslation} from "react-i18next";
-
+import RecentVisits from "../RecentVisits/RecentVisits"
 
 function a11yProps(index) {
     return {
@@ -77,7 +77,7 @@ const User = () => {
             <div className={classes.bodyContainer}>
                 <TabPanel value={value} index={0}><Profile/></TabPanel>
                 {!authenticationService.isEmailVerified() && <TabPanel value={value} index={1}><ResendVerification/></TabPanel>}
-                <TabPanel value={value} index={2}>Item Three</TabPanel>
+                <TabPanel value={value} index={2}><RecentVisits /></TabPanel>
             </div>
         </div>
     );

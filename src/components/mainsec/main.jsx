@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import ListHotels from "../Hotels/ListHotels/ListHotels";
 
+import RecentVisits from '../RecentVisits/RecentVisits';
+import PopularPlaces from '../PopularPlaces/PopularPlaces';
+import NearByHotels from '../NearByHotels/NearByHotels';
+
 
 class MainSec extends Component {
 
@@ -8,6 +12,9 @@ class MainSec extends Component {
         return (
             <>
                 <ListHotels />
+                <RecentVisits />
+                <PopularPlaces />
+                <NearByHotels />
                 <div className="container-fluid my-3">
                     <h1 className="text-center my-3">Explore more travel vacation rentals</h1>
                     <div className="row">
