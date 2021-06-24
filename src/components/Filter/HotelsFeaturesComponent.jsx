@@ -76,9 +76,7 @@ export default function HotelsFeatures(props) {
 
   const secondColumnStart = Math.floor(filterParams.length / 2);
 
-  const handleStarsClicked = () => {
-    console.log(props);
-  }
+
   return (
     <div className="container">
       <h6 className="m-1"> <strong>Hotel Class</strong> </h6>
@@ -88,7 +86,7 @@ export default function HotelsFeatures(props) {
         variant="outlined"
         size="small"
         className="m-1"
-        onClick={handleStarsClicked}
+        onClick={ () => {props.getStarsRatingToDisplay("one")} }
         >
           <Rating name="read-only" value={1} max={1} readOnly size="small" />
         </Button>
@@ -98,7 +96,7 @@ export default function HotelsFeatures(props) {
         variant="outlined"
         size="small"
         className="m-1"
-        onClick={handleStarsClicked}
+        onClick={ () => {props.getStarsRatingToDisplay("two")}}
         >
           <Rating name="read-only" value={2} max={2} readOnly size="small"/>
         </Button>
@@ -109,7 +107,7 @@ export default function HotelsFeatures(props) {
         variant="outlined"
         size="small"
         className="m-1"
-        onClick={handleStarsClicked}
+        onClick={ () => {props.getStarsRatingToDisplay("three")}}
         >
           <span>
             <Rating 
@@ -129,7 +127,7 @@ export default function HotelsFeatures(props) {
         variant="outlined"
         size="small"
         className="m-1"
-        onClick={handleStarsClicked}
+        onClick={ () => {props.getStarsRatingToDisplay("four")}}
         >
             <span>
               <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex justify-content-around" />
@@ -142,7 +140,7 @@ export default function HotelsFeatures(props) {
         variant="outlined"
         size="small"
         className="m-1"
-        onClick={handleStarsClicked}
+        onClick={ () => {props.getStarsRatingToDisplay("five")}}
         >
             <span>
               <Rating name="read-only" value={2} max={2} readOnly size="small" className="d-flex" />

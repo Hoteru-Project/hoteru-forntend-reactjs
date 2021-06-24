@@ -62,7 +62,7 @@ export default function MainMenuComponent(props) {
             horizontal: 'center',
             }}
         >
-        <HotelsFeaturesComponent {...props} handleClose={handleClose}/>
+        <HotelsFeaturesComponent {...props} handleClose={handleClose} getStarsRatingToDisplay={props.getStarsRatingToDisplay}/>
         </Popover>
     </div>
   );

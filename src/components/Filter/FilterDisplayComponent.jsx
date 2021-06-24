@@ -14,6 +14,7 @@ class FilterDisplayComponent extends Component {
       filters:[],
       sortID: null,
       classRating: null,
+      starRating:null
     };
   }
 
@@ -63,6 +64,12 @@ class FilterDisplayComponent extends Component {
     this.fetchHotels(url);
   }
 
+  getStarsRatingToDisplay = (starsNumber) => {
+    let url = this.state.url + `&stars=${starsNumber}`;
+    this.setState({starsNumber : starsNumber});
+    this.fetchHotels(url);
+  }
+
   render() {
     const { error, isLoaded, items } = this.state;
     this.state.items.forEach(item => console.log([item.name, item.hotelPricing.startingAt.plain]))
@@ -80,6 +87,7 @@ class FilterDisplayComponent extends Component {
             setRequestedSort={this.setRequestedSort}
             handleSortCallBack={this.handleSortCallBack}
             getClassRatingToDisplay={this.getClassRatingToDisplay}
+            getStarsRatingToDisplay={this.getStarsRatingToDisplay}
             />
             <h3>Testing The requested sortID in the grandparent: {this.state.sortID}</h3>
 
