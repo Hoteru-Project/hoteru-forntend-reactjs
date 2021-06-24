@@ -23,16 +23,16 @@ const composeFn = compose(
                 onSearchBoxMounted: (ref) => {
                     refs.searchBox = ref;
                 },
-
                 onPlacesChanged: async (props) => {
                     const places = refs.searchBox.getPlaces();
                     console.log("I AM PLACES ",places)
+
                     if (places[0]) {
-                        await this.setState({places, error: false, searchQuery: places[0].formatted_address});
+                        this.setState({places, error: false, searchQuery: places[0].formatted_address});
                         let updateUrl = decodeURI(places[0].formatted_address)
-                        props.updateUrl(updateUrl)
+                        props.updateUrl(updateUrl, places[0].types)
                     } else {
-                        props.updateUrl("asdgfasdfasdgfasdgf")
+                        props.updateUrl("           ")
                         this.setState({error: true})
                     }
                 }

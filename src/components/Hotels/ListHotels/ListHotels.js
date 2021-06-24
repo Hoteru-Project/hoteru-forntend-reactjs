@@ -6,29 +6,28 @@ import MoreArrow from "./MoreArrow";
 import IconButton from "@material-ui/core/IconButton";
 import MoreInfo from "../MoreInfo/MoreInfo";
 import HotelRating from "../HotelRating/HotelRating";
-import SearchBox from "../../SearchBox/SearchBox";
 import SearchFilter from "../../SearchFilter/SearchFilter";
 import Progress from "../../SearchBox/Progress";
-import {timeout} from "rxjs/operators";
+import instance from "../../../axios-backend";
 
 class ListComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    // constructor(props) {
+    //     super(props);
+        state = {
             hotels: [],
             groupHotels: [],
             id: 1,
             fullUlr: "",
             apiUrl: "http://127.0.0.1:8000/api/v1/hotels/search?",
             urlQuery: "",
-            checkIn: "checkIn=2021-06-07",
-            checkOut: "checkOut=2021-06-08",
+            checkIn: "",
+            checkOut: "",
             location: "",
             rooms: "rooms=1",
             timeOut: false,
+            locationType: "",
         }
-        console.log(window.location.href )
-    }
+    // }
 
     setHotels = (hotels) => {
         this.setState({hotels: hotels})
@@ -45,32 +44,44 @@ class ListComponent extends Component {
         this.setState({timeOut: bool})
     }
 
+    setLocationType = async (locationType) => {
+        console.log(">>>>>>>>>>>>TYPE", locationType)
+        // await this.setApiUrl(locationType)
+    }
+
 
     async componentDidMount() {
-        await this.setApiUrl();
+        await this.setApiUrl("");
         await this.fetchHotels()
         await this.setTimeOut(true)
     }
 
-    setApiUrl = async () => {
+    setApiUrl = async (locationType) => {
+        // console.log("<<<FROM SET API URL", locationType)
         const params = new URLSearchParams(decodeURI(window.location.search))
         for (const [key, val] of params) {
             if (key === "location") {
-                console.log(key, val)
                 await this.setState({location: val})
             }
         }
-        let urlQuery = [this.state.checkIn, this.state.checkOut, "location=" + this.state.location, this.state.rooms].join("&")
+        let urlQuery = [this.state.checkIn, this.state.checkOut,
+            "location=" + encodeURI(this.state.location), this.state.rooms
+        ].join("&")
+        // if (locationType !== ""){ urlQuery+="&locationType="+locationType }
         let fullUrl = [this.state.apiUrl, urlQuery].join("")
         await this.setState({urlQuery, fullUrl})
     }
 
-    fetchHotels = async () => {
-        await this.setApiUrl();
-        console.log(this.state.fullUrl)
-        fetch(this.state.fullUrl)
-            .then(res => res.json())
-            .then(hotels => this.setState({
+    axiosFetch = () => {
+        // const axios = require('axios');
+        // console.log("====AXIOS START====")
+        console.log("<<<<<<<<<<<urlQuery",this.state.urlQuery)
+        const url = "hotels/search?"+this.state.urlQuery
+        instance.get(url)
+            .then((response) => {
+                // console.log("====AXIOS RESPONSE", response.data);
+                let hotels = response.data
+                this.setState({
                     hotels: hotels.map((hotel, index) => {
                         hotel.isActiveState = false;
                         hotel.moreInfo = false;
@@ -78,7 +89,27 @@ class ListComponent extends Component {
                         return hotel;
                     })
                 })
-            );
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    fetchHotels = async () => {
+        await this.setApiUrl("");
+        this.axiosFetch()
+        // console.log("====FULLURL",this.state.fullUrl)
+        // fetch(this.state.fullUrl)
+        //     .then(res => res.json())
+        //     .then(hotels => this.setState({
+        //             hotels: hotels.map((hotel, index) => {
+        //                 hotel.isActiveState = false;
+        //                 hotel.moreInfo = false;
+        //                 hotel.id = index;
+        //                 return hotel;
+        //             })
+        //         })
+        //     );
     }
 
     setProviders = (providers, index) => {
@@ -110,6 +141,14 @@ class ListComponent extends Component {
 
     }
 
+    updateDate = (date, type) => {
+        // console.log("====DATE",date)
+        // console.log("TYPE DATE", type, date)
+        if (type === "checkIn")
+            this.setState({checkIn: date})
+        if (type === "checkOut")
+            this.setState({checkOut: date})
+    }
 
     render() {
         if (this.state.hotels[0]) {
@@ -118,9 +157,10 @@ class ListComponent extends Component {
         return (
             <div className="container rounded-3">
                 <h3>Hotels List:</h3>
-                {/*<Search updateSearch={this.updateSearchQuery} fetchHotels={this.fetchHotels} />*/}
-                {/*<SearchBox updateUrl={this.updateSearchQuery} />*/}
-                <SearchFilter fetchHotels={this.fetchHotels}/>
+                <SearchFilter fetchHotels={this.fetchHotels}
+                              updateDates={this.updateDate}
+                              updateLocationType={this.setLocationType}
+                />
                 {
                     window.location.href === "http://localhost:3000/" ? null
                         :

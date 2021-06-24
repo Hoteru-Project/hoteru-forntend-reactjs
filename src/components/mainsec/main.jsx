@@ -1,32 +1,12 @@
 import React, {Component} from 'react';
-import SearchFilter from "../SearchFilter/SearchFilter";
-import CheckDate from "../Search/CheckDate";
 import ListHotels from "../Hotels/ListHotels/ListHotels";
 
-const today = new Date();
 
 class MainSec extends Component {
-    state = {
-        checkIn: new Date(),
-        checkOut: null,
-    }
-    setCheckDate = (checkInOut) => (checkDate) => {
-        this.setState({[checkInOut]: checkDate})
-    }
 
     render() {
-        const checkIn = this.state.checkIn;
-        const checkOutMinDate = new Date(checkIn.getFullYear(), checkIn.getMonth(), checkIn.getDate() + 1)
-        const checkMaxDate = new Date(today.getFullYear(), today.getMonth() + 4, 0)
         return (
             <>
-
-                {/*<SearchFilter />*/}
-                {/*<div className="p-2">*/}
-                {/*    <CheckDate dateSetter={this.setCheckDate("checkIn")} minDate={today} maxDate={checkMaxDate}/>*/}
-                {/*    <CheckDate dateSetter={this.setCheckDate("checkOut")} minDate={checkOutMinDate}*/}
-                {/*               maxDate={checkMaxDate}/>*/}
-                {/*</div>*/}
                 <ListHotels />
                 <div className="container-fluid my-3">
                     <h1 className="text-center my-3">Explore more travel vacation rentals</h1>
