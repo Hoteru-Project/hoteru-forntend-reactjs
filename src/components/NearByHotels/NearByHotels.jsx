@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
+import instance from '../../axios-backend';
 
 class NearByHotels extends Component {
     state = { 
@@ -12,14 +11,9 @@ class NearByHotels extends Component {
      }
     async componentDidMount(){
         this.setState({ isLoading: true });
-        let config = {
-            headers: {
-                Authorization: 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjQ1NjUzNjQsImV4cCI6MTYyNDU2ODk2NCwibmJmIjoxNjI0NTY1MzY0LCJqdGkiOiJTdWd5NVpQS0ZTOTJwOXA3Iiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.bgVOXztqF4n5ZhkdwkxoeXIqzZj9AvqTPjGXvAPSsy8',
-                // Accept: 'application/json'
-            },
-        }
+       
         try{
-        let {data} = await axios.get(`http://localhost:8000/api/v1/hotels/near`,config);
+        let {data} = await instance.get(`/hotels/near`);
         await this.setState({data});
         console.log(this.state.data);
     }
