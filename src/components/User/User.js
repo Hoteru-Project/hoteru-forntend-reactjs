@@ -71,13 +71,13 @@ const User = () => {
                 indicatorColor="primary"
             >
                 <Tab label={t("profile")} icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
+                <Tab label={t("search_history")} icon={<HistoryIcon/>} {...a11yProps(1)} />
                 {!authenticationService.isEmailVerified() && <Tab label={t("verify_account")} icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
-                <Tab label={t("search_history")} icon={<HistoryIcon/>} {...a11yProps(2)} />
             </Tabs>
             <div className={classes.bodyContainer}>
                 <TabPanel value={value} index={0}><Profile/></TabPanel>
-                {!authenticationService.isEmailVerified() && <TabPanel value={value} index={1}><ResendVerification/></TabPanel>}
-                <TabPanel value={value} index={2}><RecentVisits /></TabPanel>
+                <TabPanel value={value} index={1}><RecentVisits /></TabPanel>
+                {!authenticationService.isEmailVerified() && <TabPanel value={value} index={2}><ResendVerification/></TabPanel>}
             </div>
         </div>
     );

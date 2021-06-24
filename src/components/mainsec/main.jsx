@@ -4,6 +4,7 @@ import ListHotels from "../Hotels/ListHotels/ListHotels";
 import RecentVisits from '../RecentVisits/RecentVisits';
 import PopularPlaces from '../PopularPlaces/PopularPlaces';
 import NearByHotels from '../NearByHotels/NearByHotels';
+import {authenticationService} from "../../services/authentication.service";
 
 
 class MainSec extends Component {
@@ -12,7 +13,7 @@ class MainSec extends Component {
         return (
             <>
                 <ListHotels />
-                <RecentVisits />
+                {authenticationService.isAuthenticated() && <RecentVisits />}
                 <PopularPlaces />
                 <NearByHotels />
                 <div className="container-fluid my-3">

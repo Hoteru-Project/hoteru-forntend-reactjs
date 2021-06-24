@@ -46,7 +46,7 @@ const Profile = () => {
 
     const handleFormSubmit = async (data) => {
         setIsLoading(true);
-        await instance.patch("users/user", data);
+        await instance.patch("users/user", data).catch(error => error);
         await authenticationService.me()
         setIsLoading(false);
     }
