@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Nav from "../UI/NavbarDrawer/NavbarDrawer";
 import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
 import { useTranslation, initReactI18next } from "react-i18next";
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function PrimarySearchAppBar() {
+const PrimarySearchAppBar = (props) => {
     const classes = useStyles();
 
     const { t } = useTranslation();
@@ -134,12 +134,22 @@ export default function PrimarySearchAppBar() {
             items: [
                 {
                     name: "English",
-                    onClick: () => i18n.changeLanguage('en'),
+                    onClick: async () => {
+                        const href = window.location.pathname + window.location.search;
+                        await i18n.changeLanguage('en')
+                        console.log(href)
+                        props.history.push(href)
+                    },
                     country_code: "US"
                 },
                 {
                     name: "Arabic",
-                    onClick: () => i18n.changeLanguage('ar').then(() => window.location.reload()),
+                    onClick: async () => {
+                        const href = window.location.pathname + window.location.search;
+                        await i18n.changeLanguage('ar')
+                        props.history.push(href)
+
+                    },
                     country_code: "EG"
                 }
             ]
@@ -177,3 +187,5 @@ export default function PrimarySearchAppBar() {
         </div>
     );
 }
+
+export default  withRouter(PrimarySearchAppBar)

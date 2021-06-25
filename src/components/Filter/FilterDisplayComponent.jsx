@@ -66,7 +66,7 @@ class FilterDisplayComponent extends Component {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const params = Object.fromEntries(urlParams.entries())
-    params[paramName] = value;
+    params[paramName] === value+"" && paramName !== "sorting"? delete params[paramName]: (params[paramName] = value);
     const finalQueryString = Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
     this.props.history.push({
       pathname: "/hotels",

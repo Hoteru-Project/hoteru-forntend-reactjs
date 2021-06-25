@@ -30,5 +30,11 @@
   "we_could_not_verify_email": "لم نستطع توثيق حسابك برجاء المحاولة مرة اخرة او طلب اعاده توثيق الحساب.",
   "email_verified_successfully": "تم التوثيق بنجاح.",
   "verify_account": "وثق حسابك",
-  "search_history": "بحث السجل"
+  "search_history": "بحث السجل",
+  "recent_visits": "اقرب زيارات لك",
+  "no_data": "لا يوجد بيانات حتى الأن",
+  "nearby_hotels": "فنادق قريبة",
+  "popular": "الشائع",
+  "places": "الأماكن",
+  "hotels": "الفنادق"
 }

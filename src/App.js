@@ -76,6 +76,7 @@ class App extends Component {
 
     render() {
         document.body.dir = i18n.dir();
+        document.documentElement.dir =i18n.dir();
         document.documentElement.lang =i18n.language;
         const theme = createMuiTheme({direction: i18n.dir()});
         return (

@@ -30,5 +30,11 @@
   "we_could_not_verify_email": "We Couldn't verify your account please try again or resend another verification request.",
   "email_verified_successfully": "Verified Successfully, Please login to your account.",
   "verify_account": "Verify Account",
-  "search_history": "Search History"
+  "search_history": "Search History",
+  "recent_visits": "Recent Visits",
+  "no_data": "No data yet!",
+  "nearby_hotels": "Hotels Nearby",
+  "popular": "Popular",
+  "places": "Places",
+  "hotels": "Hotels"
 }
