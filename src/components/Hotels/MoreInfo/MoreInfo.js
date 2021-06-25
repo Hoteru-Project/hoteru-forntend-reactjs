@@ -35,7 +35,7 @@ const MoreInfo = (props) => {
                     <div className="alert alert-light" role="alert">
                         <p>Guests overall Rating: {Math.floor(props.hotel.guestReviews.overallRating)} ({props.hotel.guestReviews.numberOfReviews} reviews)</p>
 
-                        <p>General Features: {props.hotel.mainAmenities.slice(0, 4).map(item => {
+                        <p>Main Features: {props.hotel.mainAmenities.slice(0, 4).map(item => {
                             return <li>{item}</li>
                         })}</p>
                     </div>
@@ -72,9 +72,9 @@ const MoreInfo = (props) => {
                     <h4>Deals: </h4>
                     {
                         props.hotel.providers?.map((provider) =>
-                            <div>
-                                <span>{provider.name}</span>
-                                <span>{provider.hotelPricing.startingAt.plain}</span>
+                            <div className="d-inline-block bg-white mx-3 p-2">
+                                <p>${provider.hotelPricing.startingAt.plain} / night</p>
+                                <p>{provider.provider}</p>
                             </div>
                         )
                     }

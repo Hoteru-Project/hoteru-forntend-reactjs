@@ -37,7 +37,10 @@ const composeFn = compose(
                         this.setState({places, error: false, searchQuery: places[0].formatted_address});
                         let updateUrl = decodeURI(refs.searchBoxInput.value)
                         let isHotel = places[0].types.includes("lodging")
-                        props.updateUrl(updateUrl, isHotel ? "hotel" : "place")
+                        props.updateSearchState(updateUrl, isHotel ? "hotel" : "place")
+                        if(window.location.pathname.startsWith("/hotels")) {
+                            props.updateUrl(updateUrl, isHotel ? "hotel" : "place")
+                        }
                     } else {
                         props.updateUrl("           ")
                         this.setState({error: true})

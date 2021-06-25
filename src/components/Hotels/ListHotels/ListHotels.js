@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import Animations from "../loadingInfo";
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import FilterDisplayComponent from "../../Filter/FilterDisplayComponent";
+import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
+import Fab from '@material-ui/core/Fab';
 
 class ListComponent extends Component {
     state = {
@@ -189,11 +191,14 @@ class ListComponent extends Component {
                                       updateLocationType={this.setLocationType}
                                       setTest={this.setTest}
                         />
-                        <Button variant="contained" color="primary" className="p-2 ml-4 mb-2"
-                                size="small" onClick={this.setUrlParams}
-                        >search
-                            <SearchRoundedIcon className="ml-1"/>
-                        </Button>
+                        <div className="p-2 ml-4">
+
+                            {/*<Button variant="contained" color="primary"*/}
+                            {/*        size="small" onClick={this.setUrlParams}*/}
+                            {/*>search*/}
+                            {/*    <SearchRoundedIcon className="ml-1"/>*/}
+                            {/*</Button>*/}
+                        </div>
                     </div>
 
                 </div>
@@ -208,32 +213,44 @@ class ListComponent extends Component {
                             (hotel, index) =>
                                 <div id={hotel.name} key={hotel.name}
                                      className="my-2 bg-light rounded-3 hotelHeight">
-                                    <div className="d-flex flex-row">
-                                        <div className="m-4">
-                                            <img src={hotel.photos} className="rounded-3" width="250px"
-                                                 alt="hotel img"/>
-                                        </div>
-                                        <div className="m-4">
-                                            <div className="mb-2 bg-white rounded-3 p-3">
-                                                <h4>{hotel.name}</h4>
-                                                <HotelRating stars={hotel.classRating}/>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="d-flex flex-row">
+                                            <div className="m-4">
+                                                <img src={hotel.photos} className="rounded-3" width="250px"
+                                                     alt="hotel img"/>
                                             </div>
-                                            <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon
-                                                className="text-primary"/> {hotel.address.addressLine1}</p>
-                                        </div>
-                                        <div className="m-4">
-                                    <span
-                                        className="bg-white rounded-3 p-3">${hotel.hotelPricing.startingAt.plain} / per night
-                                    </span>
-                                            <div className="d-flex flex-row">
-                                                <p>More Info</p>
-                                                <IconButton aria-label="delete" color="primary"
-                                                            onClick={() => this.getHotelProviders(hotel.name, index)}>
-                                                    <MoreArrow fontSize="large"/>
-                                                </IconButton>
+                                            <div className="m-4">
+                                                <div className="mb-2 bg-white rounded-3 p-3">
+                                                    <h4>{hotel.name}</h4>
+                                                    <HotelRating stars={hotel.classRating}/>
+                                                </div>
+                                                <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon
+                                                    className="text-primary"/> {hotel.address.addressLine1}</p>
                                             </div>
+                                        </div>
+                                        <div className="d-flex flex-column align-items-center p-4">
+                                            <div className="mt-5">
+                                                <span style={{backgroundColor: "lightgreen"}}
+                                                      className="rounded-3 p-3">${hotel.hotelPricing.startingAt.plain} / night</span>
+                                            </div>
+                                            <div className="mt-4">
+                                                <div className="">
+                                                    <div className="d-flex flex-row bg-white">
+                                                        {/*<Button variant="contained" size="small" color="secondary">*/}
+                                                        {/*    <ExpandMoreRoundedIcon/>*/}
+                                                        {/*</Button>*/}
+                                                        <p className="m-2 mt-3">More Info</p>
+                                                        <IconButton aria-label="delete" color="primary"
+                                                                    onClick={() => this.getHotelProviders(hotel.name, index)}>
+                                                            <MoreArrow fontSize="large"/>
 
+                                                        </IconButton>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
+
                                     </div>
                                     {
                                         hotel.isInfoLoading &&
@@ -260,9 +277,9 @@ class ListComponent extends Component {
                     {!this.state.isLoading && !this.state.hotels.length &&
                     <div className="alert alert-warning w-50 mt-4 p-2 mx-auto text-center" role="alert">
                             <span className="text-body m-0">
-                                Sorry, no hotels found
-                            <i className="fas fa-sad-tear ml-2"/>
+                                Sorry, no hotels found  <i className="fas fa-sad-tear ml-2"/>
                             </span>
+
                     </div>
                     }
                 </Route>

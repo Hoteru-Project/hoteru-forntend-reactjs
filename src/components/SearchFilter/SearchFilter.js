@@ -3,6 +3,9 @@ import SearchBox from "../SearchBox/SearchBox";
 import {withRouter} from "react-router-dom";
 import CheckDate from "../Search/CheckDate";
 import FilterDisplayComponent from "../Filter/FilterDisplayComponent";
+import Button from "@material-ui/core/Button";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import Fab from "@material-ui/core/Fab";
 
 const today = new Date();
 let tomorrow = new Date()
@@ -45,6 +48,9 @@ class SearchFilter extends Component {
         }
     }
 
+    updateSearchParams = (searchQuery, locationType) => {
+        this.setState({location: searchQuery, locationType: locationType})
+    }
 
     updateSearchQuery = async (searchQuery, locationType) => {
         console.log("<<<<<TYPES ", locationType)
@@ -94,21 +100,27 @@ class SearchFilter extends Component {
             <div className="container">
                 <div className="mx-auto row">
                     <div className="col-md-4 mt-4">
-                        <SearchBox updateUrl={this.updateSearchQuery}/>
+                        <SearchBox updateUrl={this.updateSearchQuery} updateSearchState={this.updateSearchParams}/>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <CheckDate dateSetter={this.setCheckDate("checkInDate")}
                                    minDate={today} maxDate={checkMaxDate}
                                    setcheckDate={this.setCompCheckDate} type="checkIn"
                         />
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <CheckDate dateSetter={this.setCheckDate("checkOutDate")} className="w-100"
                                    minDate={checkOutMinDate} maxDate={checkMaxDate}
                                    setcheckDate={this.setCompCheckDate} type="checkOut"
                         />
                     </div>
+                    <div className="col-md-2 d-flex flex-column justify-content-center">
+                        <Fab variant="extended" color="primary" onClick={()=>this.updateSearchQuery(this.state.location, this.state.locationType)}>
+                            <SearchRoundedIcon className="mr-1"/>search
+                        </Fab>
+                    </div>
                 </div>
+
             </div>
         )
     }
