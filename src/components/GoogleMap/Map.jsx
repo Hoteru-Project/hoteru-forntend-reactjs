@@ -38,14 +38,20 @@ class Map extends Component {
                     // options={this.getMapOptions}
                 >
                     {/*<AnyReactComponent text="MY MARKER" />*/}
+                    {/*<MapInfoBox*/}
+                    {/*    name="Marker"*/}
+                    {/*    color="#EA4335"*/}
+                    {/*    lat={this.props.center.lat+0.002}*/}
+                    {/*    lng={this.props.center.lng}*/}
+                    {/*/>*/}
                     <Marker
+                        hotel={this.props.hotel}
                         name="Marker"
                         color="#EA4335"
                         lat={this.props.center.lat}
                         lng={this.props.center.lng}
                     />
                 </GoogleMapReact>
-
             </div>
         );
     }

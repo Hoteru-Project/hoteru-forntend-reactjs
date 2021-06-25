@@ -27,7 +27,8 @@ class SearchFilter extends Component {
             rooms: "rooms=1",
             checkInDate: new Date(),
             checkOutDate: null,
-            locationType: ""
+            locationType: "",
+            currency: ""
         }
     }
 
@@ -56,13 +57,13 @@ class SearchFilter extends Component {
         console.log("<<<<<TYPES ", locationType)
         await this.setState({location: searchQuery});
         let urlParams = [this.state.checkIn, this.state.checkOut,
-            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType=" + locationType
+            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType=" + locationType,
+            "currency=" + localStorage.getItem("currency")??"USD"
         ].join("&")
         this.setState(({urlParams}))
         let fullUrl = [this.state.apiUrl, urlParams].join("")
         await this.setState({fullUrl, locationType})
         this.checkSearchUpdated()
-        console.log("fullurl", fullUrl)
         await this.props.fetchHotels(fullUrl);
         // this.props.setTest(fullUrl)
         console.log(fullUrl)
@@ -70,7 +71,7 @@ class SearchFilter extends Component {
 
     checkSearchUpdated = () => {
         this.props.history.push('/hotels?location=' + this.state.location + "&" + this.state.checkIn
-            + "&" + this.state.checkOut + "&" + this.state.rooms + "&locationType=" + this.state.locationType
+            + "&" + this.state.checkOut + "&" + this.state.rooms + "&locationType=" + this.state.locationType + "&currency=" + this.state.currency
         )
     }
 

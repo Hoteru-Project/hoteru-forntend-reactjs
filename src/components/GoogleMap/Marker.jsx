@@ -1,18 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './Marker.css';
 
 const Marker = (props) => {
-    const { color, name, id } = props;
+    const [isClicked, setIsClicked] = useState(false);
+    const {color, name, id} = props;
     const markerClasses = [classes.pin, classes.bounce].join(" ")
+    const setClose = () => {
+        setIsClicked(true)
+    }
     return (
-        <div>
+        <>
             <div
                 className={markerClasses}
-                style={{ backgroundColor: color, cursor: 'pointer' }}
+                style={{backgroundColor: color, cursor: 'pointer', position: "relative"}}
                 title={name}
             />
-            <div className={classes.pulse} />
-        </div>
+            {!isClicked &&
+            <div className="bg-white rounded-3 p-2"
+                 style={{position: "absolute", top: "-80px", left: "-25px", width: "180px"}}>
+                <div className="d-flex flex-row justify-content-around">
+                    <div>
+                        <p className="m-0">{props.hotel.name}</p>
+                        <p className="m-0">{props.hotel.hotelPricing.startingAt.formatted} / night</p>
+                    </div>
+                    <div>
+                        <button type="button" className="btn-close" aria-label="Close"
+                            onClick={setClose}
+                        />
+                    </div>
+                </div>
+            </div>
+            }
+            <div className={classes.pulse}/>
+        </>
     );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {fade, makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,6 +14,7 @@ import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Router from "../../Router";
+import instance from "../../axios-backend";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -112,7 +113,11 @@ const PrimarySearchAppBar = (props) => {
         return nameArray && (nameArray.length<=1?nameArray[0][0].toUpperCase():nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
     }
 
-    const menus = [
+
+    const [currenciesFetched, setCurrenciesFetched] = useState(false);
+
+
+    const [menus, setMenus] = useState([
         {
             name: authenticationService.currentUserValue?.name,
             icon: <Avatar className={classes.blue}>{getReducedName()}</Avatar>,
@@ -151,22 +156,44 @@ const PrimarySearchAppBar = (props) => {
 
                     },
                     country_code: "EG"
-                }
+                },
             ]
         },
-        {
-            icon: <MonetizationOnTwoToneIcon/>,
-            items: [
-                {
-                    name: "English",
-                    onClick: () => {
-                        console.log('hello2');
-                    }
-                }
-            ]
-        }
 
-    ];
+
+    ]);
+
+    const getCurrency =  () => {
+        return localStorage.getItem("currency");
+    }
+
+    const setCurrency = (currency) =>{
+        const usedCurrency = getCurrency();
+        menus.forEach(item => item.name === usedCurrency && (item.name = currency ))
+        localStorage.setItem("currency", currency);
+        setMenus(menus);
+    }
+
+    useEffect(() =>{
+        if(!currenciesFetched) {
+            setCurrenciesFetched(true);
+            instance.get("/currencies")
+                .then(response => {
+                    const currencyMenu = response.data.map(currency => {
+                        return {
+                            name: `${currency.code} - ${currency.name}`,
+                            onClick: () => setCurrency(currency.code)
+                        }
+                    })
+                    menus.push({
+                        icon: <MonetizationOnTwoToneIcon/>,
+                        name: getCurrency(),
+                        items: currencyMenu
+                    })
+                    setMenus(menus);
+                })
+        }
+    }, [currenciesFetched, menus])
 
 
     return (

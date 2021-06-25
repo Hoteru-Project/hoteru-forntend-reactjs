@@ -16,7 +16,7 @@ class RecentVisits extends Component {
 
     async componentDidMount() {
         this.setState({isLoading: true});
-        await this.delay(200);
+        await this.delay(500);
         try {
             let {data} = await instance.get("/hotels/recent?limit=3");
             console.log(data);

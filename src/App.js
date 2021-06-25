@@ -22,7 +22,7 @@ class App extends Component {
     state = {
         currentUser: {name: null, email: null, token: null, email_verified_at: null, expireDate: null},
         authenticated: false,
-        firstTimeAuthentication: true
+        firstTimeAuthentication: true,
     }
 
     delay = ms => new Promise(res => setTimeout(res, ms));
@@ -38,6 +38,7 @@ class App extends Component {
         await this.delay(200);
         me();
     }
+
 
     componentDidMount() {
         authenticationService.currentUser.subscribe(async user => {

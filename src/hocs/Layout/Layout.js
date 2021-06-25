@@ -9,15 +9,12 @@ class Layout extends Component {
     render() {
         return (
             <>
-                {/* <div>{this.props.currentUser.name}</div> */}
                 <Navbar/>
-                {/* <Nav /> */}
-                {/*Side Drawer*/}
-                    <main className={classes.Container}>
-                        {this.props.children}
-                    </main>
-            
-                <Footer />
+                <main className={classes.Container}>
+                    {this.props.children}
+                </main>
+
+                <Footer/>
             </>
         );
     }
