@@ -1,0 +1,8 @@
+.hoverShadow {
+    transition: box-shadow .3s;
+    cursor: pointer;
+}
+
+.hoverShadow:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}

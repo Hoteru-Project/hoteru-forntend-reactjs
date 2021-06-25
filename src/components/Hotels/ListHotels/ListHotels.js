@@ -14,6 +14,7 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import FilterDisplayComponent from "../../Filter/FilterDisplayComponent";
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import Fab from '@material-ui/core/Fab';
+import GuestRating from "./GuestRating";
 
 class ListComponent extends Component {
     state = {
@@ -216,22 +217,44 @@ class ListComponent extends Component {
                                     <div className="d-flex justify-content-between">
                                         <div className="d-flex flex-row">
                                             <div className="m-4">
-                                                <img src={hotel.photos} className="rounded-3" width="250px"
+                                                <img src={hotel.photos} className="rounded-3" height="100%" width="250px"
                                                      alt="hotel img"/>
                                             </div>
-                                            <div className="m-4">
-                                                <div className="mb-2 bg-white rounded-3 p-3">
+                                            <div className="my-4">
+                                                <div className="bg-white rounded-3 p-2">
                                                     <h4>{hotel.name}</h4>
                                                     <HotelRating stars={hotel.classRating}/>
+                                                    <div className="d-flex flex-row my-2">
+                                                        <div className="px-2">
+                                                            <GuestRating
+                                                                rating={Math.floor(hotel.guestReviews.overallRating)}/>
+                                                        </div>
+                                                        <p className="px-2">
+                                                            ({hotel.guestReviews.numberOfReviews} reviews)
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon
-                                                    className="text-primary"/> {hotel.address.addressLine1}</p>
+                                                <div>
+
+                                                    {/*<div className="mt-4 bg-white rounded-3 p-3">*/}
+                                                    {/*    <div className="d-inline-block">*/}
+                                                    {/*        <GuestRating rating={Math.floor(hotel.guestReviews.overallRating)}/>*/}
+                                                    {/*    </div>*/}
+                                                    {/*    <span className="ml-2">*/}
+                                                    {/*        ({hotel.guestReviews.numberOfReviews} Reviews)*/}
+                                                    {/*    </span>*/}
+                                                    {/*</div>*/}
+                                                </div>
+                                                <div>
+                                                    <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon
+                                                        className="text-primary"/> {hotel.address.addressLine1}</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="d-flex flex-column align-items-center p-4">
                                             <div className="mt-5">
                                                 <span style={{backgroundColor: "lightgreen"}}
-                                                      className="rounded-3 p-3">${hotel.hotelPricing.startingAt.plain} / night</span>
+                                                      className="rounded-3 p-3">{hotel.hotelPricing.startingAt.formatted} / night</span>
                                             </div>
                                             <div className="mt-4">
                                                 <div className="">

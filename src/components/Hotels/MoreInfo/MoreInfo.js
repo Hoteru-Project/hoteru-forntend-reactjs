@@ -1,4 +1,5 @@
 import Map from "../../GoogleMap/Map";
+import classes from "./MoreInfo.css"
 
 const MoreInfo = (props) => {
     const center = {
@@ -43,13 +44,13 @@ const MoreInfo = (props) => {
                 <div className="tab-pane fade p-4" id={"info"+props.hotel.id} role="tabpanel">
                     <div>
                         <h4>Location: </h4>
-                        <Map center={center}/>
+                        <Map center={center} hotel={props.hotel}/>
                     </div>
-                    <div>
+                    <div className="mt-2">
                         <h4>All Features: </h4>
-                        <p>
-                            {props.hotel.mainAmenities.map( (item) => {return <li>{item}</li> }  )}
-                        </p>
+                        <div className="row">
+                            {props.hotel.mainAmenities.map( (item) => {return <li className=" col-5">{item}</li> }  )}
+                        </div>
                     </div>
                 </div>
                 <div className="tab-pane fade py-2" id={"reviews"+props.hotel.id} role="tabpanel">
@@ -69,12 +70,14 @@ const MoreInfo = (props) => {
                     })}
                 </div>
                 <div className="tab-pane fade p-4" id={"deals"+props.hotel.id} role="tabpanel">
-                    <h4>Deals: </h4>
+                    {/*<h4>Deals: </h4>*/}
                     {
                         props.hotel.providers?.map((provider) =>
-                            <div className="d-inline-block bg-white mx-3 p-2">
-                                <p>${provider.hotelPricing.startingAt.plain} / night</p>
-                                <p>{provider.provider}</p>
+                            <div className={["d-inline-block rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>
+                                <span className="badge bg-primary p-2">${provider.hotelPricing.startingAt.plain} / night</span>
+                                {/*<p className="bg-primary p-2">${provider.hotelPricing.startingAt.plain} / night</p>*/}
+                                <span className="badge d-block mt-2 bg-dark p-2">{provider.provider}</span>
+                                {/*<p>{provider.provider}</p>*/}
                             </div>
                         )
                     }

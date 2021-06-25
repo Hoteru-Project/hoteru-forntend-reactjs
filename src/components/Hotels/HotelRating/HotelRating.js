@@ -31,7 +31,7 @@ export default function HotelRating(props) {
                 name="hover-feedback"
                 value={value} readOnly
             />
-            {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+            {value !== null && <Box ml={0}>{labels[hover !== -1 ? hover : value]}</Box>}
         </div>
     );
 }
