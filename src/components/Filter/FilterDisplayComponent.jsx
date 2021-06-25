@@ -97,7 +97,7 @@ class FilterDisplayComponent extends Component {
       return <div>Error: {error.message}</div>;
     } else {
       return (
-        <div className="bg-light">
+        <div className="bg-light rounded-3">
             <MainMenuComponent
             checkedFilters={this.state.filters}
             setCheckedFilters={this.setCheckedFilters}

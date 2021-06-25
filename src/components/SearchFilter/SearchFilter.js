@@ -6,6 +6,7 @@ import FilterDisplayComponent from "../Filter/FilterDisplayComponent";
 import Button from "@material-ui/core/Button";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import Fab from "@material-ui/core/Fab";
+import {withTranslation} from "react-i18next";
 
 const today = new Date();
 let tomorrow = new Date()
@@ -95,6 +96,7 @@ class SearchFilter extends Component {
     }
 
     render() {
+        const {t} = this.props
         const checkOutMinDate = this.checkOutMinDate()
         const checkMaxDate = this.checkMaxDate();
         return (
@@ -117,7 +119,7 @@ class SearchFilter extends Component {
                     </div>
                     <div className="col-md-2 d-flex flex-column justify-content-center">
                         <Fab variant="extended" color="primary" onClick={()=>this.updateSearchQuery(this.state.location, this.state.locationType)}>
-                            <SearchRoundedIcon className="mr-1"/>search
+                            <SearchRoundedIcon className="mr-1"/>{t("search_button")}
                         </Fab>
                     </div>
                 </div>
@@ -127,4 +129,4 @@ class SearchFilter extends Component {
     }
 }
 
-export default withRouter(SearchFilter);
+export default withTranslation()(withRouter(SearchFilter));

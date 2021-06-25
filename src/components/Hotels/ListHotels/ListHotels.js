@@ -8,13 +8,10 @@ import SearchFilter from "../../SearchFilter/SearchFilter";
 import Progress from "../../SearchBox/Progress";
 import instance from "../../../axios-backend";
 import {Route} from "react-router-dom";
-import Button from '@material-ui/core/Button';
 import Animations from "../loadingInfo";
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import FilterDisplayComponent from "../../Filter/FilterDisplayComponent";
-import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
-import Fab from '@material-ui/core/Fab';
 import GuestRating from "./GuestRating";
+import {withTranslation} from "react-i18next";
 
 class ListComponent extends Component {
     state = {
@@ -37,10 +34,10 @@ class ListComponent extends Component {
     }
 
     setLocationType = async (locationType) => {
-        console.log(">>>>>>>>>>>>TYPE", locationType)
+        // console.log(">>>>>>>>>>>>TYPE", locationType)
         await this.setState({locationType})
         const url = "hotels/search?" + this.state.urlQuery + "&locationType=" + this.state.locationType
-        console.log(">>>>>>>>>>>>TYPE", url)
+        // console.log(">>>>>>>>>>>>TYPE", url)
 
     }
 
@@ -178,6 +175,7 @@ class ListComponent extends Component {
     }
 
     render() {
+        const {t} = this.props;
         console.log(this.state.hotels)
         if (this.state.hotels[0]) {
             console.log("I AM HOTELS", this.state.hotels)
@@ -185,7 +183,7 @@ class ListComponent extends Component {
         return (
             <div className="container rounded-3">
                 <div>
-                    <h3>Search </h3>
+                    <h3>{t("Search")}</h3>
                     <div className="bg-light rounded-3 p-2">
                         <SearchFilter fetchHotels={this.fetchHotels}
                                       updateDates={this.updateDate}
@@ -194,11 +192,6 @@ class ListComponent extends Component {
                         />
                         <div className="p-2 ml-4">
 
-                            {/*<Button variant="contained" color="primary"*/}
-                            {/*        size="small" onClick={this.setUrlParams}*/}
-                            {/*>search*/}
-                            {/*    <SearchRoundedIcon className="ml-1"/>*/}
-                            {/*</Button>*/}
                         </div>
                     </div>
 
@@ -208,7 +201,9 @@ class ListComponent extends Component {
                         <FilterDisplayComponent fetchHotels={this.fetchHotels}/>
                     </div>
 
-                    <h3>Hotels List:</h3>
+                    <h2 className="my-4 text-center" style={{fontSize:"3rem"}}>
+                        <span className="badge bg-secondary">{t("Hotels_List")}</span>
+                    </h2>
                     {
                         this.state.hotels.map(
                             (hotel, index) =>
@@ -236,14 +231,6 @@ class ListComponent extends Component {
                                                 </div>
                                                 <div>
 
-                                                    {/*<div className="mt-4 bg-white rounded-3 p-3">*/}
-                                                    {/*    <div className="d-inline-block">*/}
-                                                    {/*        <GuestRating rating={Math.floor(hotel.guestReviews.overallRating)}/>*/}
-                                                    {/*    </div>*/}
-                                                    {/*    <span className="ml-2">*/}
-                                                    {/*        ({hotel.guestReviews.numberOfReviews} Reviews)*/}
-                                                    {/*    </span>*/}
-                                                    {/*</div>*/}
                                                 </div>
                                                 <div>
                                                     <p className="mt-4 bg-white rounded-3 p-3"><RoomIcon
@@ -259,9 +246,6 @@ class ListComponent extends Component {
                                             <div className="mt-4">
                                                 <div className="">
                                                     <div className="d-flex flex-row bg-white">
-                                                        {/*<Button variant="contained" size="small" color="secondary">*/}
-                                                        {/*    <ExpandMoreRoundedIcon/>*/}
-                                                        {/*</Button>*/}
                                                         <p className="m-2 mt-3">More Info</p>
                                                         <IconButton aria-label="delete" color="primary"
                                                                     onClick={() => this.getHotelProviders(hotel.name, index)}>
@@ -311,4 +295,4 @@ class ListComponent extends Component {
     }
 }
 
-export default ListComponent;
+export default withTranslation()(ListComponent);

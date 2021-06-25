@@ -35,7 +35,10 @@ class PopularPlaces extends Component {
         return (
             <>
                 <div className="container my-5">
-                    <h1 className="pb-3">{t("popular")}</h1>
+                    {/*<h1 className="pb-3">{t("popular")}</h1>*/}
+                    <h2 className="my-4 text-center" style={{fontSize:"3rem"}}>
+                        <span className="badge bg-secondary">{t("popular")}</span>
+                    </h2>
 
                     <ul className="nav nav-tabs">
                         <li className="nav-item" style={{"cursor": 'pointer'}}>

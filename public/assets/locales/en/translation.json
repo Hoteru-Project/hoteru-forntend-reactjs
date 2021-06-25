@@ -36,5 +36,10 @@
   "nearby_hotels": "Hotels Nearby",
   "popular": "Popular",
   "places": "Places",
-  "hotels": "Hotels"
+  "hotels": "Hotels",
+  "Hotels_List": "Hotels List",
+  "Search": "Search",
+  "guest_rating": "GUEST RATING",
+  "more_filter": "MORE FILTERS",
+  "search_button": "search"
 }

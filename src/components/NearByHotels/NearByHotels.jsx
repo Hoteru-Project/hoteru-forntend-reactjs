@@ -30,7 +30,9 @@ class NearByHotels extends Component {
         const {t} = this.props;
         return (
             <div className="container mt-5">
-                <h2 className="pb-4">{t("nearby_hotels")}</h2>
+                <h2 className="pb-4 text-center" style={{fontSize:"3rem"}}>
+                    <span className="badge bg-secondary">{t("nearby_hotels")}</span>
+                </h2>
                 <div className="row">
                     <div className="text-center">
                         {this.state.isLoading &&

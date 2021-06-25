@@ -77,15 +77,6 @@ const SearchBox = (props) => {
                     defaultValue={searchParamLocation}
                 />
             </StandaloneSearchBox>
-            {/*<ol>*/}
-            {/*    {props.places.map(*/}
-            {/*        (place, index) => (*/}
-            {/*            <li key={index}>*/}
-            {/*                {place.name}*/}
-            {/*            </li>*/}
-            {/*        )*/}
-            {/*    )}*/}
-            {/*</ol>*/}
             {
                 props.error ? <div className="alert alert-danger mt-4 p-2" role="alert">
                         <p className="text-body m-0">Please, Enter a correct location!!</p>

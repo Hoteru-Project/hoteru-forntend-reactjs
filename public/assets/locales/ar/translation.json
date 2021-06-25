@@ -36,5 +36,10 @@
   "nearby_hotels": "فنادق قريبة",
   "popular": "الشائع",
   "places": "الأماكن",
-  "hotels": "الفنادق"
+  "hotels": "الفنادق",
+  "Hotels_List": "قائمة الفنادق",
+  "Search": "البحث",
+  "guest_rating": "تقيم الضيوف",
+  "more_filter": "تصنيفات اخرى",
+  "search_button": "ابحث"
 }

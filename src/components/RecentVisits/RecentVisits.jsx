@@ -34,7 +34,9 @@ class RecentVisits extends Component {
         return (
             <>
                 <div className="container mt-4">
-                    <h1>{t("recent_visits")}</h1>
+                    <h2 className="pb-4 text-center" style={{fontSize:"3rem"}}>
+                        <span className="badge bg-secondary">{t("recent_visits")}</span>
+                    </h2>
                     <div className="row">
                         <div className="text-center">
                             {this.state.isLoading &&
