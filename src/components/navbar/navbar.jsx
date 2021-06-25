@@ -15,6 +15,7 @@ import {Avatar} from "@material-ui/core";
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Router from "../../Router";
 import instance from "../../axios-backend";
+import Logo from "../../assets/images/Logo.png"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -200,7 +201,7 @@ const PrimarySearchAppBar = (props) => {
         <div className={classes.grow}>
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap component={Link} to={Router("homepage")}>Hoteru</Typography>
+                    <Typography className={classes.title} variant="h6" noWrap component={Link} to={Router("homepage")}><img className="m-2" style={{ width:"70px" }} src={Logo} /></Typography>
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         {menus.map(menu => <NavbarMenu menu={menu}/>)}
