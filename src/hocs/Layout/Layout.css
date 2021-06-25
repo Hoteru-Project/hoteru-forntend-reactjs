@@ -4,6 +4,7 @@
     width: 200px;
 } */
 
-.Container{
-    margin: 10px 50px;
+.Container {
+  margin: 10px 50px;
+  min-height: 75vh;
 }
