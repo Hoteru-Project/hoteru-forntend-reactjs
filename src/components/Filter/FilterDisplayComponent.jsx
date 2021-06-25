@@ -44,7 +44,7 @@ class FilterDisplayComponent extends Component {
     instance.get(url??this.state.url)
     .then(
       (result) => {
-        console.log(result);
+        // console.log(result);
         this.setState({
           isLoaded: true,
           items: [...result.data]
@@ -92,7 +92,7 @@ class FilterDisplayComponent extends Component {
 
   render() {
     const { error, isLoaded, items } = this.state;
-    this.state.items.forEach(item => console.log([item.name, item.hotelPricing.startingAt.plain]))
+    // this.state.items.forEach(item => console.log([item.name, item.hotelPricing.startingAt.plain]))
     if (error) {
       return <div>Error: {error.message}</div>;
     } else {

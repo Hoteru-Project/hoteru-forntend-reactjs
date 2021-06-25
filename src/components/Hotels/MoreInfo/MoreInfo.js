@@ -23,13 +23,13 @@ const MoreInfo = (props) => {
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target={"#reviews"+props.hotel.id}
-                            type="button" role="tab" aria-controls="contact" aria-selected="false">{t("reviews")}
+                    <button className="nav-link" id="reviews" data-bs-toggle="tab" data-bs-target={"#reviews"+props.hotel.id}
+                            type="button" role="tab" aria-controls="reviews" aria-selected="false">{t("reviews")}
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target={"#deals"+props.hotel.id}
-                            type="button" role="tab" aria-controls="contact" aria-selected="false">{t("deals")}
+                    <button className="nav-link" id="deals" data-bs-toggle="tab" data-bs-target={"#deals"+props.hotel.id}
+                            type="button" role="tab" aria-controls="deals" aria-selected="false">{t("deals")}
                     </button>
                 </li>
             </ul>
@@ -71,7 +71,7 @@ const MoreInfo = (props) => {
                         )
                     })}
                 </div>
-                <div className="tab-pane fade p-4 d-flex" id={"deals"+props.hotel.id} role="tabpanel" style={{overflow:"auto",}}>
+                <div className="tab-pane fade d-flex p-4" id={"deals"+props.hotel.id} role="tabpanel" style={{overflow:"auto"}}>
                     {
                         props.hotel.providers?.map((provider) =>
                             <div className={["rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>

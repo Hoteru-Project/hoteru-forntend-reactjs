@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import SearchBox from "../SearchBox/SearchBox";
 import {withRouter} from "react-router-dom";
 import CheckDate from "../Search/CheckDate";
-import FilterDisplayComponent from "../Filter/FilterDisplayComponent";
-import Button from "@material-ui/core/Button";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import Fab from "@material-ui/core/Fab";
 import {withTranslation} from "react-i18next";
@@ -52,14 +50,17 @@ class SearchFilter extends Component {
 
     updateSearchParams = (searchQuery, locationType) => {
         this.setState({location: searchQuery, locationType: locationType})
+        this.updateSearchQuery(searchQuery, locationType)
     }
 
     updateSearchQuery = async (searchQuery, locationType) => {
+        let currency = await localStorage.getItem("currency")??"USD"
+        console.log("<<<<<currency ",currency)
         console.log("<<<<<TYPES ", locationType)
-        await this.setState({location: searchQuery});
+        await this.setState({location: searchQuery, currency: currency});
         let urlParams = [this.state.checkIn, this.state.checkOut,
-            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType=" + locationType,
-            "currency=" + localStorage.getItem("currency")??"USD"
+            "location=" + encodeURIComponent(this.state.location), this.state.rooms,
+            "locationType=" + locationType, "currency=" + currency
         ].join("&")
         this.setState(({urlParams}))
         let fullUrl = [this.state.apiUrl, urlParams].join("")
@@ -70,7 +71,7 @@ class SearchFilter extends Component {
         console.log(fullUrl)
     }
 
-    checkSearchUpdated = () => {
+    checkSearchUpdated =  () => {
         this.props.history.push('/hotels?location=' + this.state.location + "&" + this.state.checkIn
             + "&" + this.state.checkOut + "&" + this.state.rooms + "&locationType=" + this.state.locationType + "&currency=" + this.state.currency
         )

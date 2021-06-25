@@ -1,7 +1,3 @@
-import React, {useState} from "react";
-
-import ReactDOM from "react-dom";
-import getDocumentElement from "@popperjs/core/lib/dom-utils/getDocumentElement";
 import {useTranslation, withTranslation} from "react-i18next";
 
 const {compose, withProps, lifecycle} = require("recompose");
@@ -31,12 +27,12 @@ const composeFn = compose(
                 },
                 onPlacesChanged: async (props) => {
                     const places = refs.searchBox.getPlaces();
-                    // console.log("props", props)
                     console.log("INPUT VALUE",refs.searchBoxInput.value)
                     console.log("I AM PLACES ", places)
                     if (places[0]) {
                         this.setState({places, error: false, searchQuery: places[0].formatted_address});
                         let updateUrl = decodeURI(refs.searchBoxInput.value)
+                        console.log(updateUrl)
                         let isHotel = places[0].types.includes("lodging")
                         props.updateSearchState(updateUrl, isHotel ? "hotel" : "place")
                         if(window.location.pathname.startsWith("/hotels")) {

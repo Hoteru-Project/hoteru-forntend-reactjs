@@ -34,27 +34,12 @@ class ListComponent extends Component {
     }
 
     setLocationType = async (locationType) => {
-        // console.log(">>>>>>>>>>>>TYPE", locationType)
         await this.setState({locationType})
-        const url = "hotels/search?" + this.state.urlQuery + "&locationType=" + this.state.locationType
-        // console.log(">>>>>>>>>>>>TYPE", url)
-
     }
 
 
     async componentDidMount() {
         await this.setUrlParams()
-        // const searchParams = new URLSearchParams(decodeURI(window.location.search))
-        // const params = Object.fromEntries(searchParams.entries());
-        // if(window.location.pathname.startsWith("/hotels")) {
-        //     console.log("here")
-        //     this.setState({isLoading: true})
-        //     await instance.get("/hotels/search", {params})
-        //         .then(response => this.setHotelsState(response.data))
-        //         .catch(error => console.log(error));
-        //     this.setState({isLoading: false})
-        // }
-
     }
 
     setUrlParams = async () => {
@@ -80,7 +65,6 @@ class ListComponent extends Component {
         let urlQuery = [this.state.checkIn, this.state.checkOut,
             "location=" + encodeURI(this.state.location), this.state.rooms
         ].join("&")
-        // if (locationType !== ""){ urlQuery+="&locationType="+locationType }
         let fullUrl = [this.state.apiUrl, urlQuery].join("")
         await this.setState({urlQuery, fullUrl})
     }
@@ -91,13 +75,8 @@ class ListComponent extends Component {
 
     axiosFetch = async (url) => {
         this.setState({isLoading: true})
-        // const axios = require('axios');
-        // console.log("====AXIOS START====")
-        // const url = "hotels/search?" + this.state.urlQuery
-        // console.log("<<<<<<<<<<<urlQuery", url)
         await instance.get(url)
             .then((response) => {
-                // console.log("====AXIOS RESPONSE", response.data);
                 this.setHotelsState(response.data)
             })
             .catch((error) => {
@@ -140,14 +119,11 @@ class ListComponent extends Component {
         this.setState({hotels})
         if ((this.state.hotels[index].isActiveState = !this.state.hotels[index].isActiveState)) {
             this.state[hotelName] = []
-            // let url = "http://127.0.0.1:8000/api/v1/hotel?checkIn="+checkIn+"&checkOut="+checkOut+"&location="+location+"&rooms=1&name=" + hotelName;
             let params = "checkIn=" + checkIn + "&checkOut=" + checkOut + "&location=" + location + "&rooms=1&name=" + hotelName;
 
             console.log("BEFORE AXIOS")
             hotels[index].isInfoLoading = !hotels[index].isInfoLoading
             await this.setState({hotels})
-            // this.setState({[hotels[index].isInfoLoading]: true})
-            // this.setState({[hotelName.isProvidersLoading]: true})
             let providers = await instance.get("/hotel?" + params)
                 .then((response) => {
                     this.setState({[hotelName]: response.data});
@@ -160,7 +136,6 @@ class ListComponent extends Component {
             console.log(providers)
             console.log("AFTER AXIOS")
             this.setProviders(providers, index)
-            // console.log("<<<<PROVIDERS", checkIn, checkOut)
         } else {
             this.setProviders([], index)
         }
@@ -176,12 +151,8 @@ class ListComponent extends Component {
 
     render() {
         const {t} = this.props;
-        console.log(this.state.hotels)
-        if (this.state.hotels[0]) {
-            console.log("I AM HOTELS", this.state.hotels)
-        }
         return (
-            <div className="container rounded-3">
+            <div className="container rounded-3 my-4">
                 <div>
                     <h3>{t("Search")}</h3>
                     <div className="bg-light rounded-3 p-2">
@@ -287,7 +258,6 @@ class ListComponent extends Component {
                             <span className="text-body m-0">
                                 {t("no_hotel")} <i className="fas fa-sad-tear ml-2"/>
                             </span>
-
                     </div>
                     }
                 </Route>

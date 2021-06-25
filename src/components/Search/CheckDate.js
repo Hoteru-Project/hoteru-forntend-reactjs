@@ -4,12 +4,6 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers'
 import {Grid} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 
-// const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-// const maxDate = new Date(today.getFullYear(), today.getMonth()+4, 0);
-
-// minDate.setDate(minDate.getDate());
-// maxDate.setMonth(maxDate.getMonth() + 3);
-
 export default function CheckDate(props) {
     const [selectedDate, setSelectedDate] = useState(props.minDate);
     const handleDateChange = (date) => {
