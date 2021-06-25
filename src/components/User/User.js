@@ -13,6 +13,7 @@ import ResendVerification from "../Authentication/ResendVerification/ResendVerif
 import {authenticationService} from "../../services/authentication.service";
 import {useTranslation} from "react-i18next";
 import RecentVisits from "../RecentVisits/RecentVisits"
+import {withRouter} from "react-router-dom";
 
 function a11yProps(index) {
     return {
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const User = () => {
+const User = (props) => {
     const {t} = useTranslation();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -60,6 +61,24 @@ const User = () => {
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const requestSearch = (location, locationType) => () => {
+        const rooms = 1;
+        const today = new Date();
+        today.setUTCHours(1, 0, 0, 0);
+        const nextTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
+        nextTime.setUTCHours(1, 0, 0, 0);
+
+        const params = [
+            `location=${location}`,
+            `checkIn=${today.toISOString().split("T")[0]}`,
+            `checkOut=${nextTime.toISOString().split("T")[0]}`,
+            `locationType=${locationType}`,
+            `rooms=${rooms}`
+        ]
+        props.history.push("/hotels?"+params.join("&"))
+    }
+
     return (
         <div className={classes.root}>
             <Tabs
@@ -72,15 +91,17 @@ const User = () => {
             >
                 <Tab label={t("profile")} icon={<AssignmentIndIcon/>} {...a11yProps(0)} />
                 <Tab label={t("search_history")} icon={<HistoryIcon/>} {...a11yProps(1)} />
-                {!authenticationService.isEmailVerified() && <Tab label={t("verify_account")} icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
+                {!authenticationService.isEmailVerified() &&
+                <Tab label={t("verify_account")} icon={<VerifiedUserIcon/>} {...a11yProps(1)} />}
             </Tabs>
             <div className={classes.bodyContainer}>
                 <TabPanel value={value} index={0}><Profile/></TabPanel>
-                <TabPanel value={value} index={1}><RecentVisits /></TabPanel>
-                {!authenticationService.isEmailVerified() && <TabPanel value={value} index={2}><ResendVerification/></TabPanel>}
+                <TabPanel value={value} index={1}><RecentVisits requestSearch={requestSearch}/></TabPanel>
+                {!authenticationService.isEmailVerified() &&
+                <TabPanel value={value} index={2}><ResendVerification/></TabPanel>}
             </div>
         </div>
     );
 }
 
-export default User;
+export default withRouter(User);
