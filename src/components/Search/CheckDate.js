@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
 import {Grid} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 // const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 // const maxDate = new Date(today.getFullYear(), today.getMonth()+4, 0);
@@ -19,6 +20,7 @@ export default function CheckDate(props) {
         setSelectedDate(date);
         props.setcheckDate(formattedDate, props.type)
     };
+    const {t} = useTranslation()
 
     useEffect(() => {
         if (props.minDate > selectedDate) {
@@ -35,7 +37,7 @@ export default function CheckDate(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label={props.type==="checkIn"?"check-In":"check-Out"}
+                        label={props.type==="checkIn"?`${t("check_in")}`:`${t("check_out")}`}
                         minDate={props.minDate}
                         maxDate={props.maxDate}
                         value={selectedDate}

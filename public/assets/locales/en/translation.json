@@ -41,5 +41,16 @@
   "Search": "Search",
   "guest_rating": "GUEST RATING",
   "more_filter": "MORE FILTERS",
-  "search_button": "search"
+  "search_button": "search",
+  "overview": "Overview",
+  "info": "Info",
+  "reviews": "Reviews",
+  "deals": "Deals",
+  "more_info": "More Info",
+  "reviews_home": "reviews",
+  "check_in": "check-In",
+  "check_out": "check-Out",
+  "correct_location": "Please, Enter a correct location!!",
+  "search_label": "Enter a location",
+  "no_hotel": "Sorry, no hotels found"
 }

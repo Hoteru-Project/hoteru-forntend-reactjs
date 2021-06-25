@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import ReactDOM from "react-dom";
 import getDocumentElement from "@popperjs/core/lib/dom-utils/getDocumentElement";
+import {useTranslation, withTranslation} from "react-i18next";
 
 const {compose, withProps, lifecycle} = require("recompose");
 const {withScriptjs} = require("react-google-maps");
@@ -58,6 +59,7 @@ const SearchBox = (props) => {
     const getSearchQuery = (event) => {
         console.log("EVENT_____", event.target.value)
     }
+    const {t} = useTranslation();
     return (
         <div data-standalone-searchbox="">
             <StandaloneSearchBox
@@ -72,19 +74,18 @@ const SearchBox = (props) => {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter a location"
+                    placeholder={t("search_label")}
                     ref={props.onInputSearchBoxMounted}
                     defaultValue={searchParamLocation}
                 />
             </StandaloneSearchBox>
             {
                 props.error ? <div className="alert alert-danger mt-4 p-2" role="alert">
-                        <p className="text-body m-0">Please, Enter a correct location!!</p>
+                        <p className="text-body m-0"> </p>
                     </div>
                     : null
             }
         </div>
     );
 }
-
-export default composeFn(SearchBox);
+export default withTranslation()(composeFn(SearchBox));

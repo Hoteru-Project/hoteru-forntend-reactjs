@@ -201,7 +201,7 @@ class ListComponent extends Component {
                         <FilterDisplayComponent fetchHotels={this.fetchHotels}/>
                     </div>
 
-                    <h2 className="my-4 text-center" style={{fontSize:"3rem"}}>
+                    <h2 className="my-4 text-center" style={{fontSize: "3rem"}}>
                         <span className="badge bg-secondary">{t("Hotels_List")}</span>
                     </h2>
                     {
@@ -212,7 +212,8 @@ class ListComponent extends Component {
                                     <div className="d-flex justify-content-between">
                                         <div className="d-flex flex-row">
                                             <div className="m-4">
-                                                <img src={hotel.photos} className="rounded-3" height="100%" width="250px"
+                                                <img src={hotel.photos} className="rounded-3" height="100%"
+                                                     width="250px"
                                                      alt="hotel img"/>
                                             </div>
                                             <div className="my-4">
@@ -225,7 +226,7 @@ class ListComponent extends Component {
                                                                 rating={Math.floor(hotel.guestReviews.overallRating)}/>
                                                         </div>
                                                         <p className="px-2">
-                                                            ({hotel.guestReviews.numberOfReviews} reviews)
+                                                            ({hotel.guestReviews.numberOfReviews} {t("reviews_home")})
                                                         </p>
                                                     </div>
                                                 </div>
@@ -241,12 +242,12 @@ class ListComponent extends Component {
                                         <div className="d-flex flex-column align-items-center p-4">
                                             <div className="mt-5">
                                                 <span style={{backgroundColor: "lightgreen"}}
-                                                      className="rounded-3 p-3">{hotel.hotelPricing.startingAt.formatted} / night</span>
+                                                      className="rounded-3 p-3">{hotel.hotelPricing.startingAt.formatted} / {t("night")}</span>
                                             </div>
                                             <div className="mt-4">
                                                 <div className="">
                                                     <div className="d-flex flex-row bg-white">
-                                                        <p className="m-2 mt-3">More Info</p>
+                                                        <p className="m-2 mt-3">{t("more_info")}</p>
                                                         <IconButton aria-label="delete" color="primary"
                                                                     onClick={() => this.getHotelProviders(hotel.name, index)}>
                                                             <MoreArrow fontSize="large"/>
@@ -284,7 +285,7 @@ class ListComponent extends Component {
                     {!this.state.isLoading && !this.state.hotels.length &&
                     <div className="alert alert-warning w-50 mt-4 p-2 mx-auto text-center" role="alert">
                             <span className="text-body m-0">
-                                Sorry, no hotels found  <i className="fas fa-sad-tear ml-2"/>
+                                {t("no_hotel")} <i className="fas fa-sad-tear ml-2"/>
                             </span>
 
                     </div>
@@ -293,6 +294,7 @@ class ListComponent extends Component {
             </div>
         );
     }
+
 }
 
 export default withTranslation()(ListComponent);

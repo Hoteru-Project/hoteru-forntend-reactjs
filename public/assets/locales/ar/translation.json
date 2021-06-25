@@ -41,5 +41,17 @@
   "Search": "البحث",
   "guest_rating": "تقيم الضيوف",
   "more_filter": "تصنيفات اخرى",
-  "search_button": "ابحث"
+  "search_button": "ابحث",
+  "overview": "نظرة عامة",
+  "info": "معلومات",
+  "reviews": "المراجعات",
+  "deals": "صفقات اخرى",
+  "night": "ليلة",
+  "more_info": "مزيد من المعلومات",
+  "reviews_home": "مراجعات",
+  "check_in": "الوصول",
+  "check_out": "الخروج",
+  "correct_location": "من فضلك أدخل الموقع الصحيح!!",
+  "search_label": "أدخل الموقع",
+  "no_hotel": "عذرا ، لم يتم العثور على فنادق"
 }

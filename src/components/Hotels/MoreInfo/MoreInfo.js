@@ -1,5 +1,6 @@
 import Map from "../../GoogleMap/Map";
 import classes from "./MoreInfo.css"
+import {useTranslation, withTranslation} from "react-i18next";
 
 const MoreInfo = (props) => {
     const center = {
@@ -7,27 +8,28 @@ const MoreInfo = (props) => {
         lng: props.hotel.hotelLocation.coordinates.longitude,
         zoom: 14
     }
+    const {t} = useTranslation();
     return (
         <div className="container p-4">
             <ul className="nav nav-tabs" id={"hotel" + props.hotel.id} role="tablist">
                 <li className="nav-item" role="presentation">
                     <button className="nav-link active" id="overview" data-bs-toggle="tab" data-bs-target={"#overview"+props.hotel.id}
-                            type="button" role="tab" aria-controls="home" aria-selected="true">Overview
+                            type="button" role="tab" aria-controls="home" aria-selected="true">{t("overview")}
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="info" data-bs-toggle="tab" data-bs-target={"#info"+props.hotel.id}
-                            type="button" role="tab" aria-controls="profile" aria-selected="false">Info
+                            type="button" role="tab" aria-controls="profile" aria-selected="false">{t("info")}
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target={"#reviews"+props.hotel.id}
-                            type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews
+                            type="button" role="tab" aria-controls="contact" aria-selected="false">{t("reviews")}
                     </button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target={"#deals"+props.hotel.id}
-                            type="button" role="tab" aria-controls="contact" aria-selected="false">Deals
+                            type="button" role="tab" aria-controls="contact" aria-selected="false">{t("deals")}
                     </button>
                 </li>
             </ul>
@@ -69,15 +71,12 @@ const MoreInfo = (props) => {
                         )
                     })}
                 </div>
-                <div className="tab-pane fade p-4" id={"deals"+props.hotel.id} role="tabpanel">
-                    {/*<h4>Deals: </h4>*/}
+                <div className="tab-pane fade p-4 d-flex" id={"deals"+props.hotel.id} role="tabpanel" style={{overflow:"auto",}}>
                     {
                         props.hotel.providers?.map((provider) =>
-                            <div className={["d-inline-block rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>
-                                <span className="badge bg-primary p-2">${provider.hotelPricing.startingAt.plain} / night</span>
-                                {/*<p className="bg-primary p-2">${provider.hotelPricing.startingAt.plain} / night</p>*/}
+                            <div className={["rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>
+                                <span className="badge bg-primary p-2">${provider.hotelPricing.startingAt.plain} / {t("night")}</span>
                                 <span className="badge d-block mt-2 bg-dark p-2">{provider.provider}</span>
-                                {/*<p>{provider.provider}</p>*/}
                             </div>
                         )
                     }
@@ -87,4 +86,4 @@ const MoreInfo = (props) => {
     )
 }
 
-export default MoreInfo;
+export default withTranslation()(MoreInfo);
