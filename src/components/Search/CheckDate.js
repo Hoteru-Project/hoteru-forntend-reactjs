@@ -28,7 +28,7 @@ export default function CheckDate(props) {
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div className="bg-light p-2 rounded-3">
+            <div className="rounded-3">
                 <Grid container justify="space-around">
                     <KeyboardDatePicker
                         disableToolbar

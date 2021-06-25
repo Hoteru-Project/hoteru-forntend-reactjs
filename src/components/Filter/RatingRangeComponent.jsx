@@ -29,7 +29,7 @@ export default function RatingRange(props) {
 
   return (
     <div>
-      <Button aria-describedby={id} variant="text" color="primary" onClick={handleClick}>
+      <Button aria-describedby={id} variant="outlined" color="primary" onClick={handleClick}>
         Guest Rating
       </Button>
       <Popover

@@ -181,19 +181,26 @@ class ListComponent extends Component {
         }
         return (
             <div className="container rounded-3">
-                <h3>Search </h3>
-                <SearchFilter fetchHotels={this.fetchHotels}
-                              updateDates={this.updateDate}
-                              updateLocationType={this.setLocationType}
-                              setTest={this.setTest}
-                />
-                <Button variant="contained" color="primary" className="p-2"
-                        size="small" onClick={this.setUrlParams}
-                >search
-                    <SearchRoundedIcon className="ml-1" />
-                </Button>
+                <div>
+                    <h3>Search </h3>
+                    <div className="bg-light rounded-3 p-2">
+                        <SearchFilter fetchHotels={this.fetchHotels}
+                                      updateDates={this.updateDate}
+                                      updateLocationType={this.setLocationType}
+                                      setTest={this.setTest}
+                        />
+                        <Button variant="contained" color="primary" className="p-2 ml-4 mb-2"
+                                size="small" onClick={this.setUrlParams}
+                        >search
+                            <SearchRoundedIcon className="ml-1"/>
+                        </Button>
+                    </div>
+
+                </div>
                 <Route path="/hotels">
-                    <FilterDisplayComponent fetchHotels={this.fetchHotels} />
+                    <div className="my-2 rounded-3">
+                        <FilterDisplayComponent fetchHotels={this.fetchHotels}/>
+                    </div>
 
                     <h3>Hotels List:</h3>
                     {
@@ -230,15 +237,15 @@ class ListComponent extends Component {
                                     </div>
                                     {
                                         hotel.isInfoLoading &&
-                                            <div className="w-50 mx-auto p-4 container">
-                                                <Animations/>
-                                            </div>
+                                        <div className="w-50 mx-auto p-4 container">
+                                            <Animations/>
+                                        </div>
                                     }
                                     {
                                         hotel.moreInfo && !hotel.isInfoLoading &&
-                                            <div>
-                                                <MoreInfo hotel={hotel}/>
-                                            </div>
+                                        <div>
+                                            <MoreInfo hotel={hotel}/>
+                                        </div>
 
                                     }
                                 </div>

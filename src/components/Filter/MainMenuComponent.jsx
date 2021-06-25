@@ -42,9 +42,11 @@ export default function MainMenuComponent(props) {
               <SortDropDown {...props} mainMenuGetSortId={handleSetSortId}/>
             </div>
             <div className="col-6">
-              <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+              <ButtonGroup variant="outlined" color="primary" aria-label="text primary button group">
               <RatingRange getClassRatingToMenu= {props.getClassRatingToDisplay}/>
-              <Button onClick={handleMoreFiltersClick}>More Filters</Button>
+              <div className="ml-2">
+                  <Button variant="outlined" color="primary" onClick={handleMoreFiltersClick}>More Filters</Button>
+              </div>
               </ButtonGroup>
             </div>
         </div>
