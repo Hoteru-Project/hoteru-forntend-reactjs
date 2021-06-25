@@ -49,7 +49,7 @@ function RatingRangeList(props) {
         onClick={()=>{props.handleRatingListClicked("excellent")}}>
     
         <div style={{justifyContent:"space-between"}}>
-          <span class="badge badge-pill badge-success">
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#417f24" }}>
             8.5
           </span>
           <span> Excellent</span>

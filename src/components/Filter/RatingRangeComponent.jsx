@@ -28,7 +28,7 @@ export default function RatingRange(props) {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <div>
+    <>
       <Button aria-describedby={id} variant="outlined" color="primary" onClick={handleClick}>
         Guest Rating
       </Button>
@@ -50,7 +50,7 @@ export default function RatingRange(props) {
             <RatingRangeList handleRatingListClicked={props.getClassRatingToMenu}/>
         </Typography>
       </Popover>
-    </div>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {withTranslation} from "react-i18next";
+import mainClasses from "../mainsec/mainsec.css";
 
 class PopularPlaces extends Component {
     state = {
@@ -67,7 +68,7 @@ class PopularPlaces extends Component {
                             <span className="text-center">{t("no_data")}</span> : this.state.places.map(data => (
                                 <>
                                     <div className="col-md-3 p-3">
-                                        <div className="card">
+                                        <div className={["card", mainClasses.ClickableCard].join(" ")} onClick={this.props.requestSearch(data.search, data.type)}>
                                             <img className="w-100 card-img-top"
                                                  src="https://www.choicehotels.com/cms/images/sleep-inn/image_sleep-inn-about-01/image_sleep-inn-about-01.jpg"
                                                  alt="..."/>

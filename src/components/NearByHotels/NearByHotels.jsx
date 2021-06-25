@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Skeleton from '@material-ui/lab/Skeleton';
 import instance from '../../axios-backend';
 import {withTranslation} from "react-i18next";
+import mainClasses from "../mainsec/mainsec.css"
 
 class NearByHotels extends Component {
     state = {
@@ -52,7 +53,7 @@ class NearByHotels extends Component {
                         <span className="text-center">{t("no_data")}</span> : this.state.data.map(hotel => (
                             // {console.log(hotel.name)}
                             <div className="col-md-4 p-3">
-                                <div className="card">
+                                <div className={["card", mainClasses.ClickableCard].join(" ")} onClick={this.props.requestSearch(hotel.search, hotel.type)}>
                                     <img src={hotel.photos} alt=""/>
                                     <div className="card-body">
                                         <h5 className="card-title">{hotel.name}</h5>

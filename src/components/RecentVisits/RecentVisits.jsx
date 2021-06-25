@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {withTranslation} from "react-i18next";
+import mainClasses from "../mainsec/mainsec.css";
 
 class RecentVisits extends Component {
     state = {
@@ -56,7 +57,7 @@ class RecentVisits extends Component {
                         {!this.state.recent.length ?
                             <span className="text-center">{t("no_data")}</span> : recent.map(data =>
                                 <div className="col-md-4 p-3 ">
-                                    <div className="card">
+                                    <div className={["card", mainClasses.ClickableCard].join(" ")}  onClick={this.props.requestSearch(data.search, data.type)}>
                                         <img className="w-100 card-img-top"
                                              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWx8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
                                              alt="..."/>
