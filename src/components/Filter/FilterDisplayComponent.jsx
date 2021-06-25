@@ -8,7 +8,7 @@ class FilterDisplayComponent extends Component {
     super(props);
     this.state = {
       error: null,
-      url:'/hotels/test?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1',
+      url:'/hotels/test?checkIn=2021-06-07&checkOut=2021-06-08&location=alexandria&rooms=1&locationType=place',
       isLoaded: false,
       items: [],
       filters:[],
@@ -16,21 +16,31 @@ class FilterDisplayComponent extends Component {
       classRating: null,
       starRating:null
     };
+    // const params = new URLSearchParams(decodeURI(window.location.search))
+    // console.log(">>>FILTER DISPLAY ", params.getAll("search"))
   }
 
   setCheckedFilters= (filters) => {
-
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const params = Object.fromEntries(urlParams.entries())
+    // console.log("FILTER DISPLAY", params)
     const hasFilters = !!filters.length
-    const filterQuery = `${(hasFilters?"filter=":"")}${filters.join('-')}`;
-    const url = `${this.state.url}${hasFilters?"&":""}${filterQuery}`;
-
+    hasFilters? (params.filter = filters.join('-')) : (delete params.filter)
+    // const filterQuery = `${(hasFilters?"filter=":"")}${filters.join('-')}`;
+    // const url = `${this.state.url}${hasFilters?"&":""}${filterQuery}`;
+    const finalQueryString = Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
     this.setState({filters: filters});
-    this.props.history.push(`/search?${filterQuery}`)
-    this.fetchHotels(url)
+    this.props.history.push({
+      pathname: "/hotels",
+      search: finalQueryString
+    })
+    // this.props.history.push(`/hotels?${filterQuery}`)
+    // this.fetchHotels("/hotels/search"+window.location.search)
+    this.props.fetchHotels("/hotels/search"+window.location.search)
   }
 
   fetchHotels=(url)=>{
-
     instance.get(url??this.state.url)
     .then(
       (result) => {
@@ -52,22 +62,32 @@ class FilterDisplayComponent extends Component {
     this.fetchHotels();
   }
 
+  handleApiCall = (paramName, value) => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const params = Object.fromEntries(urlParams.entries())
+    params[paramName] = value;
+    const finalQueryString = Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
+    this.props.history.push({
+      pathname: "/hotels",
+      search: finalQueryString
+    })
+    this.props.fetchHotels("/hotels/search"+window.location.search)
+  }
+
   handleSortCallBack = (sortID) => {
-    let url = this.state.url + `&sorting=${sortID}`;
+    this.handleApiCall("sorting", sortID)
     this.setState({sortID : sortID});
-    this.fetchHotels(url);
   }
 
   getClassRatingToDisplay = (classRating) => {
-    let url = this.state.url + `&class=${classRating}`;
+    this.handleApiCall("class", classRating)
     this.setState({classRating : classRating});
-    this.fetchHotels(url);
   }
 
   getStarsRatingToDisplay = (starsNumber) => {
-    let url = this.state.url + `&stars=${starsNumber}`;
+    this.handleApiCall("stars", starsNumber)
     this.setState({starsNumber : starsNumber});
-    this.fetchHotels(url);
   }
 
   render() {
@@ -80,7 +100,6 @@ class FilterDisplayComponent extends Component {
     } else {
       return (
         <div>
-          <ul>
             <MainMenuComponent
             checkedFilters={this.state.filters}
             setCheckedFilters={this.setCheckedFilters}
@@ -89,21 +108,6 @@ class FilterDisplayComponent extends Component {
             getClassRatingToDisplay={this.getClassRatingToDisplay}
             getStarsRatingToDisplay={this.getStarsRatingToDisplay}
             />
-            <h3>Testing The requested sortID in the grandparent: {this.state.sortID}</h3>
-
-            {this.state.items.map(item => (
-              <li key={item.id}>
-                  <strong>{item.name}</strong>
-                  <br />
-                  Rating: {item.guestReviews.overallRating} 
-                  <br />
-                  Pricing: ${item.hotelPricing.startingAt.plain}
-                  <br />
-                  {item.classRating} star hotel
-                  <br />
-              </li>
-            ))}
-          </ul>
         </div>
       );
     }

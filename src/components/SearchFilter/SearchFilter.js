@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import SearchBox from "../SearchBox/SearchBox";
 import {withRouter} from "react-router-dom";
 import CheckDate from "../Search/CheckDate";
+import FilterDisplayComponent from "../Filter/FilterDisplayComponent";
 
 const today = new Date();
 let tomorrow = new Date()
@@ -17,8 +18,8 @@ class SearchFilter extends Component {
             apiUrl: "hotels/search?",
             fullUrl: "",
             urlParams: "",
-            checkIn: "checkIn="+ today.toISOString().split("T")[0],
-            checkOut: "checkOut="+ tomorrow.toISOString().split("T")[0],
+            checkIn: "checkIn=" + today.toISOString().split("T")[0],
+            checkOut: "checkOut=" + tomorrow.toISOString().split("T")[0],
             location: "",
             rooms: "rooms=1",
             checkInDate: new Date(),
@@ -46,10 +47,10 @@ class SearchFilter extends Component {
 
 
     updateSearchQuery = async (searchQuery, locationType) => {
-        console.log("<<<<<TYPES ",locationType)
+        console.log("<<<<<TYPES ", locationType)
         await this.setState({location: searchQuery});
         let urlParams = [this.state.checkIn, this.state.checkOut,
-            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType="+locationType
+            "location=" + encodeURIComponent(this.state.location), this.state.rooms, "locationType=" + locationType
         ].join("&")
         this.setState(({urlParams}))
         let fullUrl = [this.state.apiUrl, urlParams].join("")
@@ -62,8 +63,8 @@ class SearchFilter extends Component {
     }
 
     checkSearchUpdated = () => {
-        this.props.history.push('/hotels?location=' +this.state.location+ "&"+this.state.checkIn
-            +"&" + this.state.checkOut +"&"+ this.state.rooms+ "&locationType="+this.state.locationType
+        this.props.history.push('/hotels?location=' + this.state.location + "&" + this.state.checkIn
+            + "&" + this.state.checkOut + "&" + this.state.rooms + "&locationType=" + this.state.locationType
         )
     }
 
@@ -76,9 +77,9 @@ class SearchFilter extends Component {
     }
 
     checkOutMinDate = () => {
-        const checkInDate = this.state?.checkInDate??today;
-        const returnedDate =  new Date(checkInDate);
-        returnedDate.setUTCHours(24,0,0, 0);
+        const checkInDate = this.state?.checkInDate ?? today;
+        const returnedDate = new Date(checkInDate);
+        returnedDate.setUTCHours(24, 0, 0, 0);
         return returnedDate;
     }
 
@@ -91,19 +92,21 @@ class SearchFilter extends Component {
         const checkMaxDate = this.checkMaxDate();
         return (
             <div className="container">
-                <div className="mx-auto">
-                    <SearchBox updateUrl={this.updateSearchQuery} />
-                    <div className="p-2 d-flex flex-row">
+                <div className="mx-auto row">
+                    <div className="col-md-4 mt-4">
+                        <SearchBox updateUrl={this.updateSearchQuery}/>
+                    </div>
+                    <div className="col-md-4">
                         <CheckDate dateSetter={this.setCheckDate("checkInDate")}
                                    minDate={today} maxDate={checkMaxDate}
                                    setcheckDate={this.setCompCheckDate} type="checkIn"
                         />
-                        <div className="ml-4 w-100">
-                            <CheckDate dateSetter={this.setCheckDate("checkOutDate")}
-                                       minDate={checkOutMinDate} maxDate={checkMaxDate}
-                                       setcheckDate={this.setCompCheckDate} type="checkOut"
-                            />
-                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <CheckDate dateSetter={this.setCheckDate("checkOutDate")} className="w-100"
+                                   minDate={checkOutMinDate} maxDate={checkMaxDate}
+                                   setcheckDate={this.setCompCheckDate} type="checkOut"
+                        />
                     </div>
                 </div>
             </div>

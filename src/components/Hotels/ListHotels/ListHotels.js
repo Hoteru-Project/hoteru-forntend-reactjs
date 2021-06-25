@@ -11,6 +11,7 @@ import {Route} from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Animations from "../loadingInfo";
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import FilterDisplayComponent from "../../Filter/FilterDisplayComponent";
 
 class ListComponent extends Component {
     state = {
@@ -186,12 +187,14 @@ class ListComponent extends Component {
                               updateLocationType={this.setLocationType}
                               setTest={this.setTest}
                 />
-                <Button variant="contained" color="primary"
+                <Button variant="contained" color="primary" className="p-2"
                         size="small" onClick={this.setUrlParams}
-                >
-                    <SearchRoundedIcon />
+                >search
+                    <SearchRoundedIcon className="ml-1" />
                 </Button>
                 <Route path="/hotels">
+                    <FilterDisplayComponent fetchHotels={this.fetchHotels} />
+
                     <h3>Hotels List:</h3>
                     {
                         this.state.hotels.map(

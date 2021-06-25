@@ -68,7 +68,7 @@ const SearchBox = (props) => {
             >
                 <input
                     type="text"
-                    className="form-control w-50"
+                    className="form-control"
                     placeholder="Enter a location"
                     ref={props.onInputSearchBoxMounted}
                     defaultValue={searchParamLocation}
@@ -84,7 +84,7 @@ const SearchBox = (props) => {
             {/*    )}*/}
             {/*</ol>*/}
             {
-                props.error ? <div className="alert alert-danger w-50 mt-4 p-2" role="alert">
+                props.error ? <div className="alert alert-danger mt-4 p-2" role="alert">
                         <p className="text-body m-0">Please, Enter a correct location!!</p>
                     </div>
                     : null
