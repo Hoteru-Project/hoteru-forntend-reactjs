@@ -8,11 +8,11 @@ import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
 import {Link, withRouter} from "react-router-dom";
 import NavbarMenu from "../UI/NavbarMenu/NavbarMenu";
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
-import { useTranslation, initReactI18next } from "react-i18next";
+import {useTranslation, initReactI18next} from "react-i18next";
 import i18n from "i18next";
 import {authenticationService} from "../../services/authentication.service";
 import {Avatar} from "@material-ui/core";
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import {deepOrange, deepPurple} from '@material-ui/core/colors';
 import Router from "../../Router";
 import instance from "../../axios-backend";
 import Logo from "../../assets/images/Logo.png"
@@ -108,15 +108,11 @@ const useStyles = makeStyles((theme) => ({
 const PrimarySearchAppBar = (props) => {
     const classes = useStyles();
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const getReducedName = () => {
         const nameArray = authenticationService.currentUserValue?.name?.trim()?.split(" ");
-        return nameArray && (nameArray.length<=1?nameArray[0][0].toUpperCase():nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
+        return nameArray && (nameArray.length <= 1 ? nameArray[0][0].toUpperCase() : nameArray.reduce((accumulator, currentValue) => accumulator[0] + currentValue[0].toUpperCase()));
     }
-
-
-    const [currenciesFetched, setCurrenciesFetched] = useState(false);
-
 
     const [menus, setMenus] = useState([
         {
@@ -134,74 +130,96 @@ const PrimarySearchAppBar = (props) => {
                 )
             ]
         },
-        {
-            name: i18n.language?.toUpperCase(),
-            icon: <PublicTwoToneIcon/>,
-            items: [
-                {
-                    name: "English",
-                    onClick: async () => {
-                        const href = window.location.pathname + window.location.search;
-                        await i18n.changeLanguage('en')
-                        console.log(href)
-                        props.history.push(href)
-                    },
-                    country_code: "US"
-                },
-                {
-                    name: "Arabic",
-                    onClick: async () => {
-                        const href = window.location.pathname + window.location.search;
-                        await i18n.changeLanguage('ar')
-                        props.history.push(href)
-
-                    },
-                    country_code: "EG"
-                },
-            ]
-        },
 
 
     ]);
 
-    const getCurrency =  () => {
+    const getCurrency = () => {
         return localStorage.getItem("currency");
     }
 
-    const setCurrency = (currency) =>{
+    const setCurrency = (currency) => {
         const usedCurrency = getCurrency();
-        menus.forEach(item => item.name === usedCurrency && (item.name = currency ))
+        const newMenus = [...menus]
+        newMenus.forEach(item => item.name === usedCurrency && (item.name = currency))
         localStorage.setItem("currency", currency);
+        setMenus(newMenus);
+    }
+
+    const setLanguage = (oldLanguage, newLanguage) => {
+        const newMenus = [...menus]
+        newMenus.forEach(item => item.name?.toUpperCase() === oldLanguage.toUpperCase() && (item.name = newLanguage.toUpperCase()))
+        setMenus(newMenus);
+    }
+
+
+    useEffect(() => {
+        (async () => {
+            await loadCurrencies()
+            await loadTranslations()
+            setMenus([...menus])
+        })()
+
+    }, [])
+
+    const loadTranslations =  () => {
+        const language = i18n.language;
+        menus.push({
+            name: language?.toUpperCase(),
+            icon: <PublicTwoToneIcon/>,
+            items: [
+                {
+                    type: "language",
+                    name: "English",
+                    onClick: async () => {
+                        const href = window.location.pathname + window.location.search;
+                        await i18n.changeLanguage('en')
+                        props.history.push(href)
+                        setLanguage("ar", "en")
+                    },
+                    country_code: "US"
+                },
+                {
+                    type: "language",
+                    name: "Arabic",
+                    onClick: async () => {
+                        const href = window.location.pathname + window.location.search;
+                        await i18n.changeLanguage('ar')
+                        setLanguage("en", "ar")
+                        props.history.push(href)
+                    },
+                    country_code: "EG"
+                },
+            ]
+        })
         setMenus(menus);
     }
 
-    useEffect(() =>{
-        if(!currenciesFetched) {
-            setCurrenciesFetched(true);
-            instance.get("/currencies")
-                .then(response => {
-                    const currencyMenu = response.data.map(currency => {
-                        return {
-                            name: `${currency.code} - ${currency.name}`,
-                            onClick: () => setCurrency(currency.code)
-                        }
-                    })
-                    menus.push({
-                        icon: <MonetizationOnTwoToneIcon/>,
-                        name: getCurrency(),
-                        items: currencyMenu
-                    })
-                    setMenus(menus);
+    const loadCurrencies = async () => {
+       await instance.get("/currencies")
+            .then(response => {
+                const currencyMenu = response.data.map(currency => {
+                    return {
+                        name: `${currency.code} - ${currency.name}`,
+                        onClick: () => setCurrency(currency.code)
+                    }
                 })
-        }
-    }, [currenciesFetched, menus])
-
+                menus.push({
+                    icon: <MonetizationOnTwoToneIcon/>,
+                    name: getCurrency(),
+                    items: currencyMenu
+                })
+                setMenus(menus);
+            })
+    }
 
     return (
         <div className={classes.grow}>
             <AppBar position="static" className={classes.bgg} color="transparent">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap component={Link} to={Router("homepage")}><img className="m-2" style={{ width:"70px" }} src={Logo} /></Typography>
+                    <Typography className={classes.title} variant="h6" noWrap component={Link}
+                                to={Router("homepage")}><img className="m-2" style={{width: "70px"}}
+                                                             src={Logo}/></Typography>
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         {menus.map(menu => <NavbarMenu menu={menu}/>)}
@@ -216,4 +234,4 @@ const PrimarySearchAppBar = (props) => {
     );
 }
 
-export default  withRouter(PrimarySearchAppBar)
+export default withRouter(PrimarySearchAppBar)

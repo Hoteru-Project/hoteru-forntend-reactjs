@@ -71,7 +71,7 @@ const Nav = (props) => {
                  <>
 
                      {items.items.map((item, itemsIndex) => (
-                         <ListItem component={Link} to={item.link} button key={itemsIndex}>
+                         <ListItem onClick={(event) => {!!item.onClick && item.onClick(event)}} key={itemsIndex} component={Link} to={item.link}>
                              <ListItemText primary={item.name}/>
                          </ListItem>
                      ))}

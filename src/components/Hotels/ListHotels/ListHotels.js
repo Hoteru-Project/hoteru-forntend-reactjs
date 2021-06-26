@@ -99,6 +99,7 @@ class ListComponent extends Component {
 
 
     fetchHotels = async (url) => {
+        this.setState({hotels: []});
         await this.setApiUrl();
         await this.axiosFetch(url)
     }

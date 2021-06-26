@@ -49,17 +49,24 @@ class SearchFilter extends Component {
     }
 
     updateSearchParams = (searchQuery, locationType) => {
-        this.setState({location: searchQuery, locationType: locationType})
-        this.updateSearchQuery(searchQuery, locationType)
+        const urlSearchParam = new URLSearchParams(window.location.search);
+        this.setState({location: searchQuery??urlSearchParam.get("location"), locationType: locationType??urlSearchParam.get("locationType")})
     }
 
     updateSearchQuery = async (searchQuery, locationType) => {
+        const urlSearchParam = new URLSearchParams(window.location.search);
         let currency = await localStorage.getItem("currency")??"USD"
+        searchQuery = searchQuery? searchQuery:urlSearchParam.get("location");
+        locationType = locationType? locationType: urlSearchParam.get("locationType");
         console.log("<<<<<currency ",currency)
         console.log("<<<<<TYPES ", locationType)
-        await this.setState({location: searchQuery, currency: currency});
+        await this.setState({
+            location: searchQuery,
+            locationType: locationType,
+            currency: currency
+        });
         let urlParams = [this.state.checkIn, this.state.checkOut,
-            "location=" + encodeURIComponent(this.state.location), this.state.rooms,
+            "location=" + encodeURIComponent(this.state.location??searchQuery), this.state.rooms,
             "locationType=" + locationType, "currency=" + currency
         ].join("&")
         this.setState(({urlParams}))
@@ -75,6 +82,10 @@ class SearchFilter extends Component {
         this.props.history.push('/hotels?location=' + this.state.location + "&" + this.state.checkIn
             + "&" + this.state.checkOut + "&" + this.state.rooms + "&locationType=" + this.state.locationType + "&currency=" + this.state.currency
         )
+    }
+
+    setLocation = (event) => {
+        this.setState({location: event.target.value})
     }
 
     setCheckDate = (checkInOut) => (checkDate) => {
@@ -104,7 +115,7 @@ class SearchFilter extends Component {
             <div className="container">
                 <div className="mx-auto row">
                     <div className="col-md-4 mt-4">
-                        <SearchBox updateUrl={this.updateSearchQuery} updateSearchState={this.updateSearchParams}/>
+                        <SearchBox onInputChange={this.setLocation} updateUrl={this.updateSearchQuery} updateSearchState={this.updateSearchParams}/>
                     </div>
                     <div className="col-md-3">
                         <CheckDate dateSetter={this.setCheckDate("checkInDate")}

@@ -73,6 +73,7 @@ const SearchBox = (props) => {
                     placeholder={t("search_label")}
                     ref={props.onInputSearchBoxMounted}
                     defaultValue={searchParamLocation}
+                    onChange={props.onInputChange}
                 />
             </StandaloneSearchBox>
             {
