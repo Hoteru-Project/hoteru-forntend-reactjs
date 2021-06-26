@@ -37,7 +37,6 @@ class SearchFilter extends Component {
     }
 
     setCompCheckDate = async (date, type) => {
-        console.log("I AM HERE DATE TYPE ", date, type)
         if (type === "checkIn") {
             await this.setState({checkIn: "checkIn=" + date})
             this.props.updateDates(this.state.checkIn, type)
@@ -56,10 +55,8 @@ class SearchFilter extends Component {
     updateSearchQuery = async (searchQuery, locationType) => {
         const urlSearchParam = new URLSearchParams(window.location.search);
         let currency = await localStorage.getItem("currency")??"USD"
-        searchQuery = searchQuery? searchQuery:urlSearchParam.get("location");
-        locationType = locationType? locationType: urlSearchParam.get("locationType");
-        console.log("<<<<<currency ",currency)
-        console.log("<<<<<TYPES ", locationType)
+        searchQuery = searchQuery? searchQuery:await urlSearchParam.get("location");
+        locationType = locationType? locationType: await urlSearchParam.get("locationType");
         await this.setState({
             location: searchQuery,
             locationType: locationType,
@@ -74,8 +71,6 @@ class SearchFilter extends Component {
         await this.setState({fullUrl, locationType})
         this.checkSearchUpdated()
         await this.props.fetchHotels(fullUrl);
-        // this.props.setTest(fullUrl)
-        console.log(fullUrl)
     }
 
     checkSearchUpdated =  () => {
@@ -90,10 +85,6 @@ class SearchFilter extends Component {
 
     setCheckDate = (checkInOut) => (checkDate) => {
         this.setState({[checkInOut]: checkDate})
-    }
-
-    clicked = () => {
-        console.log("CLICKED")
     }
 
     checkOutMinDate = () => {

@@ -138,12 +138,20 @@ const PrimarySearchAppBar = (props) => {
         return localStorage.getItem("currency");
     }
 
-    const setCurrency = (currency) => {
+    const setCurrency = async (currency) => {
+        const currentURLSearchParams = new URLSearchParams(window.location.search);
+        const currentParams = Object.fromEntries(currentURLSearchParams.entries());
+        const newParams = {...currentParams, currency: currency};
+        const finalParams = Object.keys(newParams).map(param => `${param}=${newParams[param]}`).join("&");
         const usedCurrency = getCurrency();
         const newMenus = [...menus]
         newMenus.forEach(item => item.name === usedCurrency && (item.name = currency))
         localStorage.setItem("currency", currency);
-        setMenus(newMenus);
+        await setMenus(newMenus);
+        props.history.push({
+            pathname: window.location.pathname,
+            search: `?${finalParams}`
+        })
     }
 
     const setLanguage = (oldLanguage, newLanguage) => {

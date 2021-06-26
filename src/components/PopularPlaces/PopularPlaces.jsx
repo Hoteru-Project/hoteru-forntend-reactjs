@@ -27,7 +27,6 @@ class PopularPlaces extends Component {
     changePlace = async (setType) => {
         await this.setState({type: setType});
         this.componentDidMount();
-        console.log(this.state);
     }
 
     render() {

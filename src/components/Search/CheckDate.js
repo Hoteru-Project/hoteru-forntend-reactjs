@@ -9,7 +9,6 @@ export default function CheckDate(props) {
     const handleDateChange = (date) => {
         date.setUTCHours(1, 0, 0, 0);
         let formattedDate = date.toISOString().split("T")[0]
-        console.log("I AM DATE ",date.toISOString().split("T")[0])
         props.dateSetter(date)
         setSelectedDate(date);
         props.setcheckDate(formattedDate, props.type)

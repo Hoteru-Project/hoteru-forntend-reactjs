@@ -16,27 +16,20 @@ class FilterDisplayComponent extends Component {
       classRating: null,
       starRating:null
     };
-    // const params = new URLSearchParams(decodeURI(window.location.search))
-    // console.log(">>>FILTER DISPLAY ", params.getAll("search"))
   }
 
   setCheckedFilters= (filters) => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const params = Object.fromEntries(urlParams.entries())
-    // console.log("FILTER DISPLAY", params)
     const hasFilters = !!filters.length
     hasFilters? (params.filter = filters.join('-')) : (delete params.filter)
-    // const filterQuery = `${(hasFilters?"filter=":"")}${filters.join('-')}`;
-    // const url = `${this.state.url}${hasFilters?"&":""}${filterQuery}`;
     const finalQueryString = Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
     this.setState({filters: filters});
     this.props.history.push({
       pathname: "/hotels",
       search: finalQueryString
     })
-    // this.props.history.push(`/hotels?${filterQuery}`)
-    // this.fetchHotels("/hotels/search"+window.location.search)
     this.props.fetchHotels("/hotels/search"+window.location.search)
   }
 
@@ -44,7 +37,6 @@ class FilterDisplayComponent extends Component {
     instance.get(url??this.state.url)
     .then(
       (result) => {
-        // console.log(result);
         this.setState({
           isLoaded: true,
           items: [...result.data]
@@ -92,7 +84,6 @@ class FilterDisplayComponent extends Component {
 
   render() {
     const { error, isLoaded, items } = this.state;
-    // this.state.items.forEach(item => console.log([item.name, item.hotelPricing.startingAt.plain]))
     if (error) {
       return <div>Error: {error.message}</div>;
     } else {

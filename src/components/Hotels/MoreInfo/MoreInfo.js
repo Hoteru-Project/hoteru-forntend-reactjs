@@ -48,7 +48,7 @@ const MoreInfo = (props) => {
                         <h4>Location: </h4>
                         <Map center={center} hotel={props.hotel}/>
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-5">
                         <h4>All Features: </h4>
                         <div className="row">
                             {props.hotel.mainAmenities.map( (item) => {return <li className=" col-5">{item}</li> }  )}

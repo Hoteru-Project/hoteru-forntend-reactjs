@@ -50,7 +50,7 @@ function RatingRangeList(props) {
     
         <div style={{justifyContent:"space-between"}}>
           <span className="badge badge-pill badge-success" style={{backgroundColor:"#417f24" }}>
-            8.5
+            8.5 ~ 10.0
           </span>
           <span> Excellent</span>
         </div>  
@@ -60,7 +60,7 @@ function RatingRangeList(props) {
         onClick={()=>{props.handleRatingListClicked("very-good")}}>
 
           <div style={{justifyContent:"space-between"}}>
-          <span className="badge badge-pill badge-success" style={{backgroundColor:"#59ad30" }}>8.0 </span>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#59ad30" }}>8.0 ~ 8.5 </span>
           <span> Very Good</span>  
           </div>
         </ListItem>
@@ -68,7 +68,7 @@ function RatingRangeList(props) {
         <ListItem button
         onClick={()=>{props.handleRatingListClicked("good")}}>
           <div style={{justifyContent:"space-between"}}>
-          <span className="badge badge-pill badge-success" style={{backgroundColor:"#93c91f" }}>7.5 </span>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#93c91f" }}>7.5 ~ 8.0</span>
           <span> Good</span>  
           </div>
         </ListItem>
@@ -76,7 +76,7 @@ function RatingRangeList(props) {
         <ListItem button
         onClick={()=>{props.handleRatingListClicked("fair")}}>
           <div style={{justifyContent:"space-between"}}>
-          <span className="badge badge-pill badge-success" style={{backgroundColor:"#e84f00" }}>7.0 </span>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#e84f00" }}>7.0 ~ 7.5 </span>
           <span> Fair</span>  
           </div>
         </ListItem>
@@ -84,7 +84,7 @@ function RatingRangeList(props) {
         <ListItem button
         onClick={()=>{props.handleRatingListClicked("okay")}}>
           <div style={{justifyContent:"space-between"}}>
-          <span className="badge badge-pill badge-success" style={{backgroundColor:"#d3620a" }}>6.5 </span>
+          <span className="badge badge-pill badge-success" style={{backgroundColor:"#d3620a" }}>4.0 ~ 6.5 </span>
           <span> Okay</span>  
           </div>
         </ListItem>

@@ -44,7 +44,6 @@ class ListComponent extends Component {
 
     setUrlParams = async () => {
         const searchParams = new URLSearchParams(decodeURI(window.location.search))
-        console.log(searchParams)
         const params = Object.fromEntries(searchParams.entries());
         if (window.location.pathname.startsWith("/hotels")) {
             this.setState({isLoading: true})
@@ -122,7 +121,6 @@ class ListComponent extends Component {
             this.state[hotelName] = []
             let params = "checkIn=" + checkIn + "&checkOut=" + checkOut + "&location=" + location + "&rooms=1&name=" + hotelName;
 
-            console.log("BEFORE AXIOS")
             hotels[index].isInfoLoading = !hotels[index].isInfoLoading
             await this.setState({hotels})
             let providers = await instance.get("/hotel?" + params)
@@ -134,8 +132,6 @@ class ListComponent extends Component {
             hotels[index].isInfoLoading = !hotels[index].isInfoLoading
             await this.setState({hotels})
 
-            console.log(providers)
-            console.log("AFTER AXIOS")
             this.setProviders(providers, index)
         } else {
             this.setProviders([], index)
@@ -155,7 +151,6 @@ class ListComponent extends Component {
         return (
             <div className="container rounded-3 my-4">
                 <div>
-                    {/*<h3>{t("Search")}</h3>*/}
                     <h2 className="my-4" style={{fontSize: "3rem"}}>
                         <span className="badge bg-light text-body">{t("Search")}</span>
                     </h2>

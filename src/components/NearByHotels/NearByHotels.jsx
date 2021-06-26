@@ -18,7 +18,6 @@ class NearByHotels extends Component {
         try {
             let {data} = await instance.get(`/hotels/near`);
             await this.setState({data});
-            console.log(this.state.data);
         } catch (e) {
             console.log(e);
         }
@@ -53,7 +52,6 @@ class NearByHotels extends Component {
                     </div>
                     {!this.state.data.length ?
                         <span className="text-center">{t("no_data")}</span> : this.state.data.map(hotel => (
-                            // {console.log(hotel.name)}
                             <div className="col-md-4 p-3">
                                 <div className={["card", mainClasses.ClickableCard].join(" ")} onClick={this.props.requestSearch(hotel.name, "hotel")}>
                                     <img src={hotel.photos} alt=""/>
