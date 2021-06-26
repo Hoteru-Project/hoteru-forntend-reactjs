@@ -198,7 +198,7 @@ class ListComponent extends Component {
                                                     <div className="d-flex flex-row my-2">
                                                         <div className="px-2">
                                                             <GuestRating
-                                                                rating={Math.floor(hotel.guestReviews.overallRating)}/>
+                                                                rating={hotel.guestReviews.overallRating.toFixed(1)}/>
                                                         </div>
                                                         <p className="px-2">
                                                             ({hotel.guestReviews.numberOfReviews} {t("reviews_home")})
