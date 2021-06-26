@@ -71,15 +71,17 @@ const MoreInfo = (props) => {
                         )
                     })}
                 </div>
-                <div className="tab-pane fade d-flex p-4" id={"deals"+props.hotel.id} role="tabpanel" style={{overflow:"auto"}}>
-                    {
-                        props.hotel.providers?.map((provider) =>
-                            <div className={["rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>
-                                <span className="badge bg-primary p-2">${provider.hotelPricing.startingAt.plain} / {t("night")}</span>
-                                <span className="badge d-block mt-2 bg-dark p-2">{provider.provider}</span>
-                            </div>
-                        )
-                    }
+                <div className="tab-pane fade p-4" id={"deals"+props.hotel.id} role="tabpanel" style={{overflow:"auto"}}>
+                    <div className="d-flex">
+                        {
+                            props.hotel.providers?.map((provider) =>
+                                <div className={["rounded-3 bg-white mx-3 p-4 text-center", classes.hoverShadow].join(" ")}>
+                                    <span className="badge bg-primary p-2">${provider.hotelPricing.startingAt.plain} / {t("night")}</span>
+                                    <span className="badge d-block mt-2 bg-dark p-2">{provider.provider}</span>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </div>

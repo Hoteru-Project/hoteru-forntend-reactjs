@@ -43,7 +43,7 @@ function RatingRangeList(props) {
   return (
     <div className={classes.root}>
         <List component="nav" aria-label="main mailbox folders">
-        <h6><strong>Hotels Ratings</strong></h6>
+        <h6><strong>Hotels Guest Ratings</strong></h6>
 
         <ListItem button
         onClick={()=>{props.handleRatingListClicked("excellent")}}>
