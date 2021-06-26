@@ -154,7 +154,10 @@ class ListComponent extends Component {
         return (
             <div className="container rounded-3 my-4">
                 <div>
-                    <h3>{t("Search")}</h3>
+                    {/*<h3>{t("Search")}</h3>*/}
+                    <h2 className="my-4" style={{fontSize: "3rem"}}>
+                        <span className="badge bg-light text-body">{t("Search")}</span>
+                    </h2>
                     <div className="bg-light rounded-3 p-2">
                         <SearchFilter fetchHotels={this.fetchHotels}
                                       updateDates={this.updateDate}
