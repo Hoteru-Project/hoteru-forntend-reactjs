@@ -18,3 +18,4 @@ create .env.local add those lines to it.
 #### REACT_APP_MAILCHIMP_ID=
 
 Now your application is ready.
+Run ```npm start```
