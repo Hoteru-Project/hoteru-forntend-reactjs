@@ -52,5 +52,9 @@
   "check_out": "check-Out",
   "correct_location": "Please, Enter a correct location!!",
   "search_label": "Enter a location",
-  "no_hotel": "Sorry, no hotels found"
+  "no_hotel": "Sorry, no hotels found",
+  "our_recommendation": "Our Recommendation",
+  "pricing": "Pricing",
+  "reviews_rating": "Reviews Rating",
+  "sort_hotels_by": "Sort Hotels By"
 }

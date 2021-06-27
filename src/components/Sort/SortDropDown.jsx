@@ -1,21 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {useTranslation} from "react-i18next";
 
-const sortingIDs = [
-  {
-    value: '3',
-    label: 'Our Recommendation',
-  },
-  {
-    value: '1',
-    label: 'Pricing',
-  },
-  {
-    value: '2',
-    label: 'Rating',
-  },
-];
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +16,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SortDropDown(props) {
   const classes = useStyles();
-  
+  const {t} = useTranslation();
+  const sortingIDs = [
+    {
+      value: '3',
+      label: t('our_recommendation'),
+    },
+    {
+      value: '1',
+      label: t('pricing'),
+    },
+    {
+      value: '2',
+      label: t('reviews_rating'),
+    },
+  ];
+
   const handleChange = (requestedSort) => {
     props.mainMenuGetSortId(requestedSort.target.value);
   };
@@ -40,7 +43,7 @@ export default function SortDropDown(props) {
           id={sortingIDs.value}
           helperText="Get more insights by sorting our hotels"
           select
-          label="Sort Hotels By"
+          label={t('sort_hotels_by')}
           value={sortingIDs.value}
           onChange={handleChange}
           SelectProps={{

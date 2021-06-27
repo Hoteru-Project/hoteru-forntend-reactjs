@@ -53,5 +53,9 @@
   "check_out": "الخروج",
   "correct_location": "من فضلك أدخل الموقع الصحيح!!",
   "search_label": "أدخل الموقع",
-  "no_hotel": "عذرا ، لم يتم العثور على فنادق"
+  "no_hotel": "عذرا ، لم يتم العثور على فنادق",
+  "our_recommendation": "توصياتنا",
+  "pricing": "التسعير",
+  "reviews_rating": "تقيم المراجعات",
+  "sort_hotels_by": "ترتيب الفنادف حسب"
 }
